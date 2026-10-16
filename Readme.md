@@ -264,24 +264,7 @@ where `F1loc` is the building-localization F1 score and `F1damage,H` is the harm
 
 The checkpoint and threshold with the highest validation score are retained. Early stopping is applied after 12 consecutive epochs without improvement. The selected checkpoint and threshold are then applied to the held-out test partition.
 
-## Experiment Outputs
 
-A typical experiment directory contains:
-
-```text
-experiment_output/
-├── checkpoints/
-│   ├── best.pt
-│   ├── last.pt
-│   └── epoch_*.pt
-├── scores/
-│   ├── epoch_*_hold_threshold_scan.csv
-│   ├── scores_xbd_test.json
-│   └── scores_xbd_test.txt
-└── history.json
-```
-
-Some event-specific experiments retain `xbd` in score filenames because they reuse the same evaluation infrastructure.
 
 ## Qualitative Results
 
@@ -301,12 +284,6 @@ output/RSBDNet_qualitative_results/
 
 The directory contains per-dataset and combined PNG, PDF, and SVG figures, along with an auditable sample-selection manifest and metadata file.
 
-## Jupyter Notebooks
-
-- `notebooks/building_damage_class_distribution.ipynb` — visualizes class-wise damage distributions.
-- `notebooks/regenerate_qualitative_overview_large_fonts.ipynb` — rebuilds the qualitative overview with larger typography without changing predictions.
-- `notebooks/rsbdnet_simple_architecture.ipynb` — generates a simplified architecture workflow.
-
 ## Reproducibility
 
 - The random seed is fixed to `42`.
@@ -318,18 +295,6 @@ The directory contains per-dataset and combined PNG, PDF, and SVG figures, along
 - The ordinal head is used only during training.
 - Each dataset model uses one validation-selected checkpoint for inference.
 
-## Parameter and Checkpoint Analysis
-
-Parameter-counting utilities are provided in:
-
-```text
-transformer/scripts/count_hbg_caon_parameters.py
-transformer/scripts/count_xview2_winner_parameters.py
-```
-
-RS-BDNet contains approximately `55.3 million` trainable parameters and requires one checkpoint for each independently trained dataset model.
-
-The xView2 comparisons examine publicly released checkpoint collections from the first-, second-, and third-place competition solutions. This comparison concerns parameter and checkpoint complexity and should not be interpreted as a latency, memory, or energy comparison unless those quantities are evaluated separately.
 
 ## Citation
 
@@ -344,33 +309,3 @@ If you use RS-BDNet, please cite the associated manuscript after publication. A 
   note    = {Manuscript}
 }
 ```
-
-This repository builds upon the original DisasterAdaptiveNet implementation:
-
-```bibtex
-@article{hafner2025disasteradaptivenet,
-  title   = {DisasterAdaptiveNet: A Robust Network for Multi-Hazard
-             Building Damage Detection from Very-High-Resolution
-             Satellite Imagery},
-  author  = {Hafner, Sebastian and Gerard, Sebastian and
-             Sullivan, Josephine and Ban, Yifang},
-  journal = {International Journal of Applied Earth Observation
-             and Geoinformation},
-  volume  = {143},
-  pages   = {104756},
-  year    = {2025},
-  doi     = {10.1016/j.jag.2025.104756}
-}
-```
-
-## Acknowledgments
-
-This repository is derived from the original [DisasterAdaptiveNet](https://github.com/SebastianHafner/DisasterAdaptiveNet) project by Hafner et al.
-
-The repository also contains adaptations and evaluation utilities associated with publicly available xView2 benchmark solutions. The original authors and repositories retain credit for those implementations.
-
-## License and Third-Party Components
-
-This repository contains code derived from or adapted from multiple research implementations. Consult the licenses included in the corresponding upstream and baseline directories before redistribution or commercial use.
-
-Dataset licenses and usage conditions are determined by their respective providers.
