@@ -19,7 +19,7 @@ Given a spatially corresponding pre-disaster and post-disaster RGB image, RS-BDN
    - Major damage
    - Destroyed
 
-```mermaid
+<!-- ```mermaid -->
 flowchart LR
     A[Pre-disaster RGB image] --> C[Preprocessing]
     B[Post-disaster RGB image] --> C
@@ -62,68 +62,6 @@ The xBD dataset is available from the [xView2 website](https://xview2.org/datase
 
 The five event-specific datasets are derived from the Extensible Building Damage collection and are prepared in the paired-image format expected by the RS-BDNet loader.
 
-## Repository Structure
-
-```text
-DisasterAdaptiveNet/
-├── configs/                  # Configuration files
-├── imgs/                     # Repository images
-├── notebooks/                # Figure-generation notebooks
-├── output/                   # Checkpoints, scores, and figures
-├── transformer/
-│   ├── sbatch/               # Slurm experiment files
-│   └── scripts/              # RS-BDNet training and evaluation scripts
-├── requirements.txt
-├── requirements_cu128.txt
-└── README.md
-```
-
-The repository also contains baseline, domain-adaptation, ablation, and Transformer experiments used during development.
-
-## Installation
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/asmaemou/DisasterAdaptiveNet.git
-cd DisasterAdaptiveNet
-```
-
-### 2. Create an environment
-
-```bash
-conda create -n disasteradaptivenet_cu128 python=3.10
-conda activate disasteradaptivenet_cu128
-```
-
-### 3. Install PyTorch
-
-Install a PyTorch build compatible with the CUDA version available on your system. See the [official PyTorch installation guide](https://pytorch.org/get-started/locally/).
-
-### 4. Install the remaining dependencies
-
-```bash
-pip install -r requirements_cu128.txt
-```
-
-The original dependency set is available in `requirements.txt`.
-
-## Dataset Organization
-
-Each event-specific dataset must contain predefined training, validation, and test directories:
-
-```text
-dataset_root/
-├── train/
-│   ├── images/
-│   └── targets/
-├── val/
-│   ├── images/
-│   └── targets/
-└── test/
-    ├── images/
-    └── targets/
-```
 
 Each paired sample follows this naming convention:
 
