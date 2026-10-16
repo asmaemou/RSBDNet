@@ -1,0 +1,2769 @@
+===== TEXAS TORNADOES FULL xBD-INITIALIZED FINE-TUNING JOB =====
+Fri Jun  5 08:31:34 AM CDT 2026
+compute202518
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+Fri Jun  5 08:31:34 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.58.03              Driver Version: 595.58.03      CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:71:00.0 Off |                    0 |
+| N/A   27C    P8             31W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+EXPERIMENT_NAME: HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest
+TEXAS_ROOT: /homes/j244s673/documents/wsu/phd/texas_tornadoes_preprocessed
+XBD_PHASE1_CKPT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_FINAL_TEST_th040_dilminor/threshold_checkpoints/phase1_best_threshold_0.40.pt
+XBD_PHASE2_CKPT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+PHASE2_WRAPPER: transformer/scripts/train_texas_tornadoes_hrtbda_v5_phase2_finetune.py
+OUTPUT_DIR: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest
+TRAIN_SPLITS: train
+VAL_SPLIT: val
+TEST_SPLIT: test
+PHASE1_EPOCHS: 150
+PHASE2_EPOCHS: 30
+=======================================================
+===== CHECK TEXAS TORNADOES DATASET FORMAT =====
+Checking IDA-BD xBD-style dataset format
+Root: /homes/j244s673/documents/wsu/phd/texas_tornadoes_preprocessed
+
+===== SPLIT: train =====
+Images dir:  /homes/j244s673/documents/wsu/phd/texas_tornadoes_preprocessed/train/images
+Targets dir: /homes/j244s673/documents/wsu/phd/texas_tornadoes_preprocessed/train/targets
+Paired post images found: 363
+Missing paired files: 0
+Target pixel counts [background,no,minor,major,destroyed]: [93014517, 1989864, 21423, 95733, 36735]
+
+===== SPLIT: val =====
+Images dir:  /homes/j244s673/documents/wsu/phd/texas_tornadoes_preprocessed/val/images
+Targets dir: /homes/j244s673/documents/wsu/phd/texas_tornadoes_preprocessed/val/targets
+Paired post images found: 45
+Missing paired files: 0
+Target pixel counts [background,no,minor,major,destroyed]: [11579470, 214305, 0, 962, 1743]
+
+===== SPLIT: test =====
+Images dir:  /homes/j244s673/documents/wsu/phd/texas_tornadoes_preprocessed/test/images
+Targets dir: /homes/j244s673/documents/wsu/phd/texas_tornadoes_preprocessed/test/targets
+Paired post images found: 46
+Missing paired files: 0
+Target pixel counts [background,no,minor,major,destroyed]: [11791045, 247418, 5854, 11477, 2830]
+
+Dataset format looks OK.
+===== CREATE RESET-BEST PHASE-I CHECKPOINT =====
+Wrote reset-best Phase-I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/checkpoints/phase1_xbdinit_resetbest_for_texas.pt
+best_metric: -1.0
+best_threshold: 0.4
+
+=======================================================
+STEP 1: xBD Phase-I weights -> fine-tune Phase I on Texas Tornadoes
+=======================================================
+===== HRTBDA V5 MULTI-LABEL RARE-CROP CASCADED TRAINING =====
+Phase: phase1
+Resume Phase I from: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/checkpoints/phase1_xbdinit_resetbest_for_texas.pt
+Existing Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/checkpoints/phase1_best.pt
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/checkpoints/phase2_best.pt
+Device: cuda
+xBD root: /homes/j244s673/documents/wsu/phd/texas_tornadoes_preprocessed
+Train split(s): ['train']
+Val split: val
+Test split: test
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest
+Phase I epochs: 150
+Phase II epochs: 30
+Batch size: 2
+Eval batch size: 1
+Gradient accumulation steps: 4
+Effective batch size: 8
+Image size: 1024
+Phase II crop size: 608
+Crop candidate count: 8
+LR: 5e-05
+Weight decay: 0.0001
+Base channels: 48
+Decoder channels: 128
+Window size: 8
+Focal gamma: 2.0
+Max grad norm: 1.0
+Warmup epochs: 3
+Architecture: HRTBDA v5 4-branch HRNet-style + DCSwin + CSF fusion
+Damage head: 4 independent sigmoid channels + auxiliary localization head
+Final inference: Phase I mask gives localization; Phase II predicts 4 foreground damage classes.
+Postprocess dilation: none
+Domain adaptation: none
+=======================================
+
+================ PHASE I: BUILDING LOCALIZATION ================
+Train samples: 363
+Val samples:   45
+Phase I localization pos_weight: [10.0]
+Resuming Phase I from checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/checkpoints/phase1_xbdinit_resetbest_for_texas.pt
+Resume summary: checkpoint_epoch=0, start_epoch=1, best_epoch=0, best_f1=-1.000000, best_threshold=0.40, no_improve=0
+
+Phase I epoch 1/150 | LR=0.00001667
+Phase I Epoch 1/150 | Step 20/181 | loss=0.7553 | focal=0.0908 | dice=0.6645
+Phase I Epoch 1/150 | Step 40/181 | loss=0.7008 | focal=0.0652 | dice=0.6355
+Phase I Epoch 1/150 | Step 60/181 | loss=0.6776 | focal=0.0495 | dice=0.6281
+Phase I Epoch 1/150 | Step 80/181 | loss=0.6777 | focal=0.0585 | dice=0.6192
+Phase I Epoch 1/150 | Step 100/181 | loss=0.6898 | focal=0.0728 | dice=0.6170
+Phase I Epoch 1/150 | Step 120/181 | loss=0.6757 | focal=0.0643 | dice=0.6114
+Phase I Epoch 1/150 | Step 140/181 | loss=0.6514 | focal=0.0627 | dice=0.5887
+Phase I Epoch 1/150 | Step 160/181 | loss=0.6179 | focal=0.0607 | dice=0.5572
+Phase I Epoch 1/150 | Step 180/181 | loss=0.6098 | focal=0.0571 | dice=0.5526
+Phase I Epoch 1/150 | Step 181/181 | loss=0.6068 | focal=0.0569 | dice=0.5499
+Phase I Epoch 001 | train_loss=0.6068 | val_loc_f1=0.909097 | threshold=0.65
+Saved Phase I best checkpoint | epoch=1 | loc_f1=0.909097
+
+Phase I epoch 2/150 | LR=0.00003333
+Phase I Epoch 2/150 | Step 20/181 | loss=0.5738 | focal=0.0259 | dice=0.5480
+Phase I Epoch 2/150 | Step 40/181 | loss=0.5904 | focal=0.0475 | dice=0.5428
+Phase I Epoch 2/150 | Step 60/181 | loss=0.6060 | focal=0.0401 | dice=0.5659
+Phase I Epoch 2/150 | Step 80/181 | loss=0.5928 | focal=0.0350 | dice=0.5578
+Phase I Epoch 2/150 | Step 100/181 | loss=0.5669 | focal=0.0353 | dice=0.5316
+Phase I Epoch 2/150 | Step 120/181 | loss=0.5647 | focal=0.0332 | dice=0.5314
+Phase I Epoch 2/150 | Step 140/181 | loss=0.5569 | focal=0.0321 | dice=0.5248
+Phase I Epoch 2/150 | Step 160/181 | loss=0.5515 | focal=0.0323 | dice=0.5192
+Phase I Epoch 2/150 | Step 180/181 | loss=0.5614 | focal=0.0311 | dice=0.5304
+Phase I Epoch 2/150 | Step 181/181 | loss=0.5604 | focal=0.0311 | dice=0.5293
+Phase I Epoch 002 | train_loss=0.5604 | val_loc_f1=0.914262 | threshold=0.65
+Saved Phase I best checkpoint | epoch=2 | loc_f1=0.914262
+
+Phase I epoch 3/150 | LR=0.00005000
+Phase I Epoch 3/150 | Step 20/181 | loss=0.6346 | focal=0.0265 | dice=0.6081
+Phase I Epoch 3/150 | Step 40/181 | loss=0.6375 | focal=0.0476 | dice=0.5899
+Phase I Epoch 3/150 | Step 60/181 | loss=0.6134 | focal=0.0427 | dice=0.5708
+Phase I Epoch 3/150 | Step 80/181 | loss=0.6129 | focal=0.0392 | dice=0.5738
+Phase I Epoch 3/150 | Step 100/181 | loss=0.5950 | focal=0.0356 | dice=0.5593
+Phase I Epoch 3/150 | Step 120/181 | loss=0.5763 | focal=0.0325 | dice=0.5438
+Phase I Epoch 3/150 | Step 140/181 | loss=0.5819 | focal=0.0312 | dice=0.5507
+Phase I Epoch 3/150 | Step 160/181 | loss=0.5777 | focal=0.0300 | dice=0.5477
+Phase I Epoch 3/150 | Step 180/181 | loss=0.5745 | focal=0.0287 | dice=0.5459
+Phase I Epoch 3/150 | Step 181/181 | loss=0.5719 | focal=0.0286 | dice=0.5433
+Phase I Epoch 003 | train_loss=0.5719 | val_loc_f1=0.924769 | threshold=0.60
+Saved Phase I best checkpoint | epoch=3 | loc_f1=0.924769
+
+Phase I epoch 4/150 | LR=0.00005000
+Phase I Epoch 4/150 | Step 20/181 | loss=0.5006 | focal=0.0239 | dice=0.4766
+Phase I Epoch 4/150 | Step 40/181 | loss=0.5203 | focal=0.0221 | dice=0.4982
+Phase I Epoch 4/150 | Step 60/181 | loss=0.5311 | focal=0.0224 | dice=0.5087
+Phase I Epoch 4/150 | Step 80/181 | loss=0.5146 | focal=0.0233 | dice=0.4913
+Phase I Epoch 4/150 | Step 100/181 | loss=0.5414 | focal=0.0210 | dice=0.5204
+Phase I Epoch 4/150 | Step 120/181 | loss=0.5393 | focal=0.0213 | dice=0.5180
+Phase I Epoch 4/150 | Step 140/181 | loss=0.5486 | focal=0.0224 | dice=0.5262
+Phase I Epoch 4/150 | Step 160/181 | loss=0.5494 | focal=0.0219 | dice=0.5275
+Phase I Epoch 4/150 | Step 180/181 | loss=0.5617 | focal=0.0437 | dice=0.5181
+Phase I Epoch 4/150 | Step 181/181 | loss=0.5618 | focal=0.0436 | dice=0.5182
+Phase I Epoch 004 | train_loss=0.5618 | val_loc_f1=0.927621 | threshold=0.70
+Saved Phase I best checkpoint | epoch=4 | loc_f1=0.927621
+
+Phase I epoch 5/150 | LR=0.00004999
+Phase I Epoch 5/150 | Step 20/181 | loss=0.5695 | focal=0.0279 | dice=0.5416
+Phase I Epoch 5/150 | Step 40/181 | loss=0.5085 | focal=0.0230 | dice=0.4855
+Phase I Epoch 5/150 | Step 60/181 | loss=0.5343 | focal=0.0255 | dice=0.5088
+Phase I Epoch 5/150 | Step 80/181 | loss=0.5545 | focal=0.0216 | dice=0.5329
+Phase I Epoch 5/150 | Step 100/181 | loss=0.5679 | focal=0.0211 | dice=0.5468
+Phase I Epoch 5/150 | Step 120/181 | loss=0.5768 | focal=0.0257 | dice=0.5511
+Phase I Epoch 5/150 | Step 140/181 | loss=0.5702 | focal=0.0281 | dice=0.5421
+Phase I Epoch 5/150 | Step 160/181 | loss=0.5635 | focal=0.0266 | dice=0.5369
+Phase I Epoch 5/150 | Step 180/181 | loss=0.5627 | focal=0.0272 | dice=0.5355
+Phase I Epoch 5/150 | Step 181/181 | loss=0.5625 | focal=0.0271 | dice=0.5354
+Phase I Epoch 005 | train_loss=0.5625 | val_loc_f1=0.929082 | threshold=0.75
+Saved Phase I best checkpoint | epoch=5 | loc_f1=0.929082
+
+Phase I epoch 6/150 | LR=0.00004998
+Phase I Epoch 6/150 | Step 20/181 | loss=0.4662 | focal=0.0200 | dice=0.4463
+Phase I Epoch 6/150 | Step 40/181 | loss=0.5373 | focal=0.0228 | dice=0.5145
+Phase I Epoch 6/150 | Step 60/181 | loss=0.5535 | focal=0.0259 | dice=0.5277
+Phase I Epoch 6/150 | Step 80/181 | loss=0.5450 | focal=0.0256 | dice=0.5194
+Phase I Epoch 6/150 | Step 100/181 | loss=0.5552 | focal=0.0245 | dice=0.5307
+Phase I Epoch 6/150 | Step 120/181 | loss=0.5530 | focal=0.0228 | dice=0.5302
+Phase I Epoch 6/150 | Step 140/181 | loss=0.5444 | focal=0.0217 | dice=0.5227
+Phase I Epoch 6/150 | Step 160/181 | loss=0.5407 | focal=0.0244 | dice=0.5163
+Phase I Epoch 6/150 | Step 180/181 | loss=0.5548 | focal=0.0231 | dice=0.5317
+Phase I Epoch 6/150 | Step 181/181 | loss=0.5548 | focal=0.0230 | dice=0.5318
+Phase I Epoch 006 | train_loss=0.5548 | val_loc_f1=0.926065 | threshold=0.80
+Phase I no improvement for 1 epoch(s). Best epoch=5
+
+Phase I epoch 7/150 | LR=0.00004995
+Phase I Epoch 7/150 | Step 20/181 | loss=0.5254 | focal=0.0293 | dice=0.4961
+Phase I Epoch 7/150 | Step 40/181 | loss=0.5259 | focal=0.0221 | dice=0.5038
+Phase I Epoch 7/150 | Step 60/181 | loss=0.5352 | focal=0.0205 | dice=0.5147
+Phase I Epoch 7/150 | Step 80/181 | loss=0.5238 | focal=0.0208 | dice=0.5029
+Phase I Epoch 7/150 | Step 100/181 | loss=0.5354 | focal=0.0198 | dice=0.5156
+Phase I Epoch 7/150 | Step 120/181 | loss=0.5276 | focal=0.0204 | dice=0.5071
+Phase I Epoch 7/150 | Step 140/181 | loss=0.5233 | focal=0.0202 | dice=0.5031
+Phase I Epoch 7/150 | Step 160/181 | loss=0.5301 | focal=0.0212 | dice=0.5090
+Phase I Epoch 7/150 | Step 180/181 | loss=0.5379 | focal=0.0211 | dice=0.5169
+Phase I Epoch 7/150 | Step 181/181 | loss=0.5385 | focal=0.0212 | dice=0.5173
+Phase I Epoch 007 | train_loss=0.5385 | val_loc_f1=0.929960 | threshold=0.70
+Saved Phase I best checkpoint | epoch=7 | loc_f1=0.929960
+
+Phase I epoch 8/150 | LR=0.00004991
+Phase I Epoch 8/150 | Step 20/181 | loss=0.5426 | focal=0.0192 | dice=0.5234
+Phase I Epoch 8/150 | Step 40/181 | loss=0.5623 | focal=0.0154 | dice=0.5469
+Phase I Epoch 8/150 | Step 60/181 | loss=0.5052 | focal=0.0158 | dice=0.4894
+Phase I Epoch 8/150 | Step 80/181 | loss=0.5114 | focal=0.0149 | dice=0.4965
+Phase I Epoch 8/150 | Step 100/181 | loss=0.5401 | focal=0.0165 | dice=0.5236
+Phase I Epoch 8/150 | Step 120/181 | loss=0.5395 | focal=0.0180 | dice=0.5215
+Phase I Epoch 8/150 | Step 140/181 | loss=0.5340 | focal=0.0195 | dice=0.5144
+Phase I Epoch 8/150 | Step 160/181 | loss=0.5434 | focal=0.0190 | dice=0.5244
+Phase I Epoch 8/150 | Step 180/181 | loss=0.5377 | focal=0.0196 | dice=0.5181
+Phase I Epoch 8/150 | Step 181/181 | loss=0.5402 | focal=0.0195 | dice=0.5208
+Phase I Epoch 008 | train_loss=0.5402 | val_loc_f1=0.916377 | threshold=0.50
+Phase I no improvement for 1 epoch(s). Best epoch=7
+
+Phase I epoch 9/150 | LR=0.00004986
+Phase I Epoch 9/150 | Step 20/181 | loss=0.5575 | focal=0.0252 | dice=0.5324
+Phase I Epoch 9/150 | Step 40/181 | loss=0.5941 | focal=0.0200 | dice=0.5741
+Phase I Epoch 9/150 | Step 60/181 | loss=0.5525 | focal=0.0243 | dice=0.5282
+Phase I Epoch 9/150 | Step 80/181 | loss=0.5595 | focal=0.0231 | dice=0.5364
+Phase I Epoch 9/150 | Step 100/181 | loss=0.5410 | focal=0.0222 | dice=0.5188
+Phase I Epoch 9/150 | Step 120/181 | loss=0.5387 | focal=0.0206 | dice=0.5181
+Phase I Epoch 9/150 | Step 140/181 | loss=0.5401 | focal=0.0205 | dice=0.5196
+Phase I Epoch 9/150 | Step 160/181 | loss=0.5223 | focal=0.0199 | dice=0.5025
+Phase I Epoch 9/150 | Step 180/181 | loss=0.5305 | focal=0.0201 | dice=0.5105
+Phase I Epoch 9/150 | Step 181/181 | loss=0.5308 | focal=0.0200 | dice=0.5107
+Phase I Epoch 009 | train_loss=0.5308 | val_loc_f1=0.932401 | threshold=0.75
+Saved Phase I best checkpoint | epoch=9 | loc_f1=0.932401
+
+Phase I epoch 10/150 | LR=0.00004979
+Phase I Epoch 10/150 | Step 20/181 | loss=0.5329 | focal=0.0145 | dice=0.5184
+Phase I Epoch 10/150 | Step 40/181 | loss=0.5399 | focal=0.0157 | dice=0.5242
+Phase I Epoch 10/150 | Step 60/181 | loss=0.5550 | focal=0.0147 | dice=0.5403
+Phase I Epoch 10/150 | Step 80/181 | loss=0.5338 | focal=0.0175 | dice=0.5163
+Phase I Epoch 10/150 | Step 100/181 | loss=0.5119 | focal=0.0175 | dice=0.4945
+Phase I Epoch 10/150 | Step 120/181 | loss=0.5244 | focal=0.0174 | dice=0.5070
+Phase I Epoch 10/150 | Step 140/181 | loss=0.5252 | focal=0.0163 | dice=0.5089
+Phase I Epoch 10/150 | Step 160/181 | loss=0.5131 | focal=0.0166 | dice=0.4966
+Phase I Epoch 10/150 | Step 180/181 | loss=0.5208 | focal=0.0179 | dice=0.5029
+Phase I Epoch 10/150 | Step 181/181 | loss=0.5235 | focal=0.0178 | dice=0.5057
+Phase I Epoch 010 | train_loss=0.5235 | val_loc_f1=0.925558 | threshold=0.70
+Phase I no improvement for 1 epoch(s). Best epoch=9
+
+Phase I epoch 11/150 | LR=0.00004972
+Phase I Epoch 11/150 | Step 20/181 | loss=0.4661 | focal=0.0135 | dice=0.4527
+Phase I Epoch 11/150 | Step 40/181 | loss=0.5566 | focal=0.0096 | dice=0.5470
+Phase I Epoch 11/150 | Step 60/181 | loss=0.5491 | focal=0.0393 | dice=0.5098
+Phase I Epoch 11/150 | Step 80/181 | loss=0.5304 | focal=0.0334 | dice=0.4970
+Phase I Epoch 11/150 | Step 100/181 | loss=0.5180 | focal=0.0296 | dice=0.4884
+Phase I Epoch 11/150 | Step 120/181 | loss=0.5269 | focal=0.0273 | dice=0.4996
+Phase I Epoch 11/150 | Step 140/181 | loss=0.5286 | focal=0.0261 | dice=0.5025
+Phase I Epoch 11/150 | Step 160/181 | loss=0.5319 | focal=0.0244 | dice=0.5075
+Phase I Epoch 11/150 | Step 180/181 | loss=0.5421 | focal=0.0230 | dice=0.5192
+Phase I Epoch 11/150 | Step 181/181 | loss=0.5395 | focal=0.0229 | dice=0.5166
+Phase I Epoch 011 | train_loss=0.5395 | val_loc_f1=0.925344 | threshold=0.45
+Phase I no improvement for 2 epoch(s). Best epoch=9
+
+Phase I epoch 12/150 | LR=0.00004964
+Phase I Epoch 12/150 | Step 20/181 | loss=0.5197 | focal=0.0151 | dice=0.5046
+Phase I Epoch 12/150 | Step 40/181 | loss=0.5111 | focal=0.0137 | dice=0.4974
+Phase I Epoch 12/150 | Step 60/181 | loss=0.5298 | focal=0.0134 | dice=0.5164
+Phase I Epoch 12/150 | Step 80/181 | loss=0.5220 | focal=0.0144 | dice=0.5076
+Phase I Epoch 12/150 | Step 100/181 | loss=0.5214 | focal=0.0158 | dice=0.5056
+Phase I Epoch 12/150 | Step 120/181 | loss=0.5348 | focal=0.0153 | dice=0.5195
+Phase I Epoch 12/150 | Step 140/181 | loss=0.5403 | focal=0.0158 | dice=0.5246
+Phase I Epoch 12/150 | Step 160/181 | loss=0.5287 | focal=0.0158 | dice=0.5129
+Phase I Epoch 12/150 | Step 180/181 | loss=0.5302 | focal=0.0164 | dice=0.5139
+Phase I Epoch 12/150 | Step 181/181 | loss=0.5306 | focal=0.0165 | dice=0.5141
+Phase I Epoch 012 | train_loss=0.5306 | val_loc_f1=0.931624 | threshold=0.70
+Phase I no improvement for 3 epoch(s). Best epoch=9
+
+Phase I epoch 13/150 | LR=0.00004954
+Phase I Epoch 13/150 | Step 20/181 | loss=0.5026 | focal=0.0240 | dice=0.4786
+Phase I Epoch 13/150 | Step 40/181 | loss=0.5194 | focal=0.0193 | dice=0.5001
+Phase I Epoch 13/150 | Step 60/181 | loss=0.5172 | focal=0.0233 | dice=0.4939
+Phase I Epoch 13/150 | Step 80/181 | loss=0.5355 | focal=0.0198 | dice=0.5157
+Phase I Epoch 13/150 | Step 100/181 | loss=0.5265 | focal=0.0184 | dice=0.5082
+Phase I Epoch 13/150 | Step 120/181 | loss=0.5120 | focal=0.0173 | dice=0.4947
+Phase I Epoch 13/150 | Step 140/181 | loss=0.5312 | focal=0.0172 | dice=0.5139
+Phase I Epoch 13/150 | Step 160/181 | loss=0.5191 | focal=0.0172 | dice=0.5019
+Phase I Epoch 13/150 | Step 180/181 | loss=0.5284 | focal=0.0172 | dice=0.5113
+Phase I Epoch 13/150 | Step 181/181 | loss=0.5285 | focal=0.0171 | dice=0.5114
+Phase I Epoch 013 | train_loss=0.5285 | val_loc_f1=0.920433 | threshold=0.40
+Phase I no improvement for 4 epoch(s). Best epoch=9
+
+Phase I epoch 14/150 | LR=0.00004943
+Phase I Epoch 14/150 | Step 20/181 | loss=0.5305 | focal=0.0296 | dice=0.5009
+Phase I Epoch 14/150 | Step 40/181 | loss=0.4875 | focal=0.0267 | dice=0.4608
+Phase I Epoch 14/150 | Step 60/181 | loss=0.5210 | focal=0.0204 | dice=0.5007
+Phase I Epoch 14/150 | Step 80/181 | loss=0.5455 | focal=0.0179 | dice=0.5275
+Phase I Epoch 14/150 | Step 100/181 | loss=0.5647 | focal=0.0187 | dice=0.5460
+Phase I Epoch 14/150 | Step 120/181 | loss=0.5454 | focal=0.0171 | dice=0.5283
+Phase I Epoch 14/150 | Step 140/181 | loss=0.5330 | focal=0.0173 | dice=0.5157
+Phase I Epoch 14/150 | Step 160/181 | loss=0.5335 | focal=0.0170 | dice=0.5164
+Phase I Epoch 14/150 | Step 180/181 | loss=0.5291 | focal=0.0168 | dice=0.5124
+Phase I Epoch 14/150 | Step 181/181 | loss=0.5264 | focal=0.0167 | dice=0.5097
+Phase I Epoch 014 | train_loss=0.5264 | val_loc_f1=0.933961 | threshold=0.80
+Saved Phase I best checkpoint | epoch=14 | loc_f1=0.933961
+
+Phase I epoch 15/150 | LR=0.00004931
+Phase I Epoch 15/150 | Step 20/181 | loss=0.4851 | focal=0.0177 | dice=0.4675
+Phase I Epoch 15/150 | Step 40/181 | loss=0.4789 | focal=0.0185 | dice=0.4604
+Phase I Epoch 15/150 | Step 60/181 | loss=0.5127 | focal=0.0218 | dice=0.4909
+Phase I Epoch 15/150 | Step 80/181 | loss=0.4935 | focal=0.0206 | dice=0.4730
+Phase I Epoch 15/150 | Step 100/181 | loss=0.5090 | focal=0.0184 | dice=0.4905
+Phase I Epoch 15/150 | Step 120/181 | loss=0.5197 | focal=0.0179 | dice=0.5019
+Phase I Epoch 15/150 | Step 140/181 | loss=0.5180 | focal=0.0255 | dice=0.4925
+Phase I Epoch 15/150 | Step 160/181 | loss=0.5201 | focal=0.0238 | dice=0.4963
+Phase I Epoch 15/150 | Step 180/181 | loss=0.5262 | focal=0.0225 | dice=0.5037
+Phase I Epoch 15/150 | Step 181/181 | loss=0.5239 | focal=0.0226 | dice=0.5013
+Phase I Epoch 015 | train_loss=0.5239 | val_loc_f1=0.929245 | threshold=0.65
+Phase I no improvement for 1 epoch(s). Best epoch=14
+
+Phase I epoch 16/150 | LR=0.00004918
+Phase I Epoch 16/150 | Step 20/181 | loss=0.5198 | focal=0.0233 | dice=0.4965
+Phase I Epoch 16/150 | Step 40/181 | loss=0.4563 | focal=0.0185 | dice=0.4378
+Phase I Epoch 16/150 | Step 60/181 | loss=0.5182 | focal=0.0171 | dice=0.5011
+Phase I Epoch 16/150 | Step 80/181 | loss=0.5425 | focal=0.0154 | dice=0.5270
+Phase I Epoch 16/150 | Step 100/181 | loss=0.5205 | focal=0.0147 | dice=0.5058
+Phase I Epoch 16/150 | Step 120/181 | loss=0.5304 | focal=0.0141 | dice=0.5163
+Phase I Epoch 16/150 | Step 140/181 | loss=0.5349 | focal=0.0139 | dice=0.5210
+Phase I Epoch 16/150 | Step 160/181 | loss=0.5342 | focal=0.0140 | dice=0.5202
+Phase I Epoch 16/150 | Step 180/181 | loss=0.5381 | focal=0.0141 | dice=0.5240
+Phase I Epoch 16/150 | Step 181/181 | loss=0.5379 | focal=0.0140 | dice=0.5239
+Phase I Epoch 016 | train_loss=0.5379 | val_loc_f1=0.928873 | threshold=0.75
+Phase I no improvement for 2 epoch(s). Best epoch=14
+
+Phase I epoch 17/150 | LR=0.00004904
+Phase I Epoch 17/150 | Step 20/181 | loss=0.6107 | focal=0.0087 | dice=0.6020
+Phase I Epoch 17/150 | Step 40/181 | loss=0.5180 | focal=0.0167 | dice=0.5013
+Phase I Epoch 17/150 | Step 60/181 | loss=0.5142 | focal=0.0204 | dice=0.4938
+Phase I Epoch 17/150 | Step 80/181 | loss=0.5087 | focal=0.0201 | dice=0.4886
+Phase I Epoch 17/150 | Step 100/181 | loss=0.5216 | focal=0.0198 | dice=0.5018
+Phase I Epoch 17/150 | Step 120/181 | loss=0.5190 | focal=0.0186 | dice=0.5004
+Phase I Epoch 17/150 | Step 140/181 | loss=0.5300 | focal=0.0174 | dice=0.5126
+Phase I Epoch 17/150 | Step 160/181 | loss=0.5337 | focal=0.0177 | dice=0.5160
+Phase I Epoch 17/150 | Step 180/181 | loss=0.5379 | focal=0.0169 | dice=0.5209
+Phase I Epoch 17/150 | Step 181/181 | loss=0.5379 | focal=0.0169 | dice=0.5210
+Phase I Epoch 017 | train_loss=0.5379 | val_loc_f1=0.929424 | threshold=0.85
+Phase I no improvement for 3 epoch(s). Best epoch=14
+
+Phase I epoch 18/150 | LR=0.00004889
+Phase I Epoch 18/150 | Step 20/181 | loss=0.4961 | focal=0.0113 | dice=0.4848
+Phase I Epoch 18/150 | Step 40/181 | loss=0.4868 | focal=0.0116 | dice=0.4752
+Phase I Epoch 18/150 | Step 60/181 | loss=0.5006 | focal=0.0131 | dice=0.4875
+Phase I Epoch 18/150 | Step 80/181 | loss=0.5252 | focal=0.0122 | dice=0.5130
+Phase I Epoch 18/150 | Step 100/181 | loss=0.5405 | focal=0.0124 | dice=0.5282
+Phase I Epoch 18/150 | Step 120/181 | loss=0.5359 | focal=0.0131 | dice=0.5227
+Phase I Epoch 18/150 | Step 140/181 | loss=0.5251 | focal=0.0135 | dice=0.5116
+Phase I Epoch 18/150 | Step 160/181 | loss=0.5182 | focal=0.0137 | dice=0.5044
+Phase I Epoch 18/150 | Step 180/181 | loss=0.5198 | focal=0.0141 | dice=0.5057
+Phase I Epoch 18/150 | Step 181/181 | loss=0.5198 | focal=0.0140 | dice=0.5058
+Phase I Epoch 018 | train_loss=0.5198 | val_loc_f1=0.935104 | threshold=0.65
+Saved Phase I best checkpoint | epoch=18 | loc_f1=0.935104
+
+Phase I epoch 19/150 | LR=0.00004873
+Phase I Epoch 19/150 | Step 20/181 | loss=0.5477 | focal=0.0085 | dice=0.5392
+Phase I Epoch 19/150 | Step 40/181 | loss=0.4887 | focal=0.0112 | dice=0.4775
+Phase I Epoch 19/150 | Step 60/181 | loss=0.5014 | focal=0.0122 | dice=0.4892
+Phase I Epoch 19/150 | Step 80/181 | loss=0.5270 | focal=0.0120 | dice=0.5150
+Phase I Epoch 19/150 | Step 100/181 | loss=0.5467 | focal=0.0223 | dice=0.5244
+Phase I Epoch 19/150 | Step 120/181 | loss=0.5383 | focal=0.0210 | dice=0.5173
+Phase I Epoch 19/150 | Step 140/181 | loss=0.5372 | focal=0.0205 | dice=0.5167
+Phase I Epoch 19/150 | Step 160/181 | loss=0.5381 | focal=0.0201 | dice=0.5181
+Phase I Epoch 19/150 | Step 180/181 | loss=0.5300 | focal=0.0196 | dice=0.5103
+Phase I Epoch 19/150 | Step 181/181 | loss=0.5280 | focal=0.0197 | dice=0.5083
+Phase I Epoch 019 | train_loss=0.5280 | val_loc_f1=0.930645 | threshold=0.70
+Phase I no improvement for 1 epoch(s). Best epoch=18
+
+Phase I epoch 20/150 | LR=0.00004855
+Phase I Epoch 20/150 | Step 20/181 | loss=0.4500 | focal=0.0117 | dice=0.4382
+Phase I Epoch 20/150 | Step 40/181 | loss=0.4845 | focal=0.0102 | dice=0.4743
+Phase I Epoch 20/150 | Step 60/181 | loss=0.4933 | focal=0.0132 | dice=0.4801
+Phase I Epoch 20/150 | Step 80/181 | loss=0.4793 | focal=0.0135 | dice=0.4658
+Phase I Epoch 20/150 | Step 100/181 | loss=0.4857 | focal=0.0130 | dice=0.4727
+Phase I Epoch 20/150 | Step 120/181 | loss=0.4967 | focal=0.0135 | dice=0.4832
+Phase I Epoch 20/150 | Step 140/181 | loss=0.5101 | focal=0.0130 | dice=0.4971
+Phase I Epoch 20/150 | Step 160/181 | loss=0.5186 | focal=0.0131 | dice=0.5055
+Phase I Epoch 20/150 | Step 180/181 | loss=0.5161 | focal=0.0127 | dice=0.5035
+Phase I Epoch 20/150 | Step 181/181 | loss=0.5162 | focal=0.0126 | dice=0.5035
+Phase I Epoch 020 | train_loss=0.5162 | val_loc_f1=0.927387 | threshold=0.55
+Phase I no improvement for 2 epoch(s). Best epoch=18
+
+Phase I epoch 21/150 | LR=0.00004837
+Phase I Epoch 21/150 | Step 20/181 | loss=0.5227 | focal=0.0126 | dice=0.5101
+Phase I Epoch 21/150 | Step 40/181 | loss=0.5674 | focal=0.0110 | dice=0.5564
+Phase I Epoch 21/150 | Step 60/181 | loss=0.5394 | focal=0.0119 | dice=0.5274
+Phase I Epoch 21/150 | Step 80/181 | loss=0.5558 | focal=0.0120 | dice=0.5438
+Phase I Epoch 21/150 | Step 100/181 | loss=0.5451 | focal=0.0117 | dice=0.5334
+Phase I Epoch 21/150 | Step 120/181 | loss=0.5344 | focal=0.0145 | dice=0.5199
+Phase I Epoch 21/150 | Step 140/181 | loss=0.5235 | focal=0.0156 | dice=0.5079
+Phase I Epoch 21/150 | Step 160/181 | loss=0.5123 | focal=0.0153 | dice=0.4970
+Phase I Epoch 21/150 | Step 180/181 | loss=0.5202 | focal=0.0146 | dice=0.5057
+Phase I Epoch 21/150 | Step 181/181 | loss=0.5177 | focal=0.0145 | dice=0.5031
+Phase I Epoch 021 | train_loss=0.5177 | val_loc_f1=0.935140 | threshold=0.85
+Saved Phase I best checkpoint | epoch=21 | loc_f1=0.935140
+
+Phase I epoch 22/150 | LR=0.00004817
+Phase I Epoch 22/150 | Step 20/181 | loss=0.5671 | focal=0.0066 | dice=0.5604
+Phase I Epoch 22/150 | Step 40/181 | loss=0.5303 | focal=0.0140 | dice=0.5163
+Phase I Epoch 22/150 | Step 60/181 | loss=0.5254 | focal=0.0143 | dice=0.5111
+Phase I Epoch 22/150 | Step 80/181 | loss=0.5095 | focal=0.0141 | dice=0.4954
+Phase I Epoch 22/150 | Step 100/181 | loss=0.5081 | focal=0.0153 | dice=0.4929
+Phase I Epoch 22/150 | Step 120/181 | loss=0.5017 | focal=0.0151 | dice=0.4866
+Phase I Epoch 22/150 | Step 140/181 | loss=0.5003 | focal=0.0152 | dice=0.4851
+Phase I Epoch 22/150 | Step 160/181 | loss=0.5087 | focal=0.0149 | dice=0.4938
+Phase I Epoch 22/150 | Step 180/181 | loss=0.5092 | focal=0.0155 | dice=0.4937
+Phase I Epoch 22/150 | Step 181/181 | loss=0.5094 | focal=0.0155 | dice=0.4939
+Phase I Epoch 022 | train_loss=0.5094 | val_loc_f1=0.928903 | threshold=0.65
+Phase I no improvement for 1 epoch(s). Best epoch=21
+
+Phase I epoch 23/150 | LR=0.00004797
+Phase I Epoch 23/150 | Step 20/181 | loss=0.5310 | focal=0.0104 | dice=0.5206
+Phase I Epoch 23/150 | Step 40/181 | loss=0.4622 | focal=0.0122 | dice=0.4501
+Phase I Epoch 23/150 | Step 60/181 | loss=0.4912 | focal=0.0121 | dice=0.4791
+Phase I Epoch 23/150 | Step 80/181 | loss=0.4853 | focal=0.0138 | dice=0.4715
+Phase I Epoch 23/150 | Step 100/181 | loss=0.5155 | focal=0.0128 | dice=0.5026
+Phase I Epoch 23/150 | Step 120/181 | loss=0.5124 | focal=0.0130 | dice=0.4995
+Phase I Epoch 23/150 | Step 140/181 | loss=0.5090 | focal=0.0137 | dice=0.4954
+Phase I Epoch 23/150 | Step 160/181 | loss=0.4986 | focal=0.0145 | dice=0.4842
+Phase I Epoch 23/150 | Step 180/181 | loss=0.5161 | focal=0.0139 | dice=0.5022
+Phase I Epoch 23/150 | Step 181/181 | loss=0.5163 | focal=0.0139 | dice=0.5024
+Phase I Epoch 023 | train_loss=0.5163 | val_loc_f1=0.930134 | threshold=0.75
+Phase I no improvement for 2 epoch(s). Best epoch=21
+
+Phase I epoch 24/150 | LR=0.00004775
+Phase I Epoch 24/150 | Step 20/181 | loss=0.4860 | focal=0.0126 | dice=0.4734
+Phase I Epoch 24/150 | Step 40/181 | loss=0.4543 | focal=0.0164 | dice=0.4379
+Phase I Epoch 24/150 | Step 60/181 | loss=0.4899 | focal=0.0147 | dice=0.4752
+Phase I Epoch 24/150 | Step 80/181 | loss=0.4658 | focal=0.0159 | dice=0.4499
+Phase I Epoch 24/150 | Step 100/181 | loss=0.4803 | focal=0.0151 | dice=0.4653
+Phase I Epoch 24/150 | Step 120/181 | loss=0.4965 | focal=0.0166 | dice=0.4799
+Phase I Epoch 24/150 | Step 140/181 | loss=0.5116 | focal=0.0153 | dice=0.4962
+Phase I Epoch 24/150 | Step 160/181 | loss=0.5227 | focal=0.0157 | dice=0.5070
+Phase I Epoch 24/150 | Step 180/181 | loss=0.5306 | focal=0.0148 | dice=0.5158
+Phase I Epoch 24/150 | Step 181/181 | loss=0.5283 | focal=0.0148 | dice=0.5135
+Phase I Epoch 024 | train_loss=0.5283 | val_loc_f1=0.926205 | threshold=0.80
+Phase I no improvement for 3 epoch(s). Best epoch=21
+
+Phase I epoch 25/150 | LR=0.00004752
+Phase I Epoch 25/150 | Step 20/181 | loss=0.3449 | focal=0.0120 | dice=0.3330
+Phase I Epoch 25/150 | Step 40/181 | loss=0.4497 | focal=0.0146 | dice=0.4351
+Phase I Epoch 25/150 | Step 60/181 | loss=0.4549 | focal=0.0153 | dice=0.4396
+Phase I Epoch 25/150 | Step 80/181 | loss=0.4842 | focal=0.0146 | dice=0.4697
+Phase I Epoch 25/150 | Step 100/181 | loss=0.4721 | focal=0.0168 | dice=0.4553
+Phase I Epoch 25/150 | Step 120/181 | loss=0.4874 | focal=0.0157 | dice=0.4717
+Phase I Epoch 25/150 | Step 140/181 | loss=0.4908 | focal=0.0159 | dice=0.4749
+Phase I Epoch 25/150 | Step 160/181 | loss=0.5027 | focal=0.0147 | dice=0.4880
+Phase I Epoch 25/150 | Step 180/181 | loss=0.5232 | focal=0.0143 | dice=0.5089
+Phase I Epoch 25/150 | Step 181/181 | loss=0.5232 | focal=0.0142 | dice=0.5090
+Phase I Epoch 025 | train_loss=0.5232 | val_loc_f1=0.932691 | threshold=0.80
+Phase I no improvement for 4 epoch(s). Best epoch=21
+
+Phase I epoch 26/150 | LR=0.00004729
+Phase I Epoch 26/150 | Step 20/181 | loss=0.5698 | focal=0.0097 | dice=0.5601
+Phase I Epoch 26/150 | Step 40/181 | loss=0.5471 | focal=0.0139 | dice=0.5332
+Phase I Epoch 26/150 | Step 60/181 | loss=0.5376 | focal=0.0127 | dice=0.5249
+Phase I Epoch 26/150 | Step 80/181 | loss=0.5316 | focal=0.0116 | dice=0.5200
+Phase I Epoch 26/150 | Step 100/181 | loss=0.5247 | focal=0.0136 | dice=0.5111
+Phase I Epoch 26/150 | Step 120/181 | loss=0.5240 | focal=0.0143 | dice=0.5097
+Phase I Epoch 26/150 | Step 140/181 | loss=0.5132 | focal=0.0137 | dice=0.4996
+Phase I Epoch 26/150 | Step 160/181 | loss=0.5297 | focal=0.0136 | dice=0.5161
+Phase I Epoch 26/150 | Step 180/181 | loss=0.5173 | focal=0.0135 | dice=0.5038
+Phase I Epoch 26/150 | Step 181/181 | loss=0.5173 | focal=0.0134 | dice=0.5039
+Phase I Epoch 026 | train_loss=0.5173 | val_loc_f1=0.932325 | threshold=0.70
+Phase I no improvement for 5 epoch(s). Best epoch=21
+
+Phase I epoch 27/150 | LR=0.00004704
+Phase I Epoch 27/150 | Step 20/181 | loss=0.5840 | focal=0.0145 | dice=0.5696
+Phase I Epoch 27/150 | Step 40/181 | loss=0.5836 | focal=0.0130 | dice=0.5706
+Phase I Epoch 27/150 | Step 60/181 | loss=0.5438 | focal=0.0148 | dice=0.5290
+Phase I Epoch 27/150 | Step 80/181 | loss=0.5552 | focal=0.0134 | dice=0.5418
+Phase I Epoch 27/150 | Step 100/181 | loss=0.5288 | focal=0.0145 | dice=0.5143
+Phase I Epoch 27/150 | Step 120/181 | loss=0.5310 | focal=0.0139 | dice=0.5171
+Phase I Epoch 27/150 | Step 140/181 | loss=0.5276 | focal=0.0146 | dice=0.5130
+Phase I Epoch 27/150 | Step 160/181 | loss=0.5274 | focal=0.0146 | dice=0.5128
+Phase I Epoch 27/150 | Step 180/181 | loss=0.5206 | focal=0.0149 | dice=0.5057
+Phase I Epoch 27/150 | Step 181/181 | loss=0.5206 | focal=0.0148 | dice=0.5057
+Phase I Epoch 027 | train_loss=0.5206 | val_loc_f1=0.932184 | threshold=0.80
+Phase I no improvement for 6 epoch(s). Best epoch=21
+
+Phase I epoch 28/150 | LR=0.00004678
+Phase I Epoch 28/150 | Step 20/181 | loss=0.5902 | focal=0.0077 | dice=0.5826
+Phase I Epoch 28/150 | Step 40/181 | loss=0.5445 | focal=0.0118 | dice=0.5327
+Phase I Epoch 28/150 | Step 60/181 | loss=0.4913 | focal=0.0117 | dice=0.4796
+Phase I Epoch 28/150 | Step 80/181 | loss=0.4741 | focal=0.0114 | dice=0.4627
+Phase I Epoch 28/150 | Step 100/181 | loss=0.4776 | focal=0.0113 | dice=0.4663
+Phase I Epoch 28/150 | Step 120/181 | loss=0.4683 | focal=0.0132 | dice=0.4551
+Phase I Epoch 28/150 | Step 140/181 | loss=0.5005 | focal=0.0134 | dice=0.4871
+Phase I Epoch 28/150 | Step 160/181 | loss=0.5127 | focal=0.0163 | dice=0.4964
+Phase I Epoch 28/150 | Step 180/181 | loss=0.5245 | focal=0.0162 | dice=0.5082
+Phase I Epoch 28/150 | Step 181/181 | loss=0.5245 | focal=0.0162 | dice=0.5083
+Phase I Epoch 028 | train_loss=0.5245 | val_loc_f1=0.929939 | threshold=0.75
+Phase I no improvement for 7 epoch(s). Best epoch=21
+
+Phase I epoch 29/150 | LR=0.00004652
+Phase I Epoch 29/150 | Step 20/181 | loss=0.6146 | focal=0.0103 | dice=0.6043
+Phase I Epoch 29/150 | Step 40/181 | loss=0.5879 | focal=0.0096 | dice=0.5783
+Phase I Epoch 29/150 | Step 60/181 | loss=0.5541 | focal=0.0116 | dice=0.5426
+Phase I Epoch 29/150 | Step 80/181 | loss=0.5728 | focal=0.0141 | dice=0.5587
+Phase I Epoch 29/150 | Step 100/181 | loss=0.5430 | focal=0.0134 | dice=0.5296
+Phase I Epoch 29/150 | Step 120/181 | loss=0.5360 | focal=0.0127 | dice=0.5233
+Phase I Epoch 29/150 | Step 140/181 | loss=0.5251 | focal=0.0129 | dice=0.5121
+Phase I Epoch 29/150 | Step 160/181 | loss=0.5094 | focal=0.0127 | dice=0.4966
+Phase I Epoch 29/150 | Step 180/181 | loss=0.5160 | focal=0.0125 | dice=0.5034
+Phase I Epoch 29/150 | Step 181/181 | loss=0.5136 | focal=0.0126 | dice=0.5011
+Phase I Epoch 029 | train_loss=0.5136 | val_loc_f1=0.929667 | threshold=0.75
+Phase I no improvement for 8 epoch(s). Best epoch=21
+
+Phase I epoch 30/150 | LR=0.00004624
+Phase I Epoch 30/150 | Step 20/181 | loss=0.4015 | focal=0.0092 | dice=0.3923
+Phase I Epoch 30/150 | Step 40/181 | loss=0.4941 | focal=0.0074 | dice=0.4867
+Phase I Epoch 30/150 | Step 60/181 | loss=0.5417 | focal=0.0078 | dice=0.5339
+Phase I Epoch 30/150 | Step 80/181 | loss=0.5356 | focal=0.0107 | dice=0.5249
+Phase I Epoch 30/150 | Step 100/181 | loss=0.5524 | focal=0.0105 | dice=0.5418
+Phase I Epoch 30/150 | Step 120/181 | loss=0.5383 | focal=0.0112 | dice=0.5271
+Phase I Epoch 30/150 | Step 140/181 | loss=0.5233 | focal=0.0123 | dice=0.5110
+Phase I Epoch 30/150 | Step 160/181 | loss=0.5228 | focal=0.0122 | dice=0.5106
+Phase I Epoch 30/150 | Step 180/181 | loss=0.5170 | focal=0.0135 | dice=0.5036
+Phase I Epoch 30/150 | Step 181/181 | loss=0.5172 | focal=0.0134 | dice=0.5038
+Phase I Epoch 030 | train_loss=0.5172 | val_loc_f1=0.930714 | threshold=0.75
+Phase I no improvement for 9 epoch(s). Best epoch=21
+
+Phase I epoch 31/150 | LR=0.00004595
+Phase I Epoch 31/150 | Step 20/181 | loss=0.5227 | focal=0.0132 | dice=0.5095
+Phase I Epoch 31/150 | Step 40/181 | loss=0.5044 | focal=0.0134 | dice=0.4910
+Phase I Epoch 31/150 | Step 60/181 | loss=0.4789 | focal=0.0115 | dice=0.4674
+Phase I Epoch 31/150 | Step 80/181 | loss=0.4668 | focal=0.0127 | dice=0.4541
+Phase I Epoch 31/150 | Step 100/181 | loss=0.4699 | focal=0.0125 | dice=0.4573
+Phase I Epoch 31/150 | Step 120/181 | loss=0.4934 | focal=0.0122 | dice=0.4813
+Phase I Epoch 31/150 | Step 140/181 | loss=0.4977 | focal=0.0119 | dice=0.4859
+Phase I Epoch 31/150 | Step 160/181 | loss=0.5098 | focal=0.0116 | dice=0.4982
+Phase I Epoch 31/150 | Step 180/181 | loss=0.5133 | focal=0.0116 | dice=0.5017
+Phase I Epoch 31/150 | Step 181/181 | loss=0.5112 | focal=0.0117 | dice=0.4995
+Phase I Epoch 031 | train_loss=0.5112 | val_loc_f1=0.935206 | threshold=0.80
+Saved Phase I best checkpoint | epoch=31 | loc_f1=0.935206
+
+Phase I epoch 32/150 | LR=0.00004566
+Phase I Epoch 32/150 | Step 20/181 | loss=0.4509 | focal=0.0117 | dice=0.4392
+Phase I Epoch 32/150 | Step 40/181 | loss=0.4799 | focal=0.0147 | dice=0.4652
+Phase I Epoch 32/150 | Step 60/181 | loss=0.5082 | focal=0.0123 | dice=0.4959
+Phase I Epoch 32/150 | Step 80/181 | loss=0.5160 | focal=0.0114 | dice=0.5045
+Phase I Epoch 32/150 | Step 100/181 | loss=0.5110 | focal=0.0133 | dice=0.4976
+Phase I Epoch 32/150 | Step 120/181 | loss=0.5152 | focal=0.0126 | dice=0.5026
+Phase I Epoch 32/150 | Step 140/181 | loss=0.5132 | focal=0.0127 | dice=0.5005
+Phase I Epoch 32/150 | Step 160/181 | loss=0.5045 | focal=0.0122 | dice=0.4923
+Phase I Epoch 32/150 | Step 180/181 | loss=0.5127 | focal=0.0122 | dice=0.5005
+Phase I Epoch 32/150 | Step 181/181 | loss=0.5154 | focal=0.0121 | dice=0.5033
+Phase I Epoch 032 | train_loss=0.5154 | val_loc_f1=0.930225 | threshold=0.65
+Phase I no improvement for 1 epoch(s). Best epoch=31
+
+Phase I epoch 33/150 | LR=0.00004535
+Phase I Epoch 33/150 | Step 20/181 | loss=0.3570 | focal=0.0182 | dice=0.3389
+Phase I Epoch 33/150 | Step 40/181 | loss=0.4206 | focal=0.0154 | dice=0.4052
+Phase I Epoch 33/150 | Step 60/181 | loss=0.4560 | focal=0.0150 | dice=0.4410
+Phase I Epoch 33/150 | Step 80/181 | loss=0.4708 | focal=0.0140 | dice=0.4568
+Phase I Epoch 33/150 | Step 100/181 | loss=0.4853 | focal=0.0135 | dice=0.4717
+Phase I Epoch 33/150 | Step 120/181 | loss=0.5057 | focal=0.0121 | dice=0.4936
+Phase I Epoch 33/150 | Step 140/181 | loss=0.5019 | focal=0.0128 | dice=0.4891
+Phase I Epoch 33/150 | Step 160/181 | loss=0.5011 | focal=0.0133 | dice=0.4878
+Phase I Epoch 33/150 | Step 180/181 | loss=0.5091 | focal=0.0131 | dice=0.4960
+Phase I Epoch 33/150 | Step 181/181 | loss=0.5094 | focal=0.0131 | dice=0.4963
+Phase I Epoch 033 | train_loss=0.5094 | val_loc_f1=0.932259 | threshold=0.70
+Phase I no improvement for 2 epoch(s). Best epoch=31
+
+Phase I epoch 34/150 | LR=0.00004504
+Phase I Epoch 34/150 | Step 20/181 | loss=0.4182 | focal=0.0127 | dice=0.4056
+Phase I Epoch 34/150 | Step 40/181 | loss=0.4794 | focal=0.0129 | dice=0.4665
+Phase I Epoch 34/150 | Step 60/181 | loss=0.4712 | focal=0.0123 | dice=0.4589
+Phase I Epoch 34/150 | Step 80/181 | loss=0.4943 | focal=0.0115 | dice=0.4828
+Phase I Epoch 34/150 | Step 100/181 | loss=0.4978 | focal=0.0117 | dice=0.4861
+Phase I Epoch 34/150 | Step 120/181 | loss=0.5308 | focal=0.0127 | dice=0.5181
+Phase I Epoch 34/150 | Step 140/181 | loss=0.5295 | focal=0.0130 | dice=0.5165
+Phase I Epoch 34/150 | Step 160/181 | loss=0.5386 | focal=0.0131 | dice=0.5255
+Phase I Epoch 34/150 | Step 180/181 | loss=0.5350 | focal=0.0137 | dice=0.5213
+Phase I Epoch 34/150 | Step 181/181 | loss=0.5349 | focal=0.0136 | dice=0.5213
+Phase I Epoch 034 | train_loss=0.5349 | val_loc_f1=0.924726 | threshold=0.65
+Phase I no improvement for 3 epoch(s). Best epoch=31
+
+Phase I epoch 35/150 | LR=0.00004471
+Phase I Epoch 35/150 | Step 20/181 | loss=0.4578 | focal=0.0142 | dice=0.4437
+Phase I Epoch 35/150 | Step 40/181 | loss=0.4722 | focal=0.0168 | dice=0.4554
+Phase I Epoch 35/150 | Step 60/181 | loss=0.4918 | focal=0.0126 | dice=0.4792
+Phase I Epoch 35/150 | Step 80/181 | loss=0.4984 | focal=0.0144 | dice=0.4839
+Phase I Epoch 35/150 | Step 100/181 | loss=0.5158 | focal=0.0137 | dice=0.5021
+Phase I Epoch 35/150 | Step 120/181 | loss=0.5141 | focal=0.0144 | dice=0.4997
+Phase I Epoch 35/150 | Step 140/181 | loss=0.5048 | focal=0.0139 | dice=0.4909
+Phase I Epoch 35/150 | Step 160/181 | loss=0.5126 | focal=0.0133 | dice=0.4993
+Phase I Epoch 35/150 | Step 180/181 | loss=0.5085 | focal=0.0135 | dice=0.4950
+Phase I Epoch 35/150 | Step 181/181 | loss=0.5086 | focal=0.0134 | dice=0.4951
+Phase I Epoch 035 | train_loss=0.5086 | val_loc_f1=0.932176 | threshold=0.75
+Phase I no improvement for 4 epoch(s). Best epoch=31
+
+Phase I epoch 36/150 | LR=0.00004438
+Phase I Epoch 36/150 | Step 20/181 | loss=0.6439 | focal=0.0071 | dice=0.6367
+Phase I Epoch 36/150 | Step 40/181 | loss=0.6102 | focal=0.0094 | dice=0.6007
+Phase I Epoch 36/150 | Step 60/181 | loss=0.5978 | focal=0.0099 | dice=0.5879
+Phase I Epoch 36/150 | Step 80/181 | loss=0.5533 | focal=0.0127 | dice=0.5406
+Phase I Epoch 36/150 | Step 100/181 | loss=0.5641 | focal=0.0117 | dice=0.5524
+Phase I Epoch 36/150 | Step 120/181 | loss=0.5419 | focal=0.0122 | dice=0.5297
+Phase I Epoch 36/150 | Step 140/181 | loss=0.5332 | focal=0.0125 | dice=0.5207
+Phase I Epoch 36/150 | Step 160/181 | loss=0.5221 | focal=0.0121 | dice=0.5099
+Phase I Epoch 36/150 | Step 180/181 | loss=0.5119 | focal=0.0119 | dice=0.5000
+Phase I Epoch 36/150 | Step 181/181 | loss=0.5124 | focal=0.0119 | dice=0.5005
+Phase I Epoch 036 | train_loss=0.5124 | val_loc_f1=0.931570 | threshold=0.70
+Phase I no improvement for 5 epoch(s). Best epoch=31
+
+Phase I epoch 37/150 | LR=0.00004404
+Phase I Epoch 37/150 | Step 20/181 | loss=0.6218 | focal=0.0155 | dice=0.6063
+Phase I Epoch 37/150 | Step 40/181 | loss=0.5822 | focal=0.0131 | dice=0.5692
+Phase I Epoch 37/150 | Step 60/181 | loss=0.5476 | focal=0.0138 | dice=0.5339
+Phase I Epoch 37/150 | Step 80/181 | loss=0.5462 | focal=0.0125 | dice=0.5337
+Phase I Epoch 37/150 | Step 100/181 | loss=0.5178 | focal=0.0130 | dice=0.5048
+Phase I Epoch 37/150 | Step 120/181 | loss=0.5179 | focal=0.0124 | dice=0.5055
+Phase I Epoch 37/150 | Step 140/181 | loss=0.5068 | focal=0.0117 | dice=0.4951
+Phase I Epoch 37/150 | Step 160/181 | loss=0.5138 | focal=0.0115 | dice=0.5023
+Phase I Epoch 37/150 | Step 180/181 | loss=0.5063 | focal=0.0118 | dice=0.4945
+Phase I Epoch 37/150 | Step 181/181 | loss=0.5045 | focal=0.0119 | dice=0.4927
+Phase I Epoch 037 | train_loss=0.5045 | val_loc_f1=0.926730 | threshold=0.75
+Phase I no improvement for 6 epoch(s). Best epoch=31
+
+Phase I epoch 38/150 | LR=0.00004369
+Phase I Epoch 38/150 | Step 20/181 | loss=0.5450 | focal=0.0141 | dice=0.5309
+Phase I Epoch 38/150 | Step 40/181 | loss=0.5310 | focal=0.0136 | dice=0.5174
+Phase I Epoch 38/150 | Step 60/181 | loss=0.5099 | focal=0.0128 | dice=0.4971
+Phase I Epoch 38/150 | Step 80/181 | loss=0.5154 | focal=0.0114 | dice=0.5040
+Phase I Epoch 38/150 | Step 100/181 | loss=0.5135 | focal=0.0118 | dice=0.5017
+Phase I Epoch 38/150 | Step 120/181 | loss=0.5231 | focal=0.0118 | dice=0.5113
+Phase I Epoch 38/150 | Step 140/181 | loss=0.5288 | focal=0.0113 | dice=0.5175
+Phase I Epoch 38/150 | Step 160/181 | loss=0.5160 | focal=0.0116 | dice=0.5044
+Phase I Epoch 38/150 | Step 180/181 | loss=0.5101 | focal=0.0120 | dice=0.4981
+Phase I Epoch 38/150 | Step 181/181 | loss=0.5102 | focal=0.0120 | dice=0.4983
+Phase I Epoch 038 | train_loss=0.5102 | val_loc_f1=0.927682 | threshold=0.75
+Phase I no improvement for 7 epoch(s). Best epoch=31
+
+Phase I epoch 39/150 | LR=0.00004333
+Phase I Epoch 39/150 | Step 20/181 | loss=0.5637 | focal=0.0098 | dice=0.5540
+Phase I Epoch 39/150 | Step 40/181 | loss=0.5428 | focal=0.0114 | dice=0.5314
+Phase I Epoch 39/150 | Step 60/181 | loss=0.5333 | focal=0.0104 | dice=0.5229
+Phase I Epoch 39/150 | Step 80/181 | loss=0.5258 | focal=0.0119 | dice=0.5139
+Phase I Epoch 39/150 | Step 100/181 | loss=0.5246 | focal=0.0120 | dice=0.5125
+Phase I Epoch 39/150 | Step 120/181 | loss=0.5242 | focal=0.0116 | dice=0.5125
+Phase I Epoch 39/150 | Step 140/181 | loss=0.5171 | focal=0.0116 | dice=0.5055
+Phase I Epoch 39/150 | Step 160/181 | loss=0.5052 | focal=0.0114 | dice=0.4937
+Phase I Epoch 39/150 | Step 180/181 | loss=0.5045 | focal=0.0113 | dice=0.4932
+Phase I Epoch 39/150 | Step 181/181 | loss=0.5024 | focal=0.0115 | dice=0.4909
+Phase I Epoch 039 | train_loss=0.5024 | val_loc_f1=0.926571 | threshold=0.70
+Phase I no improvement for 8 epoch(s). Best epoch=31
+
+Phase I epoch 40/150 | LR=0.00004296
+Phase I Epoch 40/150 | Step 20/181 | loss=0.4445 | focal=0.0100 | dice=0.4345
+Phase I Epoch 40/150 | Step 40/181 | loss=0.4701 | focal=0.0146 | dice=0.4554
+Phase I Epoch 40/150 | Step 60/181 | loss=0.4774 | focal=0.0130 | dice=0.4644
+Phase I Epoch 40/150 | Step 80/181 | loss=0.4819 | focal=0.0124 | dice=0.4695
+Phase I Epoch 40/150 | Step 100/181 | loss=0.4802 | focal=0.0122 | dice=0.4679
+Phase I Epoch 40/150 | Step 120/181 | loss=0.4972 | focal=0.0114 | dice=0.4858
+Phase I Epoch 40/150 | Step 140/181 | loss=0.5059 | focal=0.0114 | dice=0.4945
+Phase I Epoch 40/150 | Step 160/181 | loss=0.4981 | focal=0.0111 | dice=0.4870
+Phase I Epoch 40/150 | Step 180/181 | loss=0.5064 | focal=0.0113 | dice=0.4952
+Phase I Epoch 40/150 | Step 181/181 | loss=0.5092 | focal=0.0112 | dice=0.4979
+Phase I Epoch 040 | train_loss=0.5092 | val_loc_f1=0.926190 | threshold=0.70
+Phase I no improvement for 9 epoch(s). Best epoch=31
+
+Phase I epoch 41/150 | LR=0.00004258
+Phase I Epoch 41/150 | Step 20/181 | loss=0.3814 | focal=0.0170 | dice=0.3644
+Phase I Epoch 41/150 | Step 40/181 | loss=0.4620 | focal=0.0151 | dice=0.4469
+Phase I Epoch 41/150 | Step 60/181 | loss=0.4343 | focal=0.0143 | dice=0.4200
+Phase I Epoch 41/150 | Step 80/181 | loss=0.4623 | focal=0.0139 | dice=0.4484
+Phase I Epoch 41/150 | Step 100/181 | loss=0.4753 | focal=0.0132 | dice=0.4621
+Phase I Epoch 41/150 | Step 120/181 | loss=0.4619 | focal=0.0142 | dice=0.4477
+Phase I Epoch 41/150 | Step 140/181 | loss=0.4745 | focal=0.0137 | dice=0.4608
+Phase I Epoch 41/150 | Step 160/181 | loss=0.4919 | focal=0.0127 | dice=0.4792
+Phase I Epoch 41/150 | Step 180/181 | loss=0.4996 | focal=0.0122 | dice=0.4875
+Phase I Epoch 41/150 | Step 181/181 | loss=0.5001 | focal=0.0122 | dice=0.4878
+Phase I Epoch 041 | train_loss=0.5001 | val_loc_f1=0.930963 | threshold=0.65
+Phase I no improvement for 10 epoch(s). Best epoch=31
+
+Phase I epoch 42/150 | LR=0.00004220
+Phase I Epoch 42/150 | Step 20/181 | loss=0.6322 | focal=0.0079 | dice=0.6243
+Phase I Epoch 42/150 | Step 40/181 | loss=0.6194 | focal=0.0074 | dice=0.6120
+Phase I Epoch 42/150 | Step 60/181 | loss=0.6019 | focal=0.0075 | dice=0.5944
+Phase I Epoch 42/150 | Step 80/181 | loss=0.5813 | focal=0.0083 | dice=0.5730
+Phase I Epoch 42/150 | Step 100/181 | loss=0.5551 | focal=0.0098 | dice=0.5453
+Phase I Epoch 42/150 | Step 120/181 | loss=0.5340 | focal=0.0099 | dice=0.5241
+Phase I Epoch 42/150 | Step 140/181 | loss=0.5227 | focal=0.0101 | dice=0.5126
+Phase I Epoch 42/150 | Step 160/181 | loss=0.5078 | focal=0.0106 | dice=0.4972
+Phase I Epoch 42/150 | Step 180/181 | loss=0.5000 | focal=0.0104 | dice=0.4896
+Phase I Epoch 42/150 | Step 181/181 | loss=0.4977 | focal=0.0104 | dice=0.4873
+Phase I Epoch 042 | train_loss=0.4977 | val_loc_f1=0.931625 | threshold=0.75
+Phase I no improvement for 11 epoch(s). Best epoch=31
+
+Phase I epoch 43/150 | LR=0.00004181
+Phase I Epoch 43/150 | Step 20/181 | loss=0.4942 | focal=0.0124 | dice=0.4819
+Phase I Epoch 43/150 | Step 40/181 | loss=0.4867 | focal=0.0144 | dice=0.4723
+Phase I Epoch 43/150 | Step 60/181 | loss=0.5018 | focal=0.0187 | dice=0.4832
+Phase I Epoch 43/150 | Step 80/181 | loss=0.4996 | focal=0.0154 | dice=0.4842
+Phase I Epoch 43/150 | Step 100/181 | loss=0.5165 | focal=0.0142 | dice=0.5023
+Phase I Epoch 43/150 | Step 120/181 | loss=0.5371 | focal=0.0136 | dice=0.5235
+Phase I Epoch 43/150 | Step 140/181 | loss=0.5262 | focal=0.0142 | dice=0.5121
+Phase I Epoch 43/150 | Step 160/181 | loss=0.5111 | focal=0.0142 | dice=0.4969
+Phase I Epoch 43/150 | Step 180/181 | loss=0.5221 | focal=0.0134 | dice=0.5086
+Phase I Epoch 43/150 | Step 181/181 | loss=0.5221 | focal=0.0134 | dice=0.5087
+Phase I Epoch 043 | train_loss=0.5221 | val_loc_f1=0.930919 | threshold=0.75
+Phase I no improvement for 12 epoch(s). Best epoch=31
+
+Phase I epoch 44/150 | LR=0.00004141
+Phase I Epoch 44/150 | Step 20/181 | loss=0.5279 | focal=0.0095 | dice=0.5183
+Phase I Epoch 44/150 | Step 40/181 | loss=0.4402 | focal=0.0121 | dice=0.4281
+Phase I Epoch 44/150 | Step 60/181 | loss=0.4486 | focal=0.0117 | dice=0.4370
+Phase I Epoch 44/150 | Step 80/181 | loss=0.4668 | focal=0.0116 | dice=0.4551
+Phase I Epoch 44/150 | Step 100/181 | loss=0.4906 | focal=0.0111 | dice=0.4795
+Phase I Epoch 44/150 | Step 120/181 | loss=0.4967 | focal=0.0129 | dice=0.4838
+Phase I Epoch 44/150 | Step 140/181 | loss=0.5065 | focal=0.0122 | dice=0.4943
+Phase I Epoch 44/150 | Step 160/181 | loss=0.4989 | focal=0.0120 | dice=0.4869
+Phase I Epoch 44/150 | Step 180/181 | loss=0.5033 | focal=0.0117 | dice=0.4916
+Phase I Epoch 44/150 | Step 181/181 | loss=0.5011 | focal=0.0118 | dice=0.4893
+Phase I Epoch 044 | train_loss=0.5011 | val_loc_f1=0.936327 | threshold=0.65
+Saved Phase I best checkpoint | epoch=44 | loc_f1=0.936327
+
+Phase I epoch 45/150 | LR=0.00004100
+Phase I Epoch 45/150 | Step 20/181 | loss=0.3991 | focal=0.0243 | dice=0.3748
+Phase I Epoch 45/150 | Step 40/181 | loss=0.5036 | focal=0.0153 | dice=0.4883
+Phase I Epoch 45/150 | Step 60/181 | loss=0.4525 | focal=0.0142 | dice=0.4383
+Phase I Epoch 45/150 | Step 80/181 | loss=0.4672 | focal=0.0127 | dice=0.4546
+Phase I Epoch 45/150 | Step 100/181 | loss=0.4792 | focal=0.0123 | dice=0.4669
+Phase I Epoch 45/150 | Step 120/181 | loss=0.4785 | focal=0.0128 | dice=0.4656
+Phase I Epoch 45/150 | Step 140/181 | loss=0.5002 | focal=0.0120 | dice=0.4882
+Phase I Epoch 45/150 | Step 160/181 | loss=0.5040 | focal=0.0115 | dice=0.4925
+Phase I Epoch 45/150 | Step 180/181 | loss=0.5067 | focal=0.0115 | dice=0.4952
+Phase I Epoch 45/150 | Step 181/181 | loss=0.5067 | focal=0.0114 | dice=0.4953
+Phase I Epoch 045 | train_loss=0.5067 | val_loc_f1=0.935391 | threshold=0.85
+Phase I no improvement for 1 epoch(s). Best epoch=44
+
+Phase I epoch 46/150 | LR=0.00004059
+Phase I Epoch 46/150 | Step 20/181 | loss=0.6014 | focal=0.0041 | dice=0.5973
+Phase I Epoch 46/150 | Step 40/181 | loss=0.5180 | focal=0.0105 | dice=0.5075
+Phase I Epoch 46/150 | Step 60/181 | loss=0.4906 | focal=0.0093 | dice=0.4814
+Phase I Epoch 46/150 | Step 80/181 | loss=0.4982 | focal=0.0095 | dice=0.4887
+Phase I Epoch 46/150 | Step 100/181 | loss=0.4958 | focal=0.0107 | dice=0.4851
+Phase I Epoch 46/150 | Step 120/181 | loss=0.5039 | focal=0.0107 | dice=0.4932
+Phase I Epoch 46/150 | Step 140/181 | loss=0.5100 | focal=0.0110 | dice=0.4990
+Phase I Epoch 46/150 | Step 160/181 | loss=0.5109 | focal=0.0106 | dice=0.5004
+Phase I Epoch 46/150 | Step 180/181 | loss=0.5065 | focal=0.0107 | dice=0.4958
+Phase I Epoch 46/150 | Step 181/181 | loss=0.5041 | focal=0.0107 | dice=0.4934
+Phase I Epoch 046 | train_loss=0.5041 | val_loc_f1=0.931258 | threshold=0.80
+Phase I no improvement for 2 epoch(s). Best epoch=44
+
+Phase I epoch 47/150 | LR=0.00004017
+Phase I Epoch 47/150 | Step 20/181 | loss=0.5466 | focal=0.0251 | dice=0.5214
+Phase I Epoch 47/150 | Step 40/181 | loss=0.4929 | focal=0.0173 | dice=0.4756
+Phase I Epoch 47/150 | Step 60/181 | loss=0.4944 | focal=0.0146 | dice=0.4797
+Phase I Epoch 47/150 | Step 80/181 | loss=0.5045 | focal=0.0134 | dice=0.4912
+Phase I Epoch 47/150 | Step 100/181 | loss=0.5153 | focal=0.0152 | dice=0.5001
+Phase I Epoch 47/150 | Step 120/181 | loss=0.5247 | focal=0.0146 | dice=0.5101
+Phase I Epoch 47/150 | Step 140/181 | loss=0.5294 | focal=0.0135 | dice=0.5158
+Phase I Epoch 47/150 | Step 160/181 | loss=0.5211 | focal=0.0127 | dice=0.5085
+Phase I Epoch 47/150 | Step 180/181 | loss=0.5104 | focal=0.0126 | dice=0.4978
+Phase I Epoch 47/150 | Step 181/181 | loss=0.5104 | focal=0.0125 | dice=0.4979
+Phase I Epoch 047 | train_loss=0.5104 | val_loc_f1=0.927941 | threshold=0.70
+Phase I no improvement for 3 epoch(s). Best epoch=44
+
+Phase I epoch 48/150 | LR=0.00003974
+Phase I Epoch 48/150 | Step 20/181 | loss=0.5570 | focal=0.0072 | dice=0.5498
+Phase I Epoch 48/150 | Step 40/181 | loss=0.5088 | focal=0.0084 | dice=0.5004
+Phase I Epoch 48/150 | Step 60/181 | loss=0.5114 | focal=0.0088 | dice=0.5026
+Phase I Epoch 48/150 | Step 80/181 | loss=0.5107 | focal=0.0083 | dice=0.5024
+Phase I Epoch 48/150 | Step 100/181 | loss=0.5003 | focal=0.0096 | dice=0.4906
+Phase I Epoch 48/150 | Step 120/181 | loss=0.5074 | focal=0.0102 | dice=0.4972
+Phase I Epoch 48/150 | Step 140/181 | loss=0.4956 | focal=0.0103 | dice=0.4853
+Phase I Epoch 48/150 | Step 160/181 | loss=0.4931 | focal=0.0106 | dice=0.4826
+Phase I Epoch 48/150 | Step 180/181 | loss=0.4942 | focal=0.0108 | dice=0.4834
+Phase I Epoch 48/150 | Step 181/181 | loss=0.4970 | focal=0.0108 | dice=0.4862
+Phase I Epoch 048 | train_loss=0.4970 | val_loc_f1=0.929928 | threshold=0.80
+Phase I no improvement for 4 epoch(s). Best epoch=44
+
+Phase I epoch 49/150 | LR=0.00003930
+Phase I Epoch 49/150 | Step 20/181 | loss=0.5979 | focal=0.0236 | dice=0.5743
+Phase I Epoch 49/150 | Step 40/181 | loss=0.5819 | focal=0.0175 | dice=0.5644
+Phase I Epoch 49/150 | Step 60/181 | loss=0.5889 | focal=0.0141 | dice=0.5749
+Phase I Epoch 49/150 | Step 80/181 | loss=0.5459 | focal=0.0131 | dice=0.5328
+Phase I Epoch 49/150 | Step 100/181 | loss=0.5172 | focal=0.0128 | dice=0.5044
+Phase I Epoch 49/150 | Step 120/181 | loss=0.5140 | focal=0.0129 | dice=0.5012
+Phase I Epoch 49/150 | Step 140/181 | loss=0.5189 | focal=0.0123 | dice=0.5066
+Phase I Epoch 49/150 | Step 160/181 | loss=0.4954 | focal=0.0121 | dice=0.4833
+Phase I Epoch 49/150 | Step 180/181 | loss=0.4982 | focal=0.0125 | dice=0.4857
+Phase I Epoch 49/150 | Step 181/181 | loss=0.5010 | focal=0.0125 | dice=0.4886
+Phase I Epoch 049 | train_loss=0.5010 | val_loc_f1=0.929967 | threshold=0.85
+Phase I no improvement for 5 epoch(s). Best epoch=44
+
+Phase I epoch 50/150 | LR=0.00003886
+Phase I Epoch 50/150 | Step 20/181 | loss=0.4320 | focal=0.0041 | dice=0.4279
+Phase I Epoch 50/150 | Step 40/181 | loss=0.4844 | focal=0.0048 | dice=0.4797
+Phase I Epoch 50/150 | Step 60/181 | loss=0.4886 | focal=0.0066 | dice=0.4820
+Phase I Epoch 50/150 | Step 80/181 | loss=0.4665 | focal=0.0074 | dice=0.4591
+Phase I Epoch 50/150 | Step 100/181 | loss=0.4814 | focal=0.0090 | dice=0.4724
+Phase I Epoch 50/150 | Step 120/181 | loss=0.4686 | focal=0.0103 | dice=0.4582
+Phase I Epoch 50/150 | Step 140/181 | loss=0.4783 | focal=0.0099 | dice=0.4684
+Phase I Epoch 50/150 | Step 160/181 | loss=0.4888 | focal=0.0098 | dice=0.4790
+Phase I Epoch 50/150 | Step 180/181 | loss=0.4860 | focal=0.0105 | dice=0.4755
+Phase I Epoch 50/150 | Step 181/181 | loss=0.4888 | focal=0.0105 | dice=0.4784
+Phase I Epoch 050 | train_loss=0.4888 | val_loc_f1=0.934858 | threshold=0.80
+Phase I no improvement for 6 epoch(s). Best epoch=44
+
+Phase I epoch 51/150 | LR=0.00003841
+Phase I Epoch 51/150 | Step 20/181 | loss=0.4985 | focal=0.0154 | dice=0.4831
+Phase I Epoch 51/150 | Step 40/181 | loss=0.4708 | focal=0.0123 | dice=0.4584
+Phase I Epoch 51/150 | Step 60/181 | loss=0.5103 | focal=0.0179 | dice=0.4923
+Phase I Epoch 51/150 | Step 80/181 | loss=0.4908 | focal=0.0178 | dice=0.4730
+Phase I Epoch 51/150 | Step 100/181 | loss=0.4868 | focal=0.0160 | dice=0.4708
+Phase I Epoch 51/150 | Step 120/181 | loss=0.4796 | focal=0.0152 | dice=0.4644
+Phase I Epoch 51/150 | Step 140/181 | loss=0.4971 | focal=0.0141 | dice=0.4831
+Phase I Epoch 51/150 | Step 160/181 | loss=0.5050 | focal=0.0133 | dice=0.4917
+Phase I Epoch 51/150 | Step 180/181 | loss=0.5111 | focal=0.0129 | dice=0.4982
+Phase I Epoch 51/150 | Step 181/181 | loss=0.5138 | focal=0.0129 | dice=0.5010
+Phase I Epoch 051 | train_loss=0.5138 | val_loc_f1=0.931903 | threshold=0.75
+Phase I no improvement for 7 epoch(s). Best epoch=44
+
+Phase I epoch 52/150 | LR=0.00003796
+Phase I Epoch 52/150 | Step 20/181 | loss=0.5383 | focal=0.0104 | dice=0.5278
+Phase I Epoch 52/150 | Step 40/181 | loss=0.5490 | focal=0.0098 | dice=0.5392
+Phase I Epoch 52/150 | Step 60/181 | loss=0.5309 | focal=0.0103 | dice=0.5206
+Phase I Epoch 52/150 | Step 80/181 | loss=0.5328 | focal=0.0098 | dice=0.5230
+Phase I Epoch 52/150 | Step 100/181 | loss=0.5421 | focal=0.0093 | dice=0.5327
+Phase I Epoch 52/150 | Step 120/181 | loss=0.5372 | focal=0.0093 | dice=0.5279
+Phase I Epoch 52/150 | Step 140/181 | loss=0.5319 | focal=0.0099 | dice=0.5220
+Phase I Epoch 52/150 | Step 160/181 | loss=0.5155 | focal=0.0101 | dice=0.5055
+Phase I Epoch 52/150 | Step 180/181 | loss=0.5044 | focal=0.0100 | dice=0.4944
+Phase I Epoch 52/150 | Step 181/181 | loss=0.5048 | focal=0.0100 | dice=0.4947
+Phase I Epoch 052 | train_loss=0.5048 | val_loc_f1=0.931099 | threshold=0.75
+Phase I no improvement for 8 epoch(s). Best epoch=44
+
+Phase I epoch 53/150 | LR=0.00003750
+Phase I Epoch 53/150 | Step 20/181 | loss=0.5120 | focal=0.0088 | dice=0.5032
+Phase I Epoch 53/150 | Step 40/181 | loss=0.5136 | focal=0.0095 | dice=0.5041
+Phase I Epoch 53/150 | Step 60/181 | loss=0.5522 | focal=0.0088 | dice=0.5434
+Phase I Epoch 53/150 | Step 80/181 | loss=0.5247 | focal=0.0090 | dice=0.5157
+Phase I Epoch 53/150 | Step 100/181 | loss=0.5182 | focal=0.0091 | dice=0.5091
+Phase I Epoch 53/150 | Step 120/181 | loss=0.5110 | focal=0.0092 | dice=0.5019
+Phase I Epoch 53/150 | Step 140/181 | loss=0.4916 | focal=0.0097 | dice=0.4819
+Phase I Epoch 53/150 | Step 160/181 | loss=0.5015 | focal=0.0102 | dice=0.4913
+Phase I Epoch 53/150 | Step 180/181 | loss=0.4999 | focal=0.0100 | dice=0.4900
+Phase I Epoch 53/150 | Step 181/181 | loss=0.5000 | focal=0.0099 | dice=0.4901
+Phase I Epoch 053 | train_loss=0.5000 | val_loc_f1=0.933746 | threshold=0.70
+Phase I no improvement for 9 epoch(s). Best epoch=44
+
+Phase I epoch 54/150 | LR=0.00003703
+Phase I Epoch 54/150 | Step 20/181 | loss=0.4481 | focal=0.0107 | dice=0.4374
+Phase I Epoch 54/150 | Step 40/181 | loss=0.4444 | focal=0.0098 | dice=0.4346
+Phase I Epoch 54/150 | Step 60/181 | loss=0.4992 | focal=0.0089 | dice=0.4904
+Phase I Epoch 54/150 | Step 80/181 | loss=0.5138 | focal=0.0087 | dice=0.5051
+Phase I Epoch 54/150 | Step 100/181 | loss=0.4981 | focal=0.0082 | dice=0.4899
+Phase I Epoch 54/150 | Step 120/181 | loss=0.4699 | focal=0.0089 | dice=0.4610
+Phase I Epoch 54/150 | Step 140/181 | loss=0.4743 | focal=0.0096 | dice=0.4646
+Phase I Epoch 54/150 | Step 160/181 | loss=0.5010 | focal=0.0098 | dice=0.4911
+Phase I Epoch 54/150 | Step 180/181 | loss=0.5073 | focal=0.0094 | dice=0.4978
+Phase I Epoch 54/150 | Step 181/181 | loss=0.5050 | focal=0.0095 | dice=0.4955
+Phase I Epoch 054 | train_loss=0.5050 | val_loc_f1=0.935008 | threshold=0.70
+Phase I no improvement for 10 epoch(s). Best epoch=44
+
+Phase I epoch 55/150 | LR=0.00003656
+Phase I Epoch 55/150 | Step 20/181 | loss=0.5393 | focal=0.0106 | dice=0.5287
+Phase I Epoch 55/150 | Step 40/181 | loss=0.5275 | focal=0.0096 | dice=0.5180
+Phase I Epoch 55/150 | Step 60/181 | loss=0.5292 | focal=0.0092 | dice=0.5201
+Phase I Epoch 55/150 | Step 80/181 | loss=0.5266 | focal=0.0091 | dice=0.5175
+Phase I Epoch 55/150 | Step 100/181 | loss=0.5145 | focal=0.0092 | dice=0.5053
+Phase I Epoch 55/150 | Step 120/181 | loss=0.5000 | focal=0.0098 | dice=0.4902
+Phase I Epoch 55/150 | Step 140/181 | loss=0.4999 | focal=0.0100 | dice=0.4899
+Phase I Epoch 55/150 | Step 160/181 | loss=0.5098 | focal=0.0105 | dice=0.4993
+Phase I Epoch 55/150 | Step 180/181 | loss=0.5055 | focal=0.0108 | dice=0.4947
+Phase I Epoch 55/150 | Step 181/181 | loss=0.5043 | focal=0.0107 | dice=0.4935
+Phase I Epoch 055 | train_loss=0.5043 | val_loc_f1=0.932367 | threshold=0.70
+Phase I no improvement for 11 epoch(s). Best epoch=44
+
+Phase I epoch 56/150 | LR=0.00003609
+Phase I Epoch 56/150 | Step 20/181 | loss=0.6071 | focal=0.0097 | dice=0.5974
+Phase I Epoch 56/150 | Step 40/181 | loss=0.6079 | focal=0.0081 | dice=0.5998
+Phase I Epoch 56/150 | Step 60/181 | loss=0.5833 | focal=0.0084 | dice=0.5749
+Phase I Epoch 56/150 | Step 80/181 | loss=0.5623 | focal=0.0105 | dice=0.5518
+Phase I Epoch 56/150 | Step 100/181 | loss=0.5191 | focal=0.0106 | dice=0.5085
+Phase I Epoch 56/150 | Step 120/181 | loss=0.5177 | focal=0.0110 | dice=0.5067
+Phase I Epoch 56/150 | Step 140/181 | loss=0.5203 | focal=0.0105 | dice=0.5098
+Phase I Epoch 56/150 | Step 160/181 | loss=0.5070 | focal=0.0102 | dice=0.4968
+Phase I Epoch 56/150 | Step 180/181 | loss=0.4995 | focal=0.0100 | dice=0.4895
+Phase I Epoch 56/150 | Step 181/181 | loss=0.4972 | focal=0.0100 | dice=0.4871
+Phase I Epoch 056 | train_loss=0.4972 | val_loc_f1=0.935914 | threshold=0.75
+Phase I no improvement for 12 epoch(s). Best epoch=44
+
+Phase I epoch 57/150 | LR=0.00003561
+Phase I Epoch 57/150 | Step 20/181 | loss=0.5928 | focal=0.0109 | dice=0.5819
+Phase I Epoch 57/150 | Step 40/181 | loss=0.5472 | focal=0.0122 | dice=0.5350
+Phase I Epoch 57/150 | Step 60/181 | loss=0.5438 | focal=0.0115 | dice=0.5323
+Phase I Epoch 57/150 | Step 80/181 | loss=0.5519 | focal=0.0100 | dice=0.5419
+Phase I Epoch 57/150 | Step 100/181 | loss=0.5573 | focal=0.0097 | dice=0.5477
+Phase I Epoch 57/150 | Step 120/181 | loss=0.5400 | focal=0.0105 | dice=0.5294
+Phase I Epoch 57/150 | Step 140/181 | loss=0.5311 | focal=0.0098 | dice=0.5213
+Phase I Epoch 57/150 | Step 160/181 | loss=0.5297 | focal=0.0106 | dice=0.5192
+Phase I Epoch 57/150 | Step 180/181 | loss=0.5123 | focal=0.0105 | dice=0.5018
+Phase I Epoch 57/150 | Step 181/181 | loss=0.5125 | focal=0.0105 | dice=0.5020
+Phase I Epoch 057 | train_loss=0.5125 | val_loc_f1=0.933837 | threshold=0.85
+Phase I no improvement for 13 epoch(s). Best epoch=44
+
+Phase I epoch 58/150 | LR=0.00003512
+Phase I Epoch 58/150 | Step 20/181 | loss=0.5435 | focal=0.0128 | dice=0.5307
+Phase I Epoch 58/150 | Step 40/181 | loss=0.5513 | focal=0.0104 | dice=0.5409
+Phase I Epoch 58/150 | Step 60/181 | loss=0.5337 | focal=0.0109 | dice=0.5228
+Phase I Epoch 58/150 | Step 80/181 | loss=0.5054 | focal=0.0106 | dice=0.4948
+Phase I Epoch 58/150 | Step 100/181 | loss=0.4802 | focal=0.0104 | dice=0.4698
+Phase I Epoch 58/150 | Step 120/181 | loss=0.4902 | focal=0.0131 | dice=0.4772
+Phase I Epoch 58/150 | Step 140/181 | loss=0.4966 | focal=0.0124 | dice=0.4843
+Phase I Epoch 58/150 | Step 160/181 | loss=0.5039 | focal=0.0115 | dice=0.4924
+Phase I Epoch 58/150 | Step 180/181 | loss=0.5050 | focal=0.0114 | dice=0.4936
+Phase I Epoch 58/150 | Step 181/181 | loss=0.5077 | focal=0.0114 | dice=0.4964
+Phase I Epoch 058 | train_loss=0.5077 | val_loc_f1=0.930389 | threshold=0.80
+Phase I no improvement for 14 epoch(s). Best epoch=44
+
+Phase I epoch 59/150 | LR=0.00003463
+Phase I Epoch 59/150 | Step 20/181 | loss=0.5198 | focal=0.0113 | dice=0.5085
+Phase I Epoch 59/150 | Step 40/181 | loss=0.5049 | focal=0.0096 | dice=0.4953
+Phase I Epoch 59/150 | Step 60/181 | loss=0.5091 | focal=0.0091 | dice=0.5000
+Phase I Epoch 59/150 | Step 80/181 | loss=0.5166 | focal=0.0098 | dice=0.5068
+Phase I Epoch 59/150 | Step 100/181 | loss=0.5076 | focal=0.0099 | dice=0.4977
+Phase I Epoch 59/150 | Step 120/181 | loss=0.4893 | focal=0.0104 | dice=0.4789
+Phase I Epoch 59/150 | Step 140/181 | loss=0.4957 | focal=0.0100 | dice=0.4858
+Phase I Epoch 59/150 | Step 160/181 | loss=0.5001 | focal=0.0095 | dice=0.4905
+Phase I Epoch 59/150 | Step 180/181 | loss=0.4976 | focal=0.0097 | dice=0.4879
+Phase I Epoch 59/150 | Step 181/181 | loss=0.4978 | focal=0.0097 | dice=0.4881
+Phase I Epoch 059 | train_loss=0.4978 | val_loc_f1=0.932185 | threshold=0.70
+Phase I no improvement for 15 epoch(s). Best epoch=44
+
+Phase I epoch 60/150 | LR=0.00003413
+Phase I Epoch 60/150 | Step 20/181 | loss=0.4878 | focal=0.0079 | dice=0.4799
+Phase I Epoch 60/150 | Step 40/181 | loss=0.4894 | focal=0.0088 | dice=0.4805
+Phase I Epoch 60/150 | Step 60/181 | loss=0.5237 | focal=0.0100 | dice=0.5137
+Phase I Epoch 60/150 | Step 80/181 | loss=0.5097 | focal=0.0101 | dice=0.4996
+Phase I Epoch 60/150 | Step 100/181 | loss=0.5110 | focal=0.0111 | dice=0.4999
+Phase I Epoch 60/150 | Step 120/181 | loss=0.5075 | focal=0.0108 | dice=0.4967
+Phase I Epoch 60/150 | Step 140/181 | loss=0.5022 | focal=0.0104 | dice=0.4918
+Phase I Epoch 60/150 | Step 160/181 | loss=0.4951 | focal=0.0110 | dice=0.4841
+Phase I Epoch 60/150 | Step 180/181 | loss=0.4993 | focal=0.0114 | dice=0.4879
+Phase I Epoch 60/150 | Step 181/181 | loss=0.4994 | focal=0.0113 | dice=0.4881
+Phase I Epoch 060 | train_loss=0.4994 | val_loc_f1=0.930627 | threshold=0.80
+Phase I no improvement for 16 epoch(s). Best epoch=44
+
+Phase I epoch 61/150 | LR=0.00003363
+Phase I Epoch 61/150 | Step 20/181 | loss=0.4782 | focal=0.0114 | dice=0.4668
+Phase I Epoch 61/150 | Step 40/181 | loss=0.5342 | focal=0.0111 | dice=0.5231
+Phase I Epoch 61/150 | Step 60/181 | loss=0.5259 | focal=0.0103 | dice=0.5156
+Phase I Epoch 61/150 | Step 80/181 | loss=0.5619 | focal=0.0083 | dice=0.5537
+Phase I Epoch 61/150 | Step 100/181 | loss=0.5391 | focal=0.0093 | dice=0.5298
+Phase I Epoch 61/150 | Step 120/181 | loss=0.5236 | focal=0.0097 | dice=0.5138
+Phase I Epoch 61/150 | Step 140/181 | loss=0.5181 | focal=0.0093 | dice=0.5088
+Phase I Epoch 61/150 | Step 160/181 | loss=0.5091 | focal=0.0097 | dice=0.4995
+Phase I Epoch 61/150 | Step 180/181 | loss=0.5103 | focal=0.0097 | dice=0.5006
+Phase I Epoch 61/150 | Step 181/181 | loss=0.5079 | focal=0.0097 | dice=0.4981
+Phase I Epoch 061 | train_loss=0.5079 | val_loc_f1=0.935120 | threshold=0.75
+Phase I no improvement for 17 epoch(s). Best epoch=44
+
+Phase I epoch 62/150 | LR=0.00003313
+Phase I Epoch 62/150 | Step 20/181 | loss=0.5437 | focal=0.0097 | dice=0.5340
+Phase I Epoch 62/150 | Step 40/181 | loss=0.5272 | focal=0.0081 | dice=0.5191
+Phase I Epoch 62/150 | Step 60/181 | loss=0.5387 | focal=0.0087 | dice=0.5300
+Phase I Epoch 62/150 | Step 80/181 | loss=0.5337 | focal=0.0085 | dice=0.5251
+Phase I Epoch 62/150 | Step 100/181 | loss=0.5062 | focal=0.0091 | dice=0.4970
+Phase I Epoch 62/150 | Step 120/181 | loss=0.5038 | focal=0.0089 | dice=0.4949
+Phase I Epoch 62/150 | Step 140/181 | loss=0.5021 | focal=0.0090 | dice=0.4931
+Phase I Epoch 62/150 | Step 160/181 | loss=0.4948 | focal=0.0094 | dice=0.4854
+Phase I Epoch 62/150 | Step 180/181 | loss=0.4910 | focal=0.0092 | dice=0.4817
+Phase I Epoch 62/150 | Step 181/181 | loss=0.4914 | focal=0.0093 | dice=0.4820
+Phase I Epoch 062 | train_loss=0.4914 | val_loc_f1=0.933390 | threshold=0.75
+Phase I no improvement for 18 epoch(s). Best epoch=44
+
+Phase I epoch 63/150 | LR=0.00003262
+Phase I Epoch 63/150 | Step 20/181 | loss=0.4661 | focal=0.0064 | dice=0.4597
+Phase I Epoch 63/150 | Step 40/181 | loss=0.4404 | focal=0.0074 | dice=0.4330
+Phase I Epoch 63/150 | Step 60/181 | loss=0.4489 | focal=0.0070 | dice=0.4419
+Phase I Epoch 63/150 | Step 80/181 | loss=0.4759 | focal=0.0066 | dice=0.4693
+Phase I Epoch 63/150 | Step 100/181 | loss=0.4760 | focal=0.0082 | dice=0.4678
+Phase I Epoch 63/150 | Step 120/181 | loss=0.4667 | focal=0.0084 | dice=0.4584
+Phase I Epoch 63/150 | Step 140/181 | loss=0.4676 | focal=0.0087 | dice=0.4589
+Phase I Epoch 63/150 | Step 160/181 | loss=0.4738 | focal=0.0091 | dice=0.4646
+Phase I Epoch 63/150 | Step 180/181 | loss=0.4990 | focal=0.0091 | dice=0.4899
+Phase I Epoch 63/150 | Step 181/181 | loss=0.4991 | focal=0.0090 | dice=0.4901
+Phase I Epoch 063 | train_loss=0.4991 | val_loc_f1=0.934181 | threshold=0.80
+Phase I no improvement for 19 epoch(s). Best epoch=44
+
+Phase I epoch 64/150 | LR=0.00003211
+Phase I Epoch 64/150 | Step 20/181 | loss=0.4022 | focal=0.0125 | dice=0.3897
+Phase I Epoch 64/150 | Step 40/181 | loss=0.5042 | focal=0.0109 | dice=0.4933
+Phase I Epoch 64/150 | Step 60/181 | loss=0.4769 | focal=0.0112 | dice=0.4657
+Phase I Epoch 64/150 | Step 80/181 | loss=0.4502 | focal=0.0107 | dice=0.4395
+Phase I Epoch 64/150 | Step 100/181 | loss=0.4516 | focal=0.0099 | dice=0.4417
+Phase I Epoch 64/150 | Step 120/181 | loss=0.4462 | focal=0.0100 | dice=0.4362
+Phase I Epoch 64/150 | Step 140/181 | loss=0.4564 | focal=0.0101 | dice=0.4462
+Phase I Epoch 64/150 | Step 160/181 | loss=0.4757 | focal=0.0101 | dice=0.4656
+Phase I Epoch 64/150 | Step 180/181 | loss=0.4954 | focal=0.0096 | dice=0.4858
+Phase I Epoch 64/150 | Step 181/181 | loss=0.4982 | focal=0.0096 | dice=0.4887
+Phase I Epoch 064 | train_loss=0.4982 | val_loc_f1=0.932202 | threshold=0.80
+Phase I no improvement for 20 epoch(s). Best epoch=44
+
+Phase I epoch 65/150 | LR=0.00003160
+Phase I Epoch 65/150 | Step 20/181 | loss=0.5612 | focal=0.0104 | dice=0.5508
+Phase I Epoch 65/150 | Step 40/181 | loss=0.5011 | focal=0.0088 | dice=0.4923
+Phase I Epoch 65/150 | Step 60/181 | loss=0.4590 | focal=0.0102 | dice=0.4488
+Phase I Epoch 65/150 | Step 80/181 | loss=0.4910 | focal=0.0097 | dice=0.4813
+Phase I Epoch 65/150 | Step 100/181 | loss=0.4708 | focal=0.0095 | dice=0.4613
+Phase I Epoch 65/150 | Step 120/181 | loss=0.4952 | focal=0.0089 | dice=0.4863
+Phase I Epoch 65/150 | Step 140/181 | loss=0.4843 | focal=0.0103 | dice=0.4740
+Phase I Epoch 65/150 | Step 160/181 | loss=0.4853 | focal=0.0101 | dice=0.4752
+Phase I Epoch 65/150 | Step 180/181 | loss=0.4985 | focal=0.0098 | dice=0.4886
+Phase I Epoch 65/150 | Step 181/181 | loss=0.4986 | focal=0.0098 | dice=0.4888
+Phase I Epoch 065 | train_loss=0.4986 | val_loc_f1=0.933246 | threshold=0.65
+Phase I no improvement for 21 epoch(s). Best epoch=44
+
+Phase I epoch 66/150 | LR=0.00003108
+Phase I Epoch 66/150 | Step 20/181 | loss=0.5137 | focal=0.0096 | dice=0.5041
+Phase I Epoch 66/150 | Step 40/181 | loss=0.4895 | focal=0.0096 | dice=0.4800
+Phase I Epoch 66/150 | Step 60/181 | loss=0.5124 | focal=0.0087 | dice=0.5037
+Phase I Epoch 66/150 | Step 80/181 | loss=0.5251 | focal=0.0090 | dice=0.5161
+Phase I Epoch 66/150 | Step 100/181 | loss=0.4810 | focal=0.0097 | dice=0.4713
+Phase I Epoch 66/150 | Step 120/181 | loss=0.5027 | focal=0.0096 | dice=0.4931
+Phase I Epoch 66/150 | Step 140/181 | loss=0.4841 | focal=0.0096 | dice=0.4745
+Phase I Epoch 66/150 | Step 160/181 | loss=0.4932 | focal=0.0093 | dice=0.4839
+Phase I Epoch 66/150 | Step 180/181 | loss=0.4974 | focal=0.0102 | dice=0.4872
+Phase I Epoch 66/150 | Step 181/181 | loss=0.4978 | focal=0.0103 | dice=0.4875
+Phase I Epoch 066 | train_loss=0.4978 | val_loc_f1=0.934507 | threshold=0.75
+Phase I no improvement for 22 epoch(s). Best epoch=44
+
+Phase I epoch 67/150 | LR=0.00003056
+Phase I Epoch 67/150 | Step 20/181 | loss=0.5379 | focal=0.0061 | dice=0.5318
+Phase I Epoch 67/150 | Step 40/181 | loss=0.5822 | focal=0.0059 | dice=0.5763
+Phase I Epoch 67/150 | Step 60/181 | loss=0.5536 | focal=0.0064 | dice=0.5472
+Phase I Epoch 67/150 | Step 80/181 | loss=0.5255 | focal=0.0075 | dice=0.5180
+Phase I Epoch 67/150 | Step 100/181 | loss=0.5266 | focal=0.0074 | dice=0.5192
+Phase I Epoch 67/150 | Step 120/181 | loss=0.5241 | focal=0.0077 | dice=0.5163
+Phase I Epoch 67/150 | Step 140/181 | loss=0.5067 | focal=0.0085 | dice=0.4983
+Phase I Epoch 67/150 | Step 160/181 | loss=0.5164 | focal=0.0085 | dice=0.5079
+Phase I Epoch 67/150 | Step 180/181 | loss=0.4926 | focal=0.0091 | dice=0.4836
+Phase I Epoch 67/150 | Step 181/181 | loss=0.4904 | focal=0.0092 | dice=0.4812
+Phase I Epoch 067 | train_loss=0.4904 | val_loc_f1=0.934433 | threshold=0.70
+Phase I no improvement for 23 epoch(s). Best epoch=44
+
+Phase I epoch 68/150 | LR=0.00003004
+Phase I Epoch 68/150 | Step 20/181 | loss=0.5999 | focal=0.0049 | dice=0.5950
+Phase I Epoch 68/150 | Step 40/181 | loss=0.5351 | focal=0.0085 | dice=0.5266
+Phase I Epoch 68/150 | Step 60/181 | loss=0.5351 | focal=0.0086 | dice=0.5265
+Phase I Epoch 68/150 | Step 80/181 | loss=0.5176 | focal=0.0086 | dice=0.5091
+Phase I Epoch 68/150 | Step 100/181 | loss=0.5135 | focal=0.0090 | dice=0.5045
+Phase I Epoch 68/150 | Step 120/181 | loss=0.5048 | focal=0.0091 | dice=0.4957
+Phase I Epoch 68/150 | Step 140/181 | loss=0.5028 | focal=0.0091 | dice=0.4937
+Phase I Epoch 68/150 | Step 160/181 | loss=0.5029 | focal=0.0101 | dice=0.4928
+Phase I Epoch 68/150 | Step 180/181 | loss=0.5065 | focal=0.0097 | dice=0.4968
+Phase I Epoch 68/150 | Step 181/181 | loss=0.5066 | focal=0.0097 | dice=0.4969
+Phase I Epoch 068 | train_loss=0.5066 | val_loc_f1=0.935164 | threshold=0.80
+Phase I no improvement for 24 epoch(s). Best epoch=44
+
+Phase I epoch 69/150 | LR=0.00002952
+Phase I Epoch 69/150 | Step 20/181 | loss=0.6278 | focal=0.0071 | dice=0.6207
+Phase I Epoch 69/150 | Step 40/181 | loss=0.6006 | focal=0.0148 | dice=0.5859
+Phase I Epoch 69/150 | Step 60/181 | loss=0.5222 | focal=0.0139 | dice=0.5083
+Phase I Epoch 69/150 | Step 80/181 | loss=0.5367 | focal=0.0122 | dice=0.5245
+Phase I Epoch 69/150 | Step 100/181 | loss=0.5359 | focal=0.0126 | dice=0.5233
+Phase I Epoch 69/150 | Step 120/181 | loss=0.5275 | focal=0.0118 | dice=0.5158
+Phase I Epoch 69/150 | Step 140/181 | loss=0.5216 | focal=0.0111 | dice=0.5105
+Phase I Epoch 69/150 | Step 160/181 | loss=0.5171 | focal=0.0106 | dice=0.5065
+Phase I Epoch 69/150 | Step 180/181 | loss=0.5140 | focal=0.0103 | dice=0.5036
+Phase I Epoch 69/150 | Step 181/181 | loss=0.5142 | focal=0.0104 | dice=0.5038
+Phase I Epoch 069 | train_loss=0.5142 | val_loc_f1=0.933861 | threshold=0.75
+Phase I no improvement for 25 epoch(s). Best epoch=44
+
+Phase I epoch 70/150 | LR=0.00002899
+Phase I Epoch 70/150 | Step 20/181 | loss=0.4656 | focal=0.0078 | dice=0.4578
+Phase I Epoch 70/150 | Step 40/181 | loss=0.4882 | focal=0.0082 | dice=0.4800
+Phase I Epoch 70/150 | Step 60/181 | loss=0.4890 | focal=0.0091 | dice=0.4798
+Phase I Epoch 70/150 | Step 80/181 | loss=0.4753 | focal=0.0081 | dice=0.4671
+Phase I Epoch 70/150 | Step 100/181 | loss=0.4730 | focal=0.0086 | dice=0.4645
+Phase I Epoch 70/150 | Step 120/181 | loss=0.4880 | focal=0.0087 | dice=0.4793
+Phase I Epoch 70/150 | Step 140/181 | loss=0.4749 | focal=0.0092 | dice=0.4657
+Phase I Epoch 70/150 | Step 160/181 | loss=0.4880 | focal=0.0089 | dice=0.4791
+Phase I Epoch 70/150 | Step 180/181 | loss=0.4856 | focal=0.0090 | dice=0.4766
+Phase I Epoch 70/150 | Step 181/181 | loss=0.4860 | focal=0.0090 | dice=0.4769
+Phase I Epoch 070 | train_loss=0.4860 | val_loc_f1=0.929364 | threshold=0.75
+Phase I no improvement for 26 epoch(s). Best epoch=44
+
+Phase I epoch 71/150 | LR=0.00002846
+Phase I Epoch 71/150 | Step 20/181 | loss=0.5983 | focal=0.0057 | dice=0.5925
+Phase I Epoch 71/150 | Step 40/181 | loss=0.6004 | focal=0.0064 | dice=0.5940
+Phase I Epoch 71/150 | Step 60/181 | loss=0.5783 | focal=0.0067 | dice=0.5715
+Phase I Epoch 71/150 | Step 80/181 | loss=0.5454 | focal=0.0082 | dice=0.5372
+Phase I Epoch 71/150 | Step 100/181 | loss=0.5157 | focal=0.0087 | dice=0.5070
+Phase I Epoch 71/150 | Step 120/181 | loss=0.5308 | focal=0.0085 | dice=0.5223
+Phase I Epoch 71/150 | Step 140/181 | loss=0.5031 | focal=0.0097 | dice=0.4933
+Phase I Epoch 71/150 | Step 160/181 | loss=0.4961 | focal=0.0095 | dice=0.4865
+Phase I Epoch 71/150 | Step 180/181 | loss=0.4944 | focal=0.0092 | dice=0.4852
+Phase I Epoch 71/150 | Step 181/181 | loss=0.4919 | focal=0.0092 | dice=0.4827
+Phase I Epoch 071 | train_loss=0.4919 | val_loc_f1=0.934107 | threshold=0.70
+Phase I no improvement for 27 epoch(s). Best epoch=44
+
+Phase I epoch 72/150 | LR=0.00002793
+Phase I Epoch 72/150 | Step 20/181 | loss=0.3889 | focal=0.0241 | dice=0.3648
+Phase I Epoch 72/150 | Step 40/181 | loss=0.4640 | focal=0.0161 | dice=0.4479
+Phase I Epoch 72/150 | Step 60/181 | loss=0.5098 | focal=0.0124 | dice=0.4974
+Phase I Epoch 72/150 | Step 80/181 | loss=0.4861 | focal=0.0113 | dice=0.4748
+Phase I Epoch 72/150 | Step 100/181 | loss=0.5001 | focal=0.0102 | dice=0.4899
+Phase I Epoch 72/150 | Step 120/181 | loss=0.4835 | focal=0.0111 | dice=0.4724
+Phase I Epoch 72/150 | Step 140/181 | loss=0.4971 | focal=0.0103 | dice=0.4868
+Phase I Epoch 72/150 | Step 160/181 | loss=0.4908 | focal=0.0100 | dice=0.4808
+Phase I Epoch 72/150 | Step 180/181 | loss=0.4872 | focal=0.0098 | dice=0.4774
+Phase I Epoch 72/150 | Step 181/181 | loss=0.4874 | focal=0.0098 | dice=0.4776
+Phase I Epoch 072 | train_loss=0.4874 | val_loc_f1=0.933864 | threshold=0.80
+Phase I no improvement for 28 epoch(s). Best epoch=44
+
+Phase I epoch 73/150 | LR=0.00002740
+Phase I Epoch 73/150 | Step 20/181 | loss=0.6109 | focal=0.0065 | dice=0.6044
+Phase I Epoch 73/150 | Step 40/181 | loss=0.6205 | focal=0.0066 | dice=0.6139
+Phase I Epoch 73/150 | Step 60/181 | loss=0.6081 | focal=0.0126 | dice=0.5954
+Phase I Epoch 73/150 | Step 80/181 | loss=0.5651 | focal=0.0127 | dice=0.5524
+Phase I Epoch 73/150 | Step 100/181 | loss=0.5451 | focal=0.0127 | dice=0.5324
+Phase I Epoch 73/150 | Step 120/181 | loss=0.5397 | focal=0.0120 | dice=0.5277
+Phase I Epoch 73/150 | Step 140/181 | loss=0.5264 | focal=0.0115 | dice=0.5149
+Phase I Epoch 73/150 | Step 160/181 | loss=0.5161 | focal=0.0112 | dice=0.5049
+Phase I Epoch 73/150 | Step 180/181 | loss=0.5051 | focal=0.0109 | dice=0.4941
+Phase I Epoch 73/150 | Step 181/181 | loss=0.5051 | focal=0.0109 | dice=0.4942
+Phase I Epoch 073 | train_loss=0.5051 | val_loc_f1=0.933667 | threshold=0.75
+Phase I no improvement for 29 epoch(s). Best epoch=44
+
+Phase I epoch 74/150 | LR=0.00002687
+Phase I Epoch 74/150 | Step 20/181 | loss=0.4882 | focal=0.0098 | dice=0.4784
+Phase I Epoch 74/150 | Step 40/181 | loss=0.5066 | focal=0.0125 | dice=0.4941
+Phase I Epoch 74/150 | Step 60/181 | loss=0.5175 | focal=0.0141 | dice=0.5034
+Phase I Epoch 74/150 | Step 80/181 | loss=0.4864 | focal=0.0139 | dice=0.4725
+Phase I Epoch 74/150 | Step 100/181 | loss=0.4638 | focal=0.0126 | dice=0.4511
+Phase I Epoch 74/150 | Step 120/181 | loss=0.4791 | focal=0.0118 | dice=0.4673
+Phase I Epoch 74/150 | Step 140/181 | loss=0.4973 | focal=0.0111 | dice=0.4862
+Phase I Epoch 74/150 | Step 160/181 | loss=0.4976 | focal=0.0113 | dice=0.4863
+Phase I Epoch 74/150 | Step 180/181 | loss=0.4984 | focal=0.0106 | dice=0.4878
+Phase I Epoch 74/150 | Step 181/181 | loss=0.5012 | focal=0.0105 | dice=0.4906
+Phase I Epoch 074 | train_loss=0.5012 | val_loc_f1=0.932940 | threshold=0.70
+Phase I no improvement for 30 epoch(s). Best epoch=44
+
+Phase I epoch 75/150 | LR=0.00002634
+Phase I Epoch 75/150 | Step 20/181 | loss=0.4646 | focal=0.0126 | dice=0.4520
+Phase I Epoch 75/150 | Step 40/181 | loss=0.4789 | focal=0.0122 | dice=0.4667
+Phase I Epoch 75/150 | Step 60/181 | loss=0.5040 | focal=0.0098 | dice=0.4942
+Phase I Epoch 75/150 | Step 80/181 | loss=0.4929 | focal=0.0091 | dice=0.4838
+Phase I Epoch 75/150 | Step 100/181 | loss=0.4760 | focal=0.0085 | dice=0.4675
+Phase I Epoch 75/150 | Step 120/181 | loss=0.4861 | focal=0.0085 | dice=0.4777
+Phase I Epoch 75/150 | Step 140/181 | loss=0.4961 | focal=0.0083 | dice=0.4878
+Phase I Epoch 75/150 | Step 160/181 | loss=0.4852 | focal=0.0091 | dice=0.4761
+Phase I Epoch 75/150 | Step 180/181 | loss=0.4992 | focal=0.0093 | dice=0.4899
+Phase I Epoch 75/150 | Step 181/181 | loss=0.5020 | focal=0.0092 | dice=0.4927
+Phase I Epoch 075 | train_loss=0.5020 | val_loc_f1=0.929897 | threshold=0.80
+Phase I no improvement for 31 epoch(s). Best epoch=44
+
+Phase I epoch 76/150 | LR=0.00002580
+Phase I Epoch 76/150 | Step 20/181 | loss=0.4866 | focal=0.0073 | dice=0.4792
+Phase I Epoch 76/150 | Step 40/181 | loss=0.4973 | focal=0.0074 | dice=0.4899
+Phase I Epoch 76/150 | Step 60/181 | loss=0.5163 | focal=0.0067 | dice=0.5096
+Phase I Epoch 76/150 | Step 80/181 | loss=0.4978 | focal=0.0079 | dice=0.4899
+Phase I Epoch 76/150 | Step 100/181 | loss=0.4872 | focal=0.0083 | dice=0.4789
+Phase I Epoch 76/150 | Step 120/181 | loss=0.4830 | focal=0.0084 | dice=0.4746
+Phase I Epoch 76/150 | Step 140/181 | loss=0.4941 | focal=0.0086 | dice=0.4856
+Phase I Epoch 76/150 | Step 160/181 | loss=0.4986 | focal=0.0080 | dice=0.4907
+Phase I Epoch 76/150 | Step 180/181 | loss=0.4919 | focal=0.0080 | dice=0.4838
+Phase I Epoch 76/150 | Step 181/181 | loss=0.4922 | focal=0.0081 | dice=0.4841
+Phase I Epoch 076 | train_loss=0.4922 | val_loc_f1=0.931570 | threshold=0.80
+Phase I no improvement for 32 epoch(s). Best epoch=44
+
+Phase I epoch 77/150 | LR=0.00002527
+Phase I Epoch 77/150 | Step 20/181 | loss=0.6518 | focal=0.0070 | dice=0.6448
+Phase I Epoch 77/150 | Step 40/181 | loss=0.5370 | focal=0.0089 | dice=0.5281
+Phase I Epoch 77/150 | Step 60/181 | loss=0.4950 | focal=0.0077 | dice=0.4873
+Phase I Epoch 77/150 | Step 80/181 | loss=0.5166 | focal=0.0076 | dice=0.5090
+Phase I Epoch 77/150 | Step 100/181 | loss=0.5077 | focal=0.0087 | dice=0.4990
+Phase I Epoch 77/150 | Step 120/181 | loss=0.5006 | focal=0.0087 | dice=0.4919
+Phase I Epoch 77/150 | Step 140/181 | loss=0.5051 | focal=0.0088 | dice=0.4963
+Phase I Epoch 77/150 | Step 160/181 | loss=0.5000 | focal=0.0088 | dice=0.4912
+Phase I Epoch 77/150 | Step 180/181 | loss=0.5063 | focal=0.0086 | dice=0.4976
+Phase I Epoch 77/150 | Step 181/181 | loss=0.5040 | focal=0.0088 | dice=0.4953
+Phase I Epoch 077 | train_loss=0.5040 | val_loc_f1=0.934600 | threshold=0.75
+Phase I no improvement for 33 epoch(s). Best epoch=44
+
+Phase I epoch 78/150 | LR=0.00002473
+Phase I Epoch 78/150 | Step 20/181 | loss=0.4393 | focal=0.0087 | dice=0.4305
+Phase I Epoch 78/150 | Step 40/181 | loss=0.4820 | focal=0.0138 | dice=0.4682
+Phase I Epoch 78/150 | Step 60/181 | loss=0.4524 | focal=0.0121 | dice=0.4403
+Phase I Epoch 78/150 | Step 80/181 | loss=0.5014 | focal=0.0105 | dice=0.4909
+Phase I Epoch 78/150 | Step 100/181 | loss=0.4998 | focal=0.0106 | dice=0.4892
+Phase I Epoch 78/150 | Step 120/181 | loss=0.5105 | focal=0.0106 | dice=0.4999
+Phase I Epoch 78/150 | Step 140/181 | loss=0.5169 | focal=0.0101 | dice=0.5068
+Phase I Epoch 78/150 | Step 160/181 | loss=0.5017 | focal=0.0100 | dice=0.4917
+Phase I Epoch 78/150 | Step 180/181 | loss=0.4953 | focal=0.0102 | dice=0.4851
+Phase I Epoch 78/150 | Step 181/181 | loss=0.4981 | focal=0.0101 | dice=0.4880
+Phase I Epoch 078 | train_loss=0.4981 | val_loc_f1=0.933215 | threshold=0.75
+Phase I no improvement for 34 epoch(s). Best epoch=44
+
+Phase I epoch 79/150 | LR=0.00002420
+Phase I Epoch 79/150 | Step 20/181 | loss=0.4855 | focal=0.0093 | dice=0.4762
+Phase I Epoch 79/150 | Step 40/181 | loss=0.5214 | focal=0.0079 | dice=0.5135
+Phase I Epoch 79/150 | Step 60/181 | loss=0.5122 | focal=0.0090 | dice=0.5031
+Phase I Epoch 79/150 | Step 80/181 | loss=0.5052 | focal=0.0084 | dice=0.4968
+Phase I Epoch 79/150 | Step 100/181 | loss=0.4878 | focal=0.0089 | dice=0.4790
+Phase I Epoch 79/150 | Step 120/181 | loss=0.4874 | focal=0.0087 | dice=0.4787
+Phase I Epoch 79/150 | Step 140/181 | loss=0.5073 | focal=0.0084 | dice=0.4989
+Phase I Epoch 79/150 | Step 160/181 | loss=0.5068 | focal=0.0081 | dice=0.4987
+Phase I Epoch 79/150 | Step 180/181 | loss=0.4996 | focal=0.0081 | dice=0.4914
+Phase I Epoch 79/150 | Step 181/181 | loss=0.4998 | focal=0.0082 | dice=0.4916
+Phase I Epoch 079 | train_loss=0.4998 | val_loc_f1=0.933246 | threshold=0.75
+Phase I no improvement for 35 epoch(s). Best epoch=44
+
+Phase I epoch 80/150 | LR=0.00002366
+Phase I Epoch 80/150 | Step 20/181 | loss=0.5580 | focal=0.0075 | dice=0.5505
+Phase I Epoch 80/150 | Step 40/181 | loss=0.5605 | focal=0.0087 | dice=0.5518
+Phase I Epoch 80/150 | Step 60/181 | loss=0.5236 | focal=0.0077 | dice=0.5159
+Phase I Epoch 80/150 | Step 80/181 | loss=0.4993 | focal=0.0087 | dice=0.4906
+Phase I Epoch 80/150 | Step 100/181 | loss=0.5206 | focal=0.0082 | dice=0.5124
+Phase I Epoch 80/150 | Step 120/181 | loss=0.4996 | focal=0.0086 | dice=0.4910
+Phase I Epoch 80/150 | Step 140/181 | loss=0.5121 | focal=0.0088 | dice=0.5033
+Phase I Epoch 80/150 | Step 160/181 | loss=0.5006 | focal=0.0090 | dice=0.4916
+Phase I Epoch 80/150 | Step 180/181 | loss=0.4993 | focal=0.0089 | dice=0.4904
+Phase I Epoch 80/150 | Step 181/181 | loss=0.5020 | focal=0.0088 | dice=0.4932
+Phase I Epoch 080 | train_loss=0.5020 | val_loc_f1=0.934941 | threshold=0.70
+Phase I no improvement for 36 epoch(s). Best epoch=44
+
+Phase I epoch 81/150 | LR=0.00002313
+Phase I Epoch 81/150 | Step 20/181 | loss=0.5779 | focal=0.0065 | dice=0.5713
+Phase I Epoch 81/150 | Step 40/181 | loss=0.5816 | focal=0.0080 | dice=0.5735
+Phase I Epoch 81/150 | Step 60/181 | loss=0.5493 | focal=0.0083 | dice=0.5410
+Phase I Epoch 81/150 | Step 80/181 | loss=0.5609 | focal=0.0110 | dice=0.5499
+Phase I Epoch 81/150 | Step 100/181 | loss=0.5554 | focal=0.0103 | dice=0.5451
+Phase I Epoch 81/150 | Step 120/181 | loss=0.5451 | focal=0.0106 | dice=0.5345
+Phase I Epoch 81/150 | Step 140/181 | loss=0.5447 | focal=0.0106 | dice=0.5342
+Phase I Epoch 81/150 | Step 160/181 | loss=0.5383 | focal=0.0106 | dice=0.5277
+Phase I Epoch 81/150 | Step 180/181 | loss=0.5242 | focal=0.0101 | dice=0.5141
+Phase I Epoch 81/150 | Step 181/181 | loss=0.5242 | focal=0.0101 | dice=0.5141
+Phase I Epoch 081 | train_loss=0.5242 | val_loc_f1=0.934237 | threshold=0.70
+Phase I no improvement for 37 epoch(s). Best epoch=44
+
+Phase I epoch 82/150 | LR=0.00002260
+Phase I Epoch 82/150 | Step 20/181 | loss=0.4397 | focal=0.0087 | dice=0.4310
+Phase I Epoch 82/150 | Step 40/181 | loss=0.5474 | focal=0.0076 | dice=0.5399
+Phase I Epoch 82/150 | Step 60/181 | loss=0.5286 | focal=0.0087 | dice=0.5199
+Phase I Epoch 82/150 | Step 80/181 | loss=0.4942 | focal=0.0092 | dice=0.4850
+Phase I Epoch 82/150 | Step 100/181 | loss=0.5018 | focal=0.0088 | dice=0.4930
+Phase I Epoch 82/150 | Step 120/181 | loss=0.5025 | focal=0.0086 | dice=0.4939
+Phase I Epoch 82/150 | Step 140/181 | loss=0.5009 | focal=0.0084 | dice=0.4925
+Phase I Epoch 82/150 | Step 160/181 | loss=0.4945 | focal=0.0097 | dice=0.4848
+Phase I Epoch 82/150 | Step 180/181 | loss=0.5026 | focal=0.0096 | dice=0.4930
+Phase I Epoch 82/150 | Step 181/181 | loss=0.5005 | focal=0.0097 | dice=0.4907
+Phase I Epoch 082 | train_loss=0.5005 | val_loc_f1=0.935381 | threshold=0.70
+Phase I no improvement for 38 epoch(s). Best epoch=44
+
+Phase I epoch 83/150 | LR=0.00002207
+Phase I Epoch 83/150 | Step 20/181 | loss=0.6308 | focal=0.0060 | dice=0.6248
+Phase I Epoch 83/150 | Step 40/181 | loss=0.5357 | focal=0.0064 | dice=0.5293
+Phase I Epoch 83/150 | Step 60/181 | loss=0.5429 | focal=0.0078 | dice=0.5351
+Phase I Epoch 83/150 | Step 80/181 | loss=0.5458 | focal=0.0072 | dice=0.5387
+Phase I Epoch 83/150 | Step 100/181 | loss=0.5058 | focal=0.0080 | dice=0.4979
+Phase I Epoch 83/150 | Step 120/181 | loss=0.5063 | focal=0.0082 | dice=0.4982
+Phase I Epoch 83/150 | Step 140/181 | loss=0.5131 | focal=0.0078 | dice=0.5053
+Phase I Epoch 83/150 | Step 160/181 | loss=0.5062 | focal=0.0077 | dice=0.4986
+Phase I Epoch 83/150 | Step 180/181 | loss=0.4945 | focal=0.0084 | dice=0.4861
+Phase I Epoch 83/150 | Step 181/181 | loss=0.4949 | focal=0.0085 | dice=0.4864
+Phase I Epoch 083 | train_loss=0.4949 | val_loc_f1=0.935452 | threshold=0.70
+Phase I no improvement for 39 epoch(s). Best epoch=44
+
+Phase I epoch 84/150 | LR=0.00002154
+Phase I Epoch 84/150 | Step 20/181 | loss=0.5136 | focal=0.0097 | dice=0.5039
+Phase I Epoch 84/150 | Step 40/181 | loss=0.5127 | focal=0.0091 | dice=0.5036
+Phase I Epoch 84/150 | Step 60/181 | loss=0.4848 | focal=0.0107 | dice=0.4741
+Phase I Epoch 84/150 | Step 80/181 | loss=0.4864 | focal=0.0109 | dice=0.4755
+Phase I Epoch 84/150 | Step 100/181 | loss=0.4915 | focal=0.0109 | dice=0.4806
+Phase I Epoch 84/150 | Step 120/181 | loss=0.5002 | focal=0.0116 | dice=0.4886
+Phase I Epoch 84/150 | Step 140/181 | loss=0.4986 | focal=0.0114 | dice=0.4872
+Phase I Epoch 84/150 | Step 160/181 | loss=0.4965 | focal=0.0108 | dice=0.4857
+Phase I Epoch 84/150 | Step 180/181 | loss=0.5079 | focal=0.0102 | dice=0.4977
+Phase I Epoch 84/150 | Step 181/181 | loss=0.5106 | focal=0.0101 | dice=0.5005
+Phase I Epoch 084 | train_loss=0.5106 | val_loc_f1=0.935076 | threshold=0.80
+Phase I no improvement for 40 epoch(s). Best epoch=44
+
+Phase I epoch 85/150 | LR=0.00002101
+Phase I Epoch 85/150 | Step 20/181 | loss=0.5143 | focal=0.0104 | dice=0.5039
+Phase I Epoch 85/150 | Step 40/181 | loss=0.5322 | focal=0.0130 | dice=0.5191
+Phase I Epoch 85/150 | Step 60/181 | loss=0.4931 | focal=0.0114 | dice=0.4816
+Phase I Epoch 85/150 | Step 80/181 | loss=0.4967 | focal=0.0104 | dice=0.4863
+Phase I Epoch 85/150 | Step 100/181 | loss=0.4767 | focal=0.0105 | dice=0.4661
+Phase I Epoch 85/150 | Step 120/181 | loss=0.4778 | focal=0.0097 | dice=0.4680
+Phase I Epoch 85/150 | Step 140/181 | loss=0.4823 | focal=0.0093 | dice=0.4731
+Phase I Epoch 85/150 | Step 160/181 | loss=0.4863 | focal=0.0089 | dice=0.4773
+Phase I Epoch 85/150 | Step 180/181 | loss=0.4935 | focal=0.0086 | dice=0.4849
+Phase I Epoch 85/150 | Step 181/181 | loss=0.4911 | focal=0.0087 | dice=0.4825
+Phase I Epoch 085 | train_loss=0.4911 | val_loc_f1=0.934638 | threshold=0.80
+Phase I no improvement for 41 epoch(s). Best epoch=44
+
+Phase I epoch 86/150 | LR=0.00002048
+Phase I Epoch 86/150 | Step 20/181 | loss=0.4865 | focal=0.0103 | dice=0.4762
+Phase I Epoch 86/150 | Step 40/181 | loss=0.4583 | focal=0.0110 | dice=0.4473
+Phase I Epoch 86/150 | Step 60/181 | loss=0.4528 | focal=0.0112 | dice=0.4416
+Phase I Epoch 86/150 | Step 80/181 | loss=0.4831 | focal=0.0095 | dice=0.4736
+Phase I Epoch 86/150 | Step 100/181 | loss=0.4891 | focal=0.0091 | dice=0.4800
+Phase I Epoch 86/150 | Step 120/181 | loss=0.4783 | focal=0.0102 | dice=0.4681
+Phase I Epoch 86/150 | Step 140/181 | loss=0.4857 | focal=0.0095 | dice=0.4763
+Phase I Epoch 86/150 | Step 160/181 | loss=0.4858 | focal=0.0093 | dice=0.4765
+Phase I Epoch 86/150 | Step 180/181 | loss=0.4910 | focal=0.0091 | dice=0.4819
+Phase I Epoch 86/150 | Step 181/181 | loss=0.4911 | focal=0.0091 | dice=0.4820
+Phase I Epoch 086 | train_loss=0.4911 | val_loc_f1=0.932253 | threshold=0.80
+Phase I no improvement for 42 epoch(s). Best epoch=44
+
+Phase I epoch 87/150 | LR=0.00001996
+Phase I Epoch 87/150 | Step 20/181 | loss=0.5866 | focal=0.0088 | dice=0.5778
+Phase I Epoch 87/150 | Step 40/181 | loss=0.4908 | focal=0.0083 | dice=0.4825
+Phase I Epoch 87/150 | Step 60/181 | loss=0.4811 | focal=0.0081 | dice=0.4730
+Phase I Epoch 87/150 | Step 80/181 | loss=0.4821 | focal=0.0075 | dice=0.4747
+Phase I Epoch 87/150 | Step 100/181 | loss=0.4919 | focal=0.0073 | dice=0.4845
+Phase I Epoch 87/150 | Step 120/181 | loss=0.4836 | focal=0.0076 | dice=0.4760
+Phase I Epoch 87/150 | Step 140/181 | loss=0.4879 | focal=0.0079 | dice=0.4800
+Phase I Epoch 87/150 | Step 160/181 | loss=0.5024 | focal=0.0079 | dice=0.4946
+Phase I Epoch 87/150 | Step 180/181 | loss=0.4909 | focal=0.0086 | dice=0.4823
+Phase I Epoch 87/150 | Step 181/181 | loss=0.4937 | focal=0.0085 | dice=0.4852
+Phase I Epoch 087 | train_loss=0.4937 | val_loc_f1=0.935832 | threshold=0.70
+Phase I no improvement for 43 epoch(s). Best epoch=44
+
+Phase I epoch 88/150 | LR=0.00001944
+Phase I Epoch 88/150 | Step 20/181 | loss=0.5087 | focal=0.0083 | dice=0.5004
+Phase I Epoch 88/150 | Step 40/181 | loss=0.5425 | focal=0.0069 | dice=0.5356
+Phase I Epoch 88/150 | Step 60/181 | loss=0.5246 | focal=0.0077 | dice=0.5169
+Phase I Epoch 88/150 | Step 80/181 | loss=0.5391 | focal=0.0074 | dice=0.5318
+Phase I Epoch 88/150 | Step 100/181 | loss=0.5249 | focal=0.0088 | dice=0.5161
+Phase I Epoch 88/150 | Step 120/181 | loss=0.4947 | focal=0.0090 | dice=0.4857
+Phase I Epoch 88/150 | Step 140/181 | loss=0.4947 | focal=0.0093 | dice=0.4854
+Phase I Epoch 88/150 | Step 160/181 | loss=0.4989 | focal=0.0091 | dice=0.4898
+Phase I Epoch 88/150 | Step 180/181 | loss=0.5017 | focal=0.0085 | dice=0.4931
+Phase I Epoch 88/150 | Step 181/181 | loss=0.4993 | focal=0.0086 | dice=0.4907
+Phase I Epoch 088 | train_loss=0.4993 | val_loc_f1=0.935164 | threshold=0.75
+Phase I no improvement for 44 epoch(s). Best epoch=44
+
+Phase I epoch 89/150 | LR=0.00001892
+Phase I Epoch 89/150 | Step 20/181 | loss=0.5363 | focal=0.0050 | dice=0.5313
+Phase I Epoch 89/150 | Step 40/181 | loss=0.5440 | focal=0.0055 | dice=0.5385
+Phase I Epoch 89/150 | Step 60/181 | loss=0.5175 | focal=0.0069 | dice=0.5106
+Phase I Epoch 89/150 | Step 80/181 | loss=0.5163 | focal=0.0075 | dice=0.5088
+Phase I Epoch 89/150 | Step 100/181 | loss=0.5166 | focal=0.0081 | dice=0.5085
+Phase I Epoch 89/150 | Step 120/181 | loss=0.5073 | focal=0.0079 | dice=0.4994
+Phase I Epoch 89/150 | Step 140/181 | loss=0.5124 | focal=0.0083 | dice=0.5041
+Phase I Epoch 89/150 | Step 160/181 | loss=0.5089 | focal=0.0082 | dice=0.5007
+Phase I Epoch 89/150 | Step 180/181 | loss=0.5004 | focal=0.0080 | dice=0.4924
+Phase I Epoch 89/150 | Step 181/181 | loss=0.5031 | focal=0.0079 | dice=0.4952
+Phase I Epoch 089 | train_loss=0.5031 | val_loc_f1=0.931819 | threshold=0.70
+Phase I no improvement for 45 epoch(s). Best epoch=44
+
+Phase I epoch 90/150 | LR=0.00001840
+Phase I Epoch 90/150 | Step 20/181 | loss=0.4085 | focal=0.0061 | dice=0.4023
+Phase I Epoch 90/150 | Step 40/181 | loss=0.4558 | focal=0.0063 | dice=0.4495
+Phase I Epoch 90/150 | Step 60/181 | loss=0.4819 | focal=0.0073 | dice=0.4746
+Phase I Epoch 90/150 | Step 80/181 | loss=0.4842 | focal=0.0087 | dice=0.4755
+Phase I Epoch 90/150 | Step 100/181 | loss=0.4668 | focal=0.0094 | dice=0.4574
+Phase I Epoch 90/150 | Step 120/181 | loss=0.4819 | focal=0.0090 | dice=0.4730
+Phase I Epoch 90/150 | Step 140/181 | loss=0.4935 | focal=0.0088 | dice=0.4847
+Phase I Epoch 90/150 | Step 160/181 | loss=0.4881 | focal=0.0094 | dice=0.4787
+Phase I Epoch 90/150 | Step 180/181 | loss=0.4962 | focal=0.0091 | dice=0.4871
+Phase I Epoch 90/150 | Step 181/181 | loss=0.4963 | focal=0.0090 | dice=0.4873
+Phase I Epoch 090 | train_loss=0.4963 | val_loc_f1=0.932630 | threshold=0.80
+Phase I no improvement for 46 epoch(s). Best epoch=44
+
+Phase I epoch 91/150 | LR=0.00001789
+Phase I Epoch 91/150 | Step 20/181 | loss=0.4152 | focal=0.0081 | dice=0.4070
+Phase I Epoch 91/150 | Step 40/181 | loss=0.4380 | focal=0.0090 | dice=0.4291
+Phase I Epoch 91/150 | Step 60/181 | loss=0.4616 | focal=0.0086 | dice=0.4530
+Phase I Epoch 91/150 | Step 80/181 | loss=0.4860 | focal=0.0074 | dice=0.4785
+Phase I Epoch 91/150 | Step 100/181 | loss=0.4910 | focal=0.0075 | dice=0.4834
+Phase I Epoch 91/150 | Step 120/181 | loss=0.4899 | focal=0.0076 | dice=0.4822
+Phase I Epoch 91/150 | Step 140/181 | loss=0.4921 | focal=0.0072 | dice=0.4849
+Phase I Epoch 91/150 | Step 160/181 | loss=0.5059 | focal=0.0071 | dice=0.4988
+Phase I Epoch 91/150 | Step 180/181 | loss=0.4890 | focal=0.0080 | dice=0.4809
+Phase I Epoch 91/150 | Step 181/181 | loss=0.4865 | focal=0.0080 | dice=0.4785
+Phase I Epoch 091 | train_loss=0.4865 | val_loc_f1=0.931348 | threshold=0.75
+Phase I no improvement for 47 epoch(s). Best epoch=44
+
+Phase I epoch 92/150 | LR=0.00001738
+Phase I Epoch 92/150 | Step 20/181 | loss=0.5423 | focal=0.0101 | dice=0.5321
+Phase I Epoch 92/150 | Step 40/181 | loss=0.5142 | focal=0.0090 | dice=0.5052
+Phase I Epoch 92/150 | Step 60/181 | loss=0.5192 | focal=0.0077 | dice=0.5115
+Phase I Epoch 92/150 | Step 80/181 | loss=0.5287 | focal=0.0078 | dice=0.5208
+Phase I Epoch 92/150 | Step 100/181 | loss=0.5337 | focal=0.0076 | dice=0.5260
+Phase I Epoch 92/150 | Step 120/181 | loss=0.5097 | focal=0.0077 | dice=0.5019
+Phase I Epoch 92/150 | Step 140/181 | loss=0.4961 | focal=0.0080 | dice=0.4881
+Phase I Epoch 92/150 | Step 160/181 | loss=0.4965 | focal=0.0090 | dice=0.4875
+Phase I Epoch 92/150 | Step 180/181 | loss=0.4992 | focal=0.0092 | dice=0.4900
+Phase I Epoch 92/150 | Step 181/181 | loss=0.4968 | focal=0.0092 | dice=0.4875
+Phase I Epoch 092 | train_loss=0.4968 | val_loc_f1=0.930408 | threshold=0.70
+Phase I no improvement for 48 epoch(s). Best epoch=44
+
+Phase I epoch 93/150 | LR=0.00001687
+Phase I Epoch 93/150 | Step 20/181 | loss=0.3920 | focal=0.0108 | dice=0.3813
+Phase I Epoch 93/150 | Step 40/181 | loss=0.4887 | focal=0.0104 | dice=0.4783
+Phase I Epoch 93/150 | Step 60/181 | loss=0.4644 | focal=0.0100 | dice=0.4545
+Phase I Epoch 93/150 | Step 80/181 | loss=0.4750 | focal=0.0090 | dice=0.4659
+Phase I Epoch 93/150 | Step 100/181 | loss=0.4903 | focal=0.0135 | dice=0.4768
+Phase I Epoch 93/150 | Step 120/181 | loss=0.4930 | focal=0.0123 | dice=0.4807
+Phase I Epoch 93/150 | Step 140/181 | loss=0.5091 | focal=0.0114 | dice=0.4976
+Phase I Epoch 93/150 | Step 160/181 | loss=0.5039 | focal=0.0117 | dice=0.4922
+Phase I Epoch 93/150 | Step 180/181 | loss=0.5041 | focal=0.0112 | dice=0.4929
+Phase I Epoch 93/150 | Step 181/181 | loss=0.5043 | focal=0.0112 | dice=0.4931
+Phase I Epoch 093 | train_loss=0.5043 | val_loc_f1=0.935523 | threshold=0.80
+Phase I no improvement for 49 epoch(s). Best epoch=44
+
+Phase I epoch 94/150 | LR=0.00001637
+Phase I Epoch 94/150 | Step 20/181 | loss=0.5588 | focal=0.0102 | dice=0.5486
+Phase I Epoch 94/150 | Step 40/181 | loss=0.4697 | focal=0.0078 | dice=0.4619
+Phase I Epoch 94/150 | Step 60/181 | loss=0.4732 | focal=0.0078 | dice=0.4654
+Phase I Epoch 94/150 | Step 80/181 | loss=0.4878 | focal=0.0079 | dice=0.4799
+Phase I Epoch 94/150 | Step 100/181 | loss=0.4924 | focal=0.0078 | dice=0.4846
+Phase I Epoch 94/150 | Step 120/181 | loss=0.4921 | focal=0.0081 | dice=0.4840
+Phase I Epoch 94/150 | Step 140/181 | loss=0.4910 | focal=0.0079 | dice=0.4831
+Phase I Epoch 94/150 | Step 160/181 | loss=0.4966 | focal=0.0080 | dice=0.4886
+Phase I Epoch 94/150 | Step 180/181 | loss=0.4901 | focal=0.0081 | dice=0.4819
+Phase I Epoch 94/150 | Step 181/181 | loss=0.4904 | focal=0.0081 | dice=0.4822
+Phase I Epoch 094 | train_loss=0.4904 | val_loc_f1=0.934553 | threshold=0.80
+Phase I no improvement for 50 epoch(s). Best epoch=44
+
+Phase I epoch 95/150 | LR=0.00001587
+Phase I Epoch 95/150 | Step 20/181 | loss=0.5541 | focal=0.0063 | dice=0.5478
+Phase I Epoch 95/150 | Step 40/181 | loss=0.4853 | focal=0.0091 | dice=0.4762
+Phase I Epoch 95/150 | Step 60/181 | loss=0.5030 | focal=0.0095 | dice=0.4935
+Phase I Epoch 95/150 | Step 80/181 | loss=0.5227 | focal=0.0089 | dice=0.5138
+Phase I Epoch 95/150 | Step 100/181 | loss=0.4922 | focal=0.0086 | dice=0.4836
+Phase I Epoch 95/150 | Step 120/181 | loss=0.4984 | focal=0.0083 | dice=0.4901
+Phase I Epoch 95/150 | Step 140/181 | loss=0.4935 | focal=0.0087 | dice=0.4848
+Phase I Epoch 95/150 | Step 160/181 | loss=0.5025 | focal=0.0092 | dice=0.4933
+Phase I Epoch 95/150 | Step 180/181 | loss=0.5046 | focal=0.0089 | dice=0.4958
+Phase I Epoch 95/150 | Step 181/181 | loss=0.5020 | focal=0.0088 | dice=0.4931
+Phase I Epoch 095 | train_loss=0.5020 | val_loc_f1=0.932574 | threshold=0.80
+Phase I no improvement for 51 epoch(s). Best epoch=44
+
+Phase I epoch 96/150 | LR=0.00001537
+Phase I Epoch 96/150 | Step 20/181 | loss=0.4977 | focal=0.0133 | dice=0.4843
+Phase I Epoch 96/150 | Step 40/181 | loss=0.5635 | focal=0.0107 | dice=0.5528
+Phase I Epoch 96/150 | Step 60/181 | loss=0.5260 | focal=0.0104 | dice=0.5156
+Phase I Epoch 96/150 | Step 80/181 | loss=0.5286 | focal=0.0100 | dice=0.5185
+Phase I Epoch 96/150 | Step 100/181 | loss=0.5388 | focal=0.0093 | dice=0.5295
+Phase I Epoch 96/150 | Step 120/181 | loss=0.5232 | focal=0.0097 | dice=0.5134
+Phase I Epoch 96/150 | Step 140/181 | loss=0.5142 | focal=0.0091 | dice=0.5051
+Phase I Epoch 96/150 | Step 160/181 | loss=0.5044 | focal=0.0091 | dice=0.4954
+Phase I Epoch 96/150 | Step 180/181 | loss=0.5152 | focal=0.0086 | dice=0.5066
+Phase I Epoch 96/150 | Step 181/181 | loss=0.5152 | focal=0.0086 | dice=0.5066
+Phase I Epoch 096 | train_loss=0.5152 | val_loc_f1=0.934289 | threshold=0.80
+Phase I no improvement for 52 epoch(s). Best epoch=44
+
+Phase I epoch 97/150 | LR=0.00001488
+Phase I Epoch 97/150 | Step 20/181 | loss=0.5365 | focal=0.0095 | dice=0.5270
+Phase I Epoch 97/150 | Step 40/181 | loss=0.5021 | focal=0.0099 | dice=0.4922
+Phase I Epoch 97/150 | Step 60/181 | loss=0.4727 | focal=0.0097 | dice=0.4630
+Phase I Epoch 97/150 | Step 80/181 | loss=0.4581 | focal=0.0095 | dice=0.4486
+Phase I Epoch 97/150 | Step 100/181 | loss=0.4827 | focal=0.0089 | dice=0.4738
+Phase I Epoch 97/150 | Step 120/181 | loss=0.4891 | focal=0.0089 | dice=0.4802
+Phase I Epoch 97/150 | Step 140/181 | loss=0.4988 | focal=0.0089 | dice=0.4899
+Phase I Epoch 97/150 | Step 160/181 | loss=0.4923 | focal=0.0090 | dice=0.4832
+Phase I Epoch 97/150 | Step 180/181 | loss=0.5041 | focal=0.0094 | dice=0.4947
+Phase I Epoch 97/150 | Step 181/181 | loss=0.5043 | focal=0.0093 | dice=0.4949
+Phase I Epoch 097 | train_loss=0.5043 | val_loc_f1=0.934855 | threshold=0.85
+Phase I no improvement for 53 epoch(s). Best epoch=44
+
+Phase I epoch 98/150 | LR=0.00001439
+Phase I Epoch 98/150 | Step 20/181 | loss=0.5330 | focal=0.0081 | dice=0.5250
+Phase I Epoch 98/150 | Step 40/181 | loss=0.5314 | focal=0.0074 | dice=0.5240
+Phase I Epoch 98/150 | Step 60/181 | loss=0.5438 | focal=0.0096 | dice=0.5342
+Phase I Epoch 98/150 | Step 80/181 | loss=0.5341 | focal=0.0087 | dice=0.5254
+Phase I Epoch 98/150 | Step 100/181 | loss=0.5096 | focal=0.0083 | dice=0.5013
+Phase I Epoch 98/150 | Step 120/181 | loss=0.5094 | focal=0.0086 | dice=0.5008
+Phase I Epoch 98/150 | Step 140/181 | loss=0.5128 | focal=0.0083 | dice=0.5044
+Phase I Epoch 98/150 | Step 160/181 | loss=0.5036 | focal=0.0083 | dice=0.4953
+Phase I Epoch 98/150 | Step 180/181 | loss=0.5031 | focal=0.0089 | dice=0.4942
+Phase I Epoch 98/150 | Step 181/181 | loss=0.5033 | focal=0.0089 | dice=0.4943
+Phase I Epoch 098 | train_loss=0.5033 | val_loc_f1=0.933827 | threshold=0.75
+Phase I no improvement for 54 epoch(s). Best epoch=44
+
+Phase I epoch 99/150 | LR=0.00001391
+Phase I Epoch 99/150 | Step 20/181 | loss=0.3850 | focal=0.0048 | dice=0.3803
+Phase I Epoch 99/150 | Step 40/181 | loss=0.4567 | focal=0.0051 | dice=0.4516
+Phase I Epoch 99/150 | Step 60/181 | loss=0.4739 | focal=0.0057 | dice=0.4682
+Phase I Epoch 99/150 | Step 80/181 | loss=0.5176 | focal=0.0062 | dice=0.5115
+Phase I Epoch 99/150 | Step 100/181 | loss=0.5165 | focal=0.0069 | dice=0.5096
+Phase I Epoch 99/150 | Step 120/181 | loss=0.5040 | focal=0.0076 | dice=0.4964
+Phase I Epoch 99/150 | Step 140/181 | loss=0.5052 | focal=0.0080 | dice=0.4971
+Phase I Epoch 99/150 | Step 160/181 | loss=0.5146 | focal=0.0079 | dice=0.5067
+Phase I Epoch 99/150 | Step 180/181 | loss=0.5032 | focal=0.0081 | dice=0.4950
+Phase I Epoch 99/150 | Step 181/181 | loss=0.5007 | focal=0.0081 | dice=0.4926
+Phase I Epoch 099 | train_loss=0.5007 | val_loc_f1=0.934392 | threshold=0.80
+Phase I no improvement for 55 epoch(s). Best epoch=44
+
+Phase I epoch 100/150 | LR=0.00001344
+Phase I Epoch 100/150 | Step 20/181 | loss=0.4905 | focal=0.0101 | dice=0.4803
+Phase I Epoch 100/150 | Step 40/181 | loss=0.5027 | focal=0.0098 | dice=0.4929
+Phase I Epoch 100/150 | Step 60/181 | loss=0.5036 | focal=0.0087 | dice=0.4949
+Phase I Epoch 100/150 | Step 80/181 | loss=0.5159 | focal=0.0081 | dice=0.5078
+Phase I Epoch 100/150 | Step 100/181 | loss=0.4998 | focal=0.0077 | dice=0.4921
+Phase I Epoch 100/150 | Step 120/181 | loss=0.5101 | focal=0.0080 | dice=0.5021
+Phase I Epoch 100/150 | Step 140/181 | loss=0.5039 | focal=0.0082 | dice=0.4957
+Phase I Epoch 100/150 | Step 160/181 | loss=0.5013 | focal=0.0082 | dice=0.4931
+Phase I Epoch 100/150 | Step 180/181 | loss=0.4941 | focal=0.0082 | dice=0.4858
+Phase I Epoch 100/150 | Step 181/181 | loss=0.4942 | focal=0.0082 | dice=0.4860
+Phase I Epoch 100 | train_loss=0.4942 | val_loc_f1=0.936703 | threshold=0.70
+Saved Phase I best checkpoint | epoch=100 | loc_f1=0.936703
+
+Phase I epoch 101/150 | LR=0.00001297
+Phase I Epoch 101/150 | Step 20/181 | loss=0.5284 | focal=0.0068 | dice=0.5216
+Phase I Epoch 101/150 | Step 40/181 | loss=0.4853 | focal=0.0097 | dice=0.4756
+Phase I Epoch 101/150 | Step 60/181 | loss=0.4921 | focal=0.0077 | dice=0.4843
+Phase I Epoch 101/150 | Step 80/181 | loss=0.5091 | focal=0.0081 | dice=0.5009
+Phase I Epoch 101/150 | Step 100/181 | loss=0.4757 | focal=0.0085 | dice=0.4672
+Phase I Epoch 101/150 | Step 120/181 | loss=0.4964 | focal=0.0080 | dice=0.4884
+Phase I Epoch 101/150 | Step 140/181 | loss=0.5036 | focal=0.0087 | dice=0.4949
+Phase I Epoch 101/150 | Step 160/181 | loss=0.5023 | focal=0.0092 | dice=0.4932
+Phase I Epoch 101/150 | Step 180/181 | loss=0.5041 | focal=0.0090 | dice=0.4950
+Phase I Epoch 101/150 | Step 181/181 | loss=0.5042 | focal=0.0090 | dice=0.4952
+Phase I Epoch 101 | train_loss=0.5042 | val_loc_f1=0.935643 | threshold=0.75
+Phase I no improvement for 1 epoch(s). Best epoch=100
+
+Phase I epoch 102/150 | LR=0.00001250
+Phase I Epoch 102/150 | Step 20/181 | loss=0.3915 | focal=0.0101 | dice=0.3814
+Phase I Epoch 102/150 | Step 40/181 | loss=0.4249 | focal=0.0085 | dice=0.4164
+Phase I Epoch 102/150 | Step 60/181 | loss=0.4472 | focal=0.0087 | dice=0.4385
+Phase I Epoch 102/150 | Step 80/181 | loss=0.4465 | focal=0.0092 | dice=0.4373
+Phase I Epoch 102/150 | Step 100/181 | loss=0.4487 | focal=0.0085 | dice=0.4402
+Phase I Epoch 102/150 | Step 120/181 | loss=0.4670 | focal=0.0086 | dice=0.4584
+Phase I Epoch 102/150 | Step 140/181 | loss=0.4745 | focal=0.0095 | dice=0.4650
+Phase I Epoch 102/150 | Step 160/181 | loss=0.4753 | focal=0.0090 | dice=0.4663
+Phase I Epoch 102/150 | Step 180/181 | loss=0.4897 | focal=0.0087 | dice=0.4809
+Phase I Epoch 102/150 | Step 181/181 | loss=0.4925 | focal=0.0087 | dice=0.4838
+Phase I Epoch 102 | train_loss=0.4925 | val_loc_f1=0.936338 | threshold=0.70
+Phase I no improvement for 2 epoch(s). Best epoch=100
+
+Phase I epoch 103/150 | LR=0.00001204
+Phase I Epoch 103/150 | Step 20/181 | loss=0.4348 | focal=0.0087 | dice=0.4261
+Phase I Epoch 103/150 | Step 40/181 | loss=0.5311 | focal=0.0074 | dice=0.5237
+Phase I Epoch 103/150 | Step 60/181 | loss=0.5144 | focal=0.0071 | dice=0.5073
+Phase I Epoch 103/150 | Step 80/181 | loss=0.5159 | focal=0.0075 | dice=0.5084
+Phase I Epoch 103/150 | Step 100/181 | loss=0.4914 | focal=0.0083 | dice=0.4831
+Phase I Epoch 103/150 | Step 120/181 | loss=0.4875 | focal=0.0084 | dice=0.4791
+Phase I Epoch 103/150 | Step 140/181 | loss=0.4968 | focal=0.0082 | dice=0.4886
+Phase I Epoch 103/150 | Step 160/181 | loss=0.5042 | focal=0.0081 | dice=0.4961
+Phase I Epoch 103/150 | Step 180/181 | loss=0.5015 | focal=0.0080 | dice=0.4935
+Phase I Epoch 103/150 | Step 181/181 | loss=0.5018 | focal=0.0081 | dice=0.4937
+Phase I Epoch 103 | train_loss=0.5018 | val_loc_f1=0.933740 | threshold=0.70
+Phase I no improvement for 3 epoch(s). Best epoch=100
+
+Phase I epoch 104/150 | LR=0.00001159
+Phase I Epoch 104/150 | Step 20/181 | loss=0.6027 | focal=0.0067 | dice=0.5960
+Phase I Epoch 104/150 | Step 40/181 | loss=0.5995 | focal=0.0054 | dice=0.5941
+Phase I Epoch 104/150 | Step 60/181 | loss=0.5557 | focal=0.0074 | dice=0.5484
+Phase I Epoch 104/150 | Step 80/181 | loss=0.5127 | focal=0.0072 | dice=0.5056
+Phase I Epoch 104/150 | Step 100/181 | loss=0.4798 | focal=0.0081 | dice=0.4717
+Phase I Epoch 104/150 | Step 120/181 | loss=0.4921 | focal=0.0078 | dice=0.4843
+Phase I Epoch 104/150 | Step 140/181 | loss=0.4787 | focal=0.0081 | dice=0.4706
+Phase I Epoch 104/150 | Step 160/181 | loss=0.4777 | focal=0.0083 | dice=0.4693
+Phase I Epoch 104/150 | Step 180/181 | loss=0.4888 | focal=0.0079 | dice=0.4808
+Phase I Epoch 104/150 | Step 181/181 | loss=0.4890 | focal=0.0079 | dice=0.4811
+Phase I Epoch 104 | train_loss=0.4890 | val_loc_f1=0.936902 | threshold=0.75
+Saved Phase I best checkpoint | epoch=104 | loc_f1=0.936902
+
+Phase I epoch 105/150 | LR=0.00001114
+Phase I Epoch 105/150 | Step 20/181 | loss=0.4870 | focal=0.0078 | dice=0.4792
+Phase I Epoch 105/150 | Step 40/181 | loss=0.4956 | focal=0.0091 | dice=0.4865
+Phase I Epoch 105/150 | Step 60/181 | loss=0.5376 | focal=0.0078 | dice=0.5298
+Phase I Epoch 105/150 | Step 80/181 | loss=0.5601 | focal=0.0074 | dice=0.5527
+Phase I Epoch 105/150 | Step 100/181 | loss=0.5321 | focal=0.0082 | dice=0.5239
+Phase I Epoch 105/150 | Step 120/181 | loss=0.5087 | focal=0.0084 | dice=0.5003
+Phase I Epoch 105/150 | Step 140/181 | loss=0.5020 | focal=0.0080 | dice=0.4939
+Phase I Epoch 105/150 | Step 160/181 | loss=0.5122 | focal=0.0082 | dice=0.5040
+Phase I Epoch 105/150 | Step 180/181 | loss=0.5121 | focal=0.0080 | dice=0.5041
+Phase I Epoch 105/150 | Step 181/181 | loss=0.5148 | focal=0.0080 | dice=0.5068
+Phase I Epoch 105 | train_loss=0.5148 | val_loc_f1=0.935876 | threshold=0.70
+Phase I no improvement for 1 epoch(s). Best epoch=104
+
+Phase I epoch 106/150 | LR=0.00001070
+Phase I Epoch 106/150 | Step 20/181 | loss=0.3949 | focal=0.0110 | dice=0.3839
+Phase I Epoch 106/150 | Step 40/181 | loss=0.4854 | focal=0.0095 | dice=0.4759
+Phase I Epoch 106/150 | Step 60/181 | loss=0.5172 | focal=0.0086 | dice=0.5086
+Phase I Epoch 106/150 | Step 80/181 | loss=0.5191 | focal=0.0126 | dice=0.5065
+Phase I Epoch 106/150 | Step 100/181 | loss=0.5316 | focal=0.0117 | dice=0.5199
+Phase I Epoch 106/150 | Step 120/181 | loss=0.5280 | focal=0.0110 | dice=0.5170
+Phase I Epoch 106/150 | Step 140/181 | loss=0.5221 | focal=0.0106 | dice=0.5115
+Phase I Epoch 106/150 | Step 160/181 | loss=0.4907 | focal=0.0104 | dice=0.4803
+Phase I Epoch 106/150 | Step 180/181 | loss=0.4952 | focal=0.0101 | dice=0.4851
+Phase I Epoch 106/150 | Step 181/181 | loss=0.4954 | focal=0.0101 | dice=0.4853
+Phase I Epoch 106 | train_loss=0.4954 | val_loc_f1=0.937780 | threshold=0.70
+Saved Phase I best checkpoint | epoch=106 | loc_f1=0.937780
+
+Phase I epoch 107/150 | LR=0.00001026
+Phase I Epoch 107/150 | Step 20/181 | loss=0.4135 | focal=0.0093 | dice=0.4042
+Phase I Epoch 107/150 | Step 40/181 | loss=0.4231 | focal=0.0082 | dice=0.4148
+Phase I Epoch 107/150 | Step 60/181 | loss=0.4350 | focal=0.0083 | dice=0.4267
+Phase I Epoch 107/150 | Step 80/181 | loss=0.4833 | focal=0.0076 | dice=0.4757
+Phase I Epoch 107/150 | Step 100/181 | loss=0.4847 | focal=0.0076 | dice=0.4771
+Phase I Epoch 107/150 | Step 120/181 | loss=0.4857 | focal=0.0085 | dice=0.4772
+Phase I Epoch 107/150 | Step 140/181 | loss=0.4837 | focal=0.0089 | dice=0.4748
+Phase I Epoch 107/150 | Step 160/181 | loss=0.4874 | focal=0.0092 | dice=0.4782
+Phase I Epoch 107/150 | Step 180/181 | loss=0.5129 | focal=0.0086 | dice=0.5043
+Phase I Epoch 107/150 | Step 181/181 | loss=0.5105 | focal=0.0086 | dice=0.5019
+Phase I Epoch 107 | train_loss=0.5105 | val_loc_f1=0.934772 | threshold=0.75
+Phase I no improvement for 1 epoch(s). Best epoch=106
+
+Phase I epoch 108/150 | LR=0.00000983
+Phase I Epoch 108/150 | Step 20/181 | loss=0.4141 | focal=0.0089 | dice=0.4051
+Phase I Epoch 108/150 | Step 40/181 | loss=0.4524 | focal=0.0114 | dice=0.4410
+Phase I Epoch 108/150 | Step 60/181 | loss=0.4898 | focal=0.0106 | dice=0.4792
+Phase I Epoch 108/150 | Step 80/181 | loss=0.5352 | focal=0.0091 | dice=0.5261
+Phase I Epoch 108/150 | Step 100/181 | loss=0.5240 | focal=0.0086 | dice=0.5154
+Phase I Epoch 108/150 | Step 120/181 | loss=0.5059 | focal=0.0089 | dice=0.4969
+Phase I Epoch 108/150 | Step 140/181 | loss=0.5061 | focal=0.0090 | dice=0.4971
+Phase I Epoch 108/150 | Step 160/181 | loss=0.5069 | focal=0.0090 | dice=0.4979
+Phase I Epoch 108/150 | Step 180/181 | loss=0.4947 | focal=0.0090 | dice=0.4857
+Phase I Epoch 108/150 | Step 181/181 | loss=0.4950 | focal=0.0090 | dice=0.4860
+Phase I Epoch 108 | train_loss=0.4950 | val_loc_f1=0.934829 | threshold=0.75
+Phase I no improvement for 2 epoch(s). Best epoch=106
+
+Phase I epoch 109/150 | LR=0.00000941
+Phase I Epoch 109/150 | Step 20/181 | loss=0.5092 | focal=0.0085 | dice=0.5007
+Phase I Epoch 109/150 | Step 40/181 | loss=0.4840 | focal=0.0081 | dice=0.4760
+Phase I Epoch 109/150 | Step 60/181 | loss=0.4923 | focal=0.0081 | dice=0.4842
+Phase I Epoch 109/150 | Step 80/181 | loss=0.4966 | focal=0.0079 | dice=0.4887
+Phase I Epoch 109/150 | Step 100/181 | loss=0.4794 | focal=0.0078 | dice=0.4716
+Phase I Epoch 109/150 | Step 120/181 | loss=0.4923 | focal=0.0074 | dice=0.4849
+Phase I Epoch 109/150 | Step 140/181 | loss=0.4974 | focal=0.0074 | dice=0.4900
+Phase I Epoch 109/150 | Step 160/181 | loss=0.4869 | focal=0.0076 | dice=0.4793
+Phase I Epoch 109/150 | Step 180/181 | loss=0.4842 | focal=0.0077 | dice=0.4765
+Phase I Epoch 109/150 | Step 181/181 | loss=0.4844 | focal=0.0077 | dice=0.4767
+Phase I Epoch 109 | train_loss=0.4844 | val_loc_f1=0.935435 | threshold=0.75
+Phase I no improvement for 3 epoch(s). Best epoch=106
+
+Phase I epoch 110/150 | LR=0.00000900
+Phase I Epoch 110/150 | Step 20/181 | loss=0.4295 | focal=0.0065 | dice=0.4230
+Phase I Epoch 110/150 | Step 40/181 | loss=0.4925 | focal=0.0072 | dice=0.4853
+Phase I Epoch 110/150 | Step 60/181 | loss=0.4625 | focal=0.0101 | dice=0.4524
+Phase I Epoch 110/150 | Step 80/181 | loss=0.4969 | focal=0.0086 | dice=0.4883
+Phase I Epoch 110/150 | Step 100/181 | loss=0.4856 | focal=0.0087 | dice=0.4768
+Phase I Epoch 110/150 | Step 120/181 | loss=0.4805 | focal=0.0084 | dice=0.4722
+Phase I Epoch 110/150 | Step 140/181 | loss=0.4810 | focal=0.0082 | dice=0.4728
+Phase I Epoch 110/150 | Step 160/181 | loss=0.4936 | focal=0.0083 | dice=0.4853
+Phase I Epoch 110/150 | Step 180/181 | loss=0.4984 | focal=0.0083 | dice=0.4901
+Phase I Epoch 110/150 | Step 181/181 | loss=0.4985 | focal=0.0083 | dice=0.4902
+Phase I Epoch 110 | train_loss=0.4985 | val_loc_f1=0.936815 | threshold=0.80
+Phase I no improvement for 4 epoch(s). Best epoch=106
+
+Phase I epoch 111/150 | LR=0.00000859
+Phase I Epoch 111/150 | Step 20/181 | loss=0.4449 | focal=0.0131 | dice=0.4318
+Phase I Epoch 111/150 | Step 40/181 | loss=0.4864 | focal=0.0094 | dice=0.4771
+Phase I Epoch 111/150 | Step 60/181 | loss=0.5001 | focal=0.0095 | dice=0.4906
+Phase I Epoch 111/150 | Step 80/181 | loss=0.5076 | focal=0.0088 | dice=0.4988
+Phase I Epoch 111/150 | Step 100/181 | loss=0.5004 | focal=0.0083 | dice=0.4921
+Phase I Epoch 111/150 | Step 120/181 | loss=0.5013 | focal=0.0080 | dice=0.4934
+Phase I Epoch 111/150 | Step 140/181 | loss=0.5040 | focal=0.0079 | dice=0.4960
+Phase I Epoch 111/150 | Step 160/181 | loss=0.4959 | focal=0.0081 | dice=0.4878
+Phase I Epoch 111/150 | Step 180/181 | loss=0.5134 | focal=0.0080 | dice=0.5053
+Phase I Epoch 111/150 | Step 181/181 | loss=0.5109 | focal=0.0081 | dice=0.5029
+Phase I Epoch 111 | train_loss=0.5109 | val_loc_f1=0.936247 | threshold=0.70
+Phase I no improvement for 5 epoch(s). Best epoch=106
+
+Phase I epoch 112/150 | LR=0.00000819
+Phase I Epoch 112/150 | Step 20/181 | loss=0.5593 | focal=0.0068 | dice=0.5526
+Phase I Epoch 112/150 | Step 40/181 | loss=0.5128 | focal=0.0098 | dice=0.5030
+Phase I Epoch 112/150 | Step 60/181 | loss=0.5259 | focal=0.0087 | dice=0.5171
+Phase I Epoch 112/150 | Step 80/181 | loss=0.5214 | focal=0.0087 | dice=0.5127
+Phase I Epoch 112/150 | Step 100/181 | loss=0.5085 | focal=0.0087 | dice=0.4998
+Phase I Epoch 112/150 | Step 120/181 | loss=0.5063 | focal=0.0096 | dice=0.4967
+Phase I Epoch 112/150 | Step 140/181 | loss=0.5232 | focal=0.0093 | dice=0.5139
+Phase I Epoch 112/150 | Step 160/181 | loss=0.5273 | focal=0.0088 | dice=0.5185
+Phase I Epoch 112/150 | Step 180/181 | loss=0.5199 | focal=0.0086 | dice=0.5113
+Phase I Epoch 112/150 | Step 181/181 | loss=0.5173 | focal=0.0086 | dice=0.5086
+Phase I Epoch 112 | train_loss=0.5173 | val_loc_f1=0.935823 | threshold=0.80
+Phase I no improvement for 6 epoch(s). Best epoch=106
+
+Phase I epoch 113/150 | LR=0.00000780
+Phase I Epoch 113/150 | Step 20/181 | loss=0.3846 | focal=0.0073 | dice=0.3774
+Phase I Epoch 113/150 | Step 40/181 | loss=0.4351 | focal=0.0075 | dice=0.4276
+Phase I Epoch 113/150 | Step 60/181 | loss=0.4430 | focal=0.0072 | dice=0.4358
+Phase I Epoch 113/150 | Step 80/181 | loss=0.4531 | focal=0.0073 | dice=0.4458
+Phase I Epoch 113/150 | Step 100/181 | loss=0.4580 | focal=0.0068 | dice=0.4512
+Phase I Epoch 113/150 | Step 120/181 | loss=0.4671 | focal=0.0072 | dice=0.4598
+Phase I Epoch 113/150 | Step 140/181 | loss=0.4665 | focal=0.0077 | dice=0.4589
+Phase I Epoch 113/150 | Step 160/181 | loss=0.4772 | focal=0.0076 | dice=0.4697
+Phase I Epoch 113/150 | Step 180/181 | loss=0.4794 | focal=0.0080 | dice=0.4714
+Phase I Epoch 113/150 | Step 181/181 | loss=0.4795 | focal=0.0080 | dice=0.4716
+Phase I Epoch 113 | train_loss=0.4795 | val_loc_f1=0.934048 | threshold=0.80
+Phase I no improvement for 7 epoch(s). Best epoch=106
+
+Phase I epoch 114/150 | LR=0.00000742
+Phase I Epoch 114/150 | Step 20/181 | loss=0.4610 | focal=0.0090 | dice=0.4521
+Phase I Epoch 114/150 | Step 40/181 | loss=0.4967 | focal=0.0090 | dice=0.4877
+Phase I Epoch 114/150 | Step 60/181 | loss=0.5000 | focal=0.0083 | dice=0.4917
+Phase I Epoch 114/150 | Step 80/181 | loss=0.4850 | focal=0.0090 | dice=0.4760
+Phase I Epoch 114/150 | Step 100/181 | loss=0.4626 | focal=0.0094 | dice=0.4533
+Phase I Epoch 114/150 | Step 120/181 | loss=0.4815 | focal=0.0086 | dice=0.4729
+Phase I Epoch 114/150 | Step 140/181 | loss=0.4827 | focal=0.0082 | dice=0.4745
+Phase I Epoch 114/150 | Step 160/181 | loss=0.5009 | focal=0.0079 | dice=0.4931
+Phase I Epoch 114/150 | Step 180/181 | loss=0.4966 | focal=0.0078 | dice=0.4888
+Phase I Epoch 114/150 | Step 181/181 | loss=0.4944 | focal=0.0078 | dice=0.4866
+Phase I Epoch 114 | train_loss=0.4944 | val_loc_f1=0.936812 | threshold=0.70
+Phase I no improvement for 8 epoch(s). Best epoch=106
+
+Phase I epoch 115/150 | LR=0.00000704
+Phase I Epoch 115/150 | Step 20/181 | loss=0.5783 | focal=0.0067 | dice=0.5716
+Phase I Epoch 115/150 | Step 40/181 | loss=0.5548 | focal=0.0075 | dice=0.5473
+Phase I Epoch 115/150 | Step 60/181 | loss=0.5159 | focal=0.0074 | dice=0.5085
+Phase I Epoch 115/150 | Step 80/181 | loss=0.5313 | focal=0.0070 | dice=0.5243
+Phase I Epoch 115/150 | Step 100/181 | loss=0.5122 | focal=0.0073 | dice=0.5050
+Phase I Epoch 115/150 | Step 120/181 | loss=0.4996 | focal=0.0073 | dice=0.4923
+Phase I Epoch 115/150 | Step 140/181 | loss=0.4974 | focal=0.0075 | dice=0.4899
+Phase I Epoch 115/150 | Step 160/181 | loss=0.5077 | focal=0.0074 | dice=0.5004
+Phase I Epoch 115/150 | Step 180/181 | loss=0.5006 | focal=0.0079 | dice=0.4926
+Phase I Epoch 115/150 | Step 181/181 | loss=0.5007 | focal=0.0079 | dice=0.4928
+Phase I Epoch 115 | train_loss=0.5007 | val_loc_f1=0.936396 | threshold=0.80
+Phase I no improvement for 9 epoch(s). Best epoch=106
+
+Phase I epoch 116/150 | LR=0.00000667
+Phase I Epoch 116/150 | Step 20/181 | loss=0.4832 | focal=0.0067 | dice=0.4765
+Phase I Epoch 116/150 | Step 40/181 | loss=0.4599 | focal=0.0071 | dice=0.4529
+Phase I Epoch 116/150 | Step 60/181 | loss=0.4517 | focal=0.0079 | dice=0.4438
+Phase I Epoch 116/150 | Step 80/181 | loss=0.4811 | focal=0.0078 | dice=0.4733
+Phase I Epoch 116/150 | Step 100/181 | loss=0.4957 | focal=0.0076 | dice=0.4881
+Phase I Epoch 116/150 | Step 120/181 | loss=0.4990 | focal=0.0085 | dice=0.4905
+Phase I Epoch 116/150 | Step 140/181 | loss=0.4936 | focal=0.0086 | dice=0.4850
+Phase I Epoch 116/150 | Step 160/181 | loss=0.4982 | focal=0.0082 | dice=0.4900
+Phase I Epoch 116/150 | Step 180/181 | loss=0.4911 | focal=0.0081 | dice=0.4830
+Phase I Epoch 116/150 | Step 181/181 | loss=0.4913 | focal=0.0081 | dice=0.4832
+Phase I Epoch 116 | train_loss=0.4913 | val_loc_f1=0.934474 | threshold=0.75
+Phase I no improvement for 10 epoch(s). Best epoch=106
+
+Phase I epoch 117/150 | LR=0.00000631
+Phase I Epoch 117/150 | Step 20/181 | loss=0.4348 | focal=0.0098 | dice=0.4250
+Phase I Epoch 117/150 | Step 40/181 | loss=0.4804 | focal=0.0078 | dice=0.4726
+Phase I Epoch 117/150 | Step 60/181 | loss=0.5023 | focal=0.0078 | dice=0.4945
+Phase I Epoch 117/150 | Step 80/181 | loss=0.5144 | focal=0.0073 | dice=0.5070
+Phase I Epoch 117/150 | Step 100/181 | loss=0.4978 | focal=0.0071 | dice=0.4907
+Phase I Epoch 117/150 | Step 120/181 | loss=0.5086 | focal=0.0077 | dice=0.5009
+Phase I Epoch 117/150 | Step 140/181 | loss=0.5024 | focal=0.0077 | dice=0.4947
+Phase I Epoch 117/150 | Step 160/181 | loss=0.4975 | focal=0.0078 | dice=0.4897
+Phase I Epoch 117/150 | Step 180/181 | loss=0.4883 | focal=0.0080 | dice=0.4803
+Phase I Epoch 117/150 | Step 181/181 | loss=0.4885 | focal=0.0080 | dice=0.4805
+Phase I Epoch 117 | train_loss=0.4885 | val_loc_f1=0.935426 | threshold=0.70
+Phase I no improvement for 11 epoch(s). Best epoch=106
+
+Phase I epoch 118/150 | LR=0.00000596
+Phase I Epoch 118/150 | Step 20/181 | loss=0.6273 | focal=0.0055 | dice=0.6218
+Phase I Epoch 118/150 | Step 40/181 | loss=0.5204 | focal=0.0073 | dice=0.5131
+Phase I Epoch 118/150 | Step 60/181 | loss=0.4612 | focal=0.0084 | dice=0.4528
+Phase I Epoch 118/150 | Step 80/181 | loss=0.4851 | focal=0.0088 | dice=0.4763
+Phase I Epoch 118/150 | Step 100/181 | loss=0.4904 | focal=0.0089 | dice=0.4816
+Phase I Epoch 118/150 | Step 120/181 | loss=0.4855 | focal=0.0089 | dice=0.4766
+Phase I Epoch 118/150 | Step 140/181 | loss=0.4747 | focal=0.0086 | dice=0.4661
+Phase I Epoch 118/150 | Step 160/181 | loss=0.4854 | focal=0.0085 | dice=0.4769
+Phase I Epoch 118/150 | Step 180/181 | loss=0.4951 | focal=0.0081 | dice=0.4871
+Phase I Epoch 118/150 | Step 181/181 | loss=0.4952 | focal=0.0080 | dice=0.4872
+Phase I Epoch 118 | train_loss=0.4952 | val_loc_f1=0.935378 | threshold=0.75
+Phase I no improvement for 12 epoch(s). Best epoch=106
+
+Phase I epoch 119/150 | LR=0.00000562
+Phase I Epoch 119/150 | Step 20/181 | loss=0.5101 | focal=0.0083 | dice=0.5018
+Phase I Epoch 119/150 | Step 40/181 | loss=0.4487 | focal=0.0081 | dice=0.4405
+Phase I Epoch 119/150 | Step 60/181 | loss=0.4670 | focal=0.0073 | dice=0.4597
+Phase I Epoch 119/150 | Step 80/181 | loss=0.5051 | focal=0.0062 | dice=0.4989
+Phase I Epoch 119/150 | Step 100/181 | loss=0.4825 | focal=0.0076 | dice=0.4749
+Phase I Epoch 119/150 | Step 120/181 | loss=0.4940 | focal=0.0072 | dice=0.4867
+Phase I Epoch 119/150 | Step 140/181 | loss=0.4967 | focal=0.0078 | dice=0.4889
+Phase I Epoch 119/150 | Step 160/181 | loss=0.4907 | focal=0.0082 | dice=0.4825
+Phase I Epoch 119/150 | Step 180/181 | loss=0.4880 | focal=0.0088 | dice=0.4792
+Phase I Epoch 119/150 | Step 181/181 | loss=0.4908 | focal=0.0088 | dice=0.4821
+Phase I Epoch 119 | train_loss=0.4908 | val_loc_f1=0.935060 | threshold=0.70
+Phase I no improvement for 13 epoch(s). Best epoch=106
+
+Phase I epoch 120/150 | LR=0.00000529
+Phase I Epoch 120/150 | Step 20/181 | loss=0.3647 | focal=0.0078 | dice=0.3570
+Phase I Epoch 120/150 | Step 40/181 | loss=0.3639 | focal=0.0081 | dice=0.3559
+Phase I Epoch 120/150 | Step 60/181 | loss=0.4356 | focal=0.0076 | dice=0.4281
+Phase I Epoch 120/150 | Step 80/181 | loss=0.4828 | focal=0.0070 | dice=0.4758
+Phase I Epoch 120/150 | Step 100/181 | loss=0.5079 | focal=0.0072 | dice=0.5006
+Phase I Epoch 120/150 | Step 120/181 | loss=0.5365 | focal=0.0074 | dice=0.5291
+Phase I Epoch 120/150 | Step 140/181 | loss=0.5128 | focal=0.0079 | dice=0.5049
+Phase I Epoch 120/150 | Step 160/181 | loss=0.5055 | focal=0.0078 | dice=0.4977
+Phase I Epoch 120/150 | Step 180/181 | loss=0.5008 | focal=0.0080 | dice=0.4928
+Phase I Epoch 120/150 | Step 181/181 | loss=0.5009 | focal=0.0079 | dice=0.4930
+Phase I Epoch 120 | train_loss=0.5009 | val_loc_f1=0.935888 | threshold=0.75
+Phase I no improvement for 14 epoch(s). Best epoch=106
+
+Phase I epoch 121/150 | LR=0.00000496
+Phase I Epoch 121/150 | Step 20/181 | loss=0.5355 | focal=0.0092 | dice=0.5263
+Phase I Epoch 121/150 | Step 40/181 | loss=0.5046 | focal=0.0112 | dice=0.4934
+Phase I Epoch 121/150 | Step 60/181 | loss=0.5123 | focal=0.0092 | dice=0.5030
+Phase I Epoch 121/150 | Step 80/181 | loss=0.5397 | focal=0.0082 | dice=0.5315
+Phase I Epoch 121/150 | Step 100/181 | loss=0.5182 | focal=0.0078 | dice=0.5104
+Phase I Epoch 121/150 | Step 120/181 | loss=0.5137 | focal=0.0080 | dice=0.5057
+Phase I Epoch 121/150 | Step 140/181 | loss=0.5018 | focal=0.0076 | dice=0.4942
+Phase I Epoch 121/150 | Step 160/181 | loss=0.5177 | focal=0.0076 | dice=0.5101
+Phase I Epoch 121/150 | Step 180/181 | loss=0.5003 | focal=0.0075 | dice=0.4928
+Phase I Epoch 121/150 | Step 181/181 | loss=0.5007 | focal=0.0077 | dice=0.4931
+Phase I Epoch 121 | train_loss=0.5007 | val_loc_f1=0.936018 | threshold=0.75
+Phase I no improvement for 15 epoch(s). Best epoch=106
+
+Phase I epoch 122/150 | LR=0.00000465
+Phase I Epoch 122/150 | Step 20/181 | loss=0.5085 | focal=0.0087 | dice=0.4998
+Phase I Epoch 122/150 | Step 40/181 | loss=0.4749 | focal=0.0092 | dice=0.4658
+Phase I Epoch 122/150 | Step 60/181 | loss=0.4542 | focal=0.0096 | dice=0.4446
+Phase I Epoch 122/150 | Step 80/181 | loss=0.4608 | focal=0.0087 | dice=0.4520
+Phase I Epoch 122/150 | Step 100/181 | loss=0.4751 | focal=0.0085 | dice=0.4666
+Phase I Epoch 122/150 | Step 120/181 | loss=0.4814 | focal=0.0085 | dice=0.4729
+Phase I Epoch 122/150 | Step 140/181 | loss=0.4820 | focal=0.0084 | dice=0.4737
+Phase I Epoch 122/150 | Step 160/181 | loss=0.4996 | focal=0.0080 | dice=0.4916
+Phase I Epoch 122/150 | Step 180/181 | loss=0.5038 | focal=0.0084 | dice=0.4954
+Phase I Epoch 122/150 | Step 181/181 | loss=0.5041 | focal=0.0085 | dice=0.4956
+Phase I Epoch 122 | train_loss=0.5041 | val_loc_f1=0.936152 | threshold=0.70
+Phase I no improvement for 16 epoch(s). Best epoch=106
+
+Phase I epoch 123/150 | LR=0.00000434
+Phase I Epoch 123/150 | Step 20/181 | loss=0.6475 | focal=0.0064 | dice=0.6411
+Phase I Epoch 123/150 | Step 40/181 | loss=0.6021 | focal=0.0069 | dice=0.5952
+Phase I Epoch 123/150 | Step 60/181 | loss=0.5640 | focal=0.0072 | dice=0.5567
+Phase I Epoch 123/150 | Step 80/181 | loss=0.5258 | focal=0.0072 | dice=0.5185
+Phase I Epoch 123/150 | Step 100/181 | loss=0.5165 | focal=0.0072 | dice=0.5094
+Phase I Epoch 123/150 | Step 120/181 | loss=0.5112 | focal=0.0073 | dice=0.5039
+Phase I Epoch 123/150 | Step 140/181 | loss=0.5145 | focal=0.0078 | dice=0.5067
+Phase I Epoch 123/150 | Step 160/181 | loss=0.5137 | focal=0.0076 | dice=0.5061
+Phase I Epoch 123/150 | Step 180/181 | loss=0.4972 | focal=0.0078 | dice=0.4894
+Phase I Epoch 123/150 | Step 181/181 | loss=0.4948 | focal=0.0078 | dice=0.4870
+Phase I Epoch 123 | train_loss=0.4948 | val_loc_f1=0.936800 | threshold=0.75
+Phase I no improvement for 17 epoch(s). Best epoch=106
+
+Phase I epoch 124/150 | LR=0.00000405
+Phase I Epoch 124/150 | Step 20/181 | loss=0.5329 | focal=0.0069 | dice=0.5260
+Phase I Epoch 124/150 | Step 40/181 | loss=0.5195 | focal=0.0068 | dice=0.5127
+Phase I Epoch 124/150 | Step 60/181 | loss=0.5218 | focal=0.0060 | dice=0.5159
+Phase I Epoch 124/150 | Step 80/181 | loss=0.5012 | focal=0.0065 | dice=0.4947
+Phase I Epoch 124/150 | Step 100/181 | loss=0.5129 | focal=0.0067 | dice=0.5062
+Phase I Epoch 124/150 | Step 120/181 | loss=0.5081 | focal=0.0067 | dice=0.5014
+Phase I Epoch 124/150 | Step 140/181 | loss=0.4902 | focal=0.0068 | dice=0.4834
+Phase I Epoch 124/150 | Step 160/181 | loss=0.4829 | focal=0.0074 | dice=0.4756
+Phase I Epoch 124/150 | Step 180/181 | loss=0.4884 | focal=0.0076 | dice=0.4809
+Phase I Epoch 124/150 | Step 181/181 | loss=0.4886 | focal=0.0076 | dice=0.4810
+Phase I Epoch 124 | train_loss=0.4886 | val_loc_f1=0.936807 | threshold=0.75
+Phase I no improvement for 18 epoch(s). Best epoch=106
+
+Phase I epoch 125/150 | LR=0.00000376
+Phase I Epoch 125/150 | Step 20/181 | loss=0.4852 | focal=0.0105 | dice=0.4746
+Phase I Epoch 125/150 | Step 40/181 | loss=0.4974 | focal=0.0088 | dice=0.4887
+Phase I Epoch 125/150 | Step 60/181 | loss=0.5045 | focal=0.0093 | dice=0.4952
+Phase I Epoch 125/150 | Step 80/181 | loss=0.5174 | focal=0.0088 | dice=0.5086
+Phase I Epoch 125/150 | Step 100/181 | loss=0.4967 | focal=0.0092 | dice=0.4875
+Phase I Epoch 125/150 | Step 120/181 | loss=0.4960 | focal=0.0090 | dice=0.4870
+Phase I Epoch 125/150 | Step 140/181 | loss=0.4978 | focal=0.0083 | dice=0.4895
+Phase I Epoch 125/150 | Step 160/181 | loss=0.5111 | focal=0.0082 | dice=0.5029
+Phase I Epoch 125/150 | Step 180/181 | loss=0.5082 | focal=0.0082 | dice=0.5000
+Phase I Epoch 125/150 | Step 181/181 | loss=0.5085 | focal=0.0081 | dice=0.5003
+Phase I Epoch 125 | train_loss=0.5085 | val_loc_f1=0.933659 | threshold=0.70
+Phase I no improvement for 19 epoch(s). Best epoch=106
+
+Phase I epoch 126/150 | LR=0.00000348
+Phase I Epoch 126/150 | Step 20/181 | loss=0.3984 | focal=0.0100 | dice=0.3884
+Phase I Epoch 126/150 | Step 40/181 | loss=0.5307 | focal=0.0085 | dice=0.5222
+Phase I Epoch 126/150 | Step 60/181 | loss=0.5313 | focal=0.0081 | dice=0.5232
+Phase I Epoch 126/150 | Step 80/181 | loss=0.5431 | focal=0.0079 | dice=0.5352
+Phase I Epoch 126/150 | Step 100/181 | loss=0.5403 | focal=0.0077 | dice=0.5326
+Phase I Epoch 126/150 | Step 120/181 | loss=0.5157 | focal=0.0083 | dice=0.5074
+Phase I Epoch 126/150 | Step 140/181 | loss=0.5204 | focal=0.0077 | dice=0.5127
+Phase I Epoch 126/150 | Step 160/181 | loss=0.5069 | focal=0.0077 | dice=0.4992
+Phase I Epoch 126/150 | Step 180/181 | loss=0.5018 | focal=0.0077 | dice=0.4942
+Phase I Epoch 126/150 | Step 181/181 | loss=0.4994 | focal=0.0077 | dice=0.4917
+Phase I Epoch 126 | train_loss=0.4994 | val_loc_f1=0.935468 | threshold=0.75
+Phase I no improvement for 20 epoch(s). Best epoch=106
+
+Phase I epoch 127/150 | LR=0.00000322
+Phase I Epoch 127/150 | Step 20/181 | loss=0.5760 | focal=0.0044 | dice=0.5716
+Phase I Epoch 127/150 | Step 40/181 | loss=0.5311 | focal=0.0074 | dice=0.5237
+Phase I Epoch 127/150 | Step 60/181 | loss=0.5403 | focal=0.0086 | dice=0.5317
+Phase I Epoch 127/150 | Step 80/181 | loss=0.5489 | focal=0.0078 | dice=0.5411
+Phase I Epoch 127/150 | Step 100/181 | loss=0.5218 | focal=0.0082 | dice=0.5137
+Phase I Epoch 127/150 | Step 120/181 | loss=0.5003 | focal=0.0085 | dice=0.4919
+Phase I Epoch 127/150 | Step 140/181 | loss=0.4940 | focal=0.0082 | dice=0.4858
+Phase I Epoch 127/150 | Step 160/181 | loss=0.4986 | focal=0.0081 | dice=0.4905
+Phase I Epoch 127/150 | Step 180/181 | loss=0.4950 | focal=0.0081 | dice=0.4869
+Phase I Epoch 127/150 | Step 181/181 | loss=0.4927 | focal=0.0082 | dice=0.4845
+Phase I Epoch 127 | train_loss=0.4927 | val_loc_f1=0.936722 | threshold=0.75
+Phase I no improvement for 21 epoch(s). Best epoch=106
+
+Phase I epoch 128/150 | LR=0.00000296
+Phase I Epoch 128/150 | Step 20/181 | loss=0.4630 | focal=0.0065 | dice=0.4565
+Phase I Epoch 128/150 | Step 40/181 | loss=0.4955 | focal=0.0063 | dice=0.4892
+Phase I Epoch 128/150 | Step 60/181 | loss=0.5474 | focal=0.0063 | dice=0.5411
+Phase I Epoch 128/150 | Step 80/181 | loss=0.5422 | focal=0.0062 | dice=0.5360
+Phase I Epoch 128/150 | Step 100/181 | loss=0.5315 | focal=0.0070 | dice=0.5245
+Phase I Epoch 128/150 | Step 120/181 | loss=0.5126 | focal=0.0074 | dice=0.5052
+Phase I Epoch 128/150 | Step 140/181 | loss=0.4951 | focal=0.0076 | dice=0.4875
+Phase I Epoch 128/150 | Step 160/181 | loss=0.4862 | focal=0.0084 | dice=0.4778
+Phase I Epoch 128/150 | Step 180/181 | loss=0.4992 | focal=0.0081 | dice=0.4911
+Phase I Epoch 128/150 | Step 181/181 | loss=0.4994 | focal=0.0081 | dice=0.4913
+Phase I Epoch 128 | train_loss=0.4994 | val_loc_f1=0.934294 | threshold=0.70
+Phase I no improvement for 22 epoch(s). Best epoch=106
+
+Phase I epoch 129/150 | LR=0.00000271
+Phase I Epoch 129/150 | Step 20/181 | loss=0.4888 | focal=0.0090 | dice=0.4797
+Phase I Epoch 129/150 | Step 40/181 | loss=0.4614 | focal=0.0083 | dice=0.4532
+Phase I Epoch 129/150 | Step 60/181 | loss=0.4602 | focal=0.0077 | dice=0.4525
+Phase I Epoch 129/150 | Step 80/181 | loss=0.4774 | focal=0.0077 | dice=0.4696
+Phase I Epoch 129/150 | Step 100/181 | loss=0.4692 | focal=0.0078 | dice=0.4614
+Phase I Epoch 129/150 | Step 120/181 | loss=0.4629 | focal=0.0083 | dice=0.4546
+Phase I Epoch 129/150 | Step 140/181 | loss=0.4899 | focal=0.0079 | dice=0.4821
+Phase I Epoch 129/150 | Step 160/181 | loss=0.4913 | focal=0.0078 | dice=0.4835
+Phase I Epoch 129/150 | Step 180/181 | loss=0.4955 | focal=0.0077 | dice=0.4878
+Phase I Epoch 129/150 | Step 181/181 | loss=0.4931 | focal=0.0077 | dice=0.4854
+Phase I Epoch 129 | train_loss=0.4931 | val_loc_f1=0.934689 | threshold=0.75
+Phase I no improvement for 23 epoch(s). Best epoch=106
+
+Phase I epoch 130/150 | LR=0.00000248
+Phase I Epoch 130/150 | Step 20/181 | loss=0.4625 | focal=0.0092 | dice=0.4534
+Phase I Epoch 130/150 | Step 40/181 | loss=0.4861 | focal=0.0093 | dice=0.4768
+Phase I Epoch 130/150 | Step 60/181 | loss=0.4850 | focal=0.0084 | dice=0.4766
+Phase I Epoch 130/150 | Step 80/181 | loss=0.4964 | focal=0.0079 | dice=0.4884
+Phase I Epoch 130/150 | Step 100/181 | loss=0.4868 | focal=0.0092 | dice=0.4776
+Phase I Epoch 130/150 | Step 120/181 | loss=0.4943 | focal=0.0088 | dice=0.4856
+Phase I Epoch 130/150 | Step 140/181 | loss=0.4858 | focal=0.0086 | dice=0.4772
+Phase I Epoch 130/150 | Step 160/181 | loss=0.4947 | focal=0.0083 | dice=0.4863
+Phase I Epoch 130/150 | Step 180/181 | loss=0.5007 | focal=0.0080 | dice=0.4927
+Phase I Epoch 130/150 | Step 181/181 | loss=0.5011 | focal=0.0081 | dice=0.4930
+Phase I Epoch 130 | train_loss=0.5011 | val_loc_f1=0.934741 | threshold=0.75
+Phase I no improvement for 24 epoch(s). Best epoch=106
+
+Phase I epoch 131/150 | LR=0.00000225
+Phase I Epoch 131/150 | Step 20/181 | loss=0.4783 | focal=0.0052 | dice=0.4731
+Phase I Epoch 131/150 | Step 40/181 | loss=0.4701 | focal=0.0069 | dice=0.4632
+Phase I Epoch 131/150 | Step 60/181 | loss=0.4969 | focal=0.0060 | dice=0.4909
+Phase I Epoch 131/150 | Step 80/181 | loss=0.5354 | focal=0.0057 | dice=0.5298
+Phase I Epoch 131/150 | Step 100/181 | loss=0.5148 | focal=0.0062 | dice=0.5086
+Phase I Epoch 131/150 | Step 120/181 | loss=0.4963 | focal=0.0072 | dice=0.4891
+Phase I Epoch 131/150 | Step 140/181 | loss=0.4911 | focal=0.0074 | dice=0.4837
+Phase I Epoch 131/150 | Step 160/181 | loss=0.5005 | focal=0.0074 | dice=0.4931
+Phase I Epoch 131/150 | Step 180/181 | loss=0.5070 | focal=0.0076 | dice=0.4994
+Phase I Epoch 131/150 | Step 181/181 | loss=0.5049 | focal=0.0078 | dice=0.4971
+Phase I Epoch 131 | train_loss=0.5049 | val_loc_f1=0.937405 | threshold=0.70
+Phase I no improvement for 25 epoch(s). Best epoch=106
+
+Phase I epoch 132/150 | LR=0.00000203
+Phase I Epoch 132/150 | Step 20/181 | loss=0.4665 | focal=0.0097 | dice=0.4568
+Phase I Epoch 132/150 | Step 40/181 | loss=0.4718 | focal=0.0077 | dice=0.4641
+Phase I Epoch 132/150 | Step 60/181 | loss=0.5115 | focal=0.0070 | dice=0.5045
+Phase I Epoch 132/150 | Step 80/181 | loss=0.5013 | focal=0.0077 | dice=0.4936
+Phase I Epoch 132/150 | Step 100/181 | loss=0.4838 | focal=0.0083 | dice=0.4755
+Phase I Epoch 132/150 | Step 120/181 | loss=0.4751 | focal=0.0079 | dice=0.4673
+Phase I Epoch 132/150 | Step 140/181 | loss=0.4862 | focal=0.0077 | dice=0.4785
+Phase I Epoch 132/150 | Step 160/181 | loss=0.4953 | focal=0.0077 | dice=0.4876
+Phase I Epoch 132/150 | Step 180/181 | loss=0.4925 | focal=0.0084 | dice=0.4841
+Phase I Epoch 132/150 | Step 181/181 | loss=0.4929 | focal=0.0085 | dice=0.4844
+Phase I Epoch 132 | train_loss=0.4929 | val_loc_f1=0.935510 | threshold=0.70
+Phase I no improvement for 26 epoch(s). Best epoch=106
+
+Phase I epoch 133/150 | LR=0.00000183
+Phase I Epoch 133/150 | Step 20/181 | loss=0.3690 | focal=0.0106 | dice=0.3584
+Phase I Epoch 133/150 | Step 40/181 | loss=0.4621 | focal=0.0086 | dice=0.4535
+Phase I Epoch 133/150 | Step 60/181 | loss=0.4548 | focal=0.0091 | dice=0.4457
+Phase I Epoch 133/150 | Step 80/181 | loss=0.4556 | focal=0.0087 | dice=0.4470
+Phase I Epoch 133/150 | Step 100/181 | loss=0.4744 | focal=0.0082 | dice=0.4662
+Phase I Epoch 133/150 | Step 120/181 | loss=0.4676 | focal=0.0080 | dice=0.4596
+Phase I Epoch 133/150 | Step 140/181 | loss=0.4625 | focal=0.0079 | dice=0.4546
+Phase I Epoch 133/150 | Step 160/181 | loss=0.4799 | focal=0.0077 | dice=0.4722
+Phase I Epoch 133/150 | Step 180/181 | loss=0.4859 | focal=0.0077 | dice=0.4782
+Phase I Epoch 133/150 | Step 181/181 | loss=0.4836 | focal=0.0077 | dice=0.4760
+Phase I Epoch 133 | train_loss=0.4836 | val_loc_f1=0.934779 | threshold=0.75
+Phase I no improvement for 27 epoch(s). Best epoch=106
+
+Phase I epoch 134/150 | LR=0.00000163
+Phase I Epoch 134/150 | Step 20/181 | loss=0.5525 | focal=0.0069 | dice=0.5456
+Phase I Epoch 134/150 | Step 40/181 | loss=0.5177 | focal=0.0074 | dice=0.5103
+Phase I Epoch 134/150 | Step 60/181 | loss=0.5297 | focal=0.0077 | dice=0.5221
+Phase I Epoch 134/150 | Step 80/181 | loss=0.5221 | focal=0.0067 | dice=0.5153
+Phase I Epoch 134/150 | Step 100/181 | loss=0.5024 | focal=0.0073 | dice=0.4951
+Phase I Epoch 134/150 | Step 120/181 | loss=0.4909 | focal=0.0073 | dice=0.4836
+Phase I Epoch 134/150 | Step 140/181 | loss=0.4833 | focal=0.0076 | dice=0.4757
+Phase I Epoch 134/150 | Step 160/181 | loss=0.4957 | focal=0.0082 | dice=0.4875
+Phase I Epoch 134/150 | Step 180/181 | loss=0.4892 | focal=0.0080 | dice=0.4812
+Phase I Epoch 134/150 | Step 181/181 | loss=0.4874 | focal=0.0080 | dice=0.4793
+Phase I Epoch 134 | train_loss=0.4874 | val_loc_f1=0.934120 | threshold=0.70
+Phase I no improvement for 28 epoch(s). Best epoch=106
+
+Phase I epoch 135/150 | LR=0.00000145
+Phase I Epoch 135/150 | Step 20/181 | loss=0.4851 | focal=0.0080 | dice=0.4771
+Phase I Epoch 135/150 | Step 40/181 | loss=0.5203 | focal=0.0073 | dice=0.5130
+Phase I Epoch 135/150 | Step 60/181 | loss=0.5314 | focal=0.0067 | dice=0.5247
+Phase I Epoch 135/150 | Step 80/181 | loss=0.5182 | focal=0.0065 | dice=0.5117
+Phase I Epoch 135/150 | Step 100/181 | loss=0.5085 | focal=0.0075 | dice=0.5010
+Phase I Epoch 135/150 | Step 120/181 | loss=0.4848 | focal=0.0078 | dice=0.4770
+Phase I Epoch 135/150 | Step 140/181 | loss=0.4984 | focal=0.0076 | dice=0.4908
+Phase I Epoch 135/150 | Step 160/181 | loss=0.4959 | focal=0.0073 | dice=0.4886
+Phase I Epoch 135/150 | Step 180/181 | loss=0.4973 | focal=0.0074 | dice=0.4899
+Phase I Epoch 135/150 | Step 181/181 | loss=0.5001 | focal=0.0074 | dice=0.4927
+Phase I Epoch 135 | train_loss=0.5001 | val_loc_f1=0.934062 | threshold=0.70
+Phase I no improvement for 29 epoch(s). Best epoch=106
+
+Phase I epoch 136/150 | LR=0.00000127
+Phase I Epoch 136/150 | Step 20/181 | loss=0.5248 | focal=0.0049 | dice=0.5199
+Phase I Epoch 136/150 | Step 40/181 | loss=0.5298 | focal=0.0071 | dice=0.5227
+Phase I Epoch 136/150 | Step 60/181 | loss=0.4795 | focal=0.0100 | dice=0.4695
+Phase I Epoch 136/150 | Step 80/181 | loss=0.4873 | focal=0.0097 | dice=0.4776
+Phase I Epoch 136/150 | Step 100/181 | loss=0.4727 | focal=0.0102 | dice=0.4626
+Phase I Epoch 136/150 | Step 120/181 | loss=0.4777 | focal=0.0095 | dice=0.4683
+Phase I Epoch 136/150 | Step 140/181 | loss=0.4690 | focal=0.0096 | dice=0.4594
+Phase I Epoch 136/150 | Step 160/181 | loss=0.4819 | focal=0.0089 | dice=0.4729
+Phase I Epoch 136/150 | Step 180/181 | loss=0.4928 | focal=0.0088 | dice=0.4840
+Phase I Epoch 136/150 | Step 181/181 | loss=0.4931 | focal=0.0088 | dice=0.4842
+Phase I Epoch 136 | train_loss=0.4931 | val_loc_f1=0.937379 | threshold=0.75
+Phase I no improvement for 30 epoch(s). Best epoch=106
+
+Phase I epoch 137/150 | LR=0.00000111
+Phase I Epoch 137/150 | Step 20/181 | loss=0.3889 | focal=0.0086 | dice=0.3804
+Phase I Epoch 137/150 | Step 40/181 | loss=0.4517 | focal=0.0094 | dice=0.4423
+Phase I Epoch 137/150 | Step 60/181 | loss=0.4537 | focal=0.0089 | dice=0.4448
+Phase I Epoch 137/150 | Step 80/181 | loss=0.4722 | focal=0.0080 | dice=0.4642
+Phase I Epoch 137/150 | Step 100/181 | loss=0.4647 | focal=0.0078 | dice=0.4569
+Phase I Epoch 137/150 | Step 120/181 | loss=0.4676 | focal=0.0077 | dice=0.4599
+Phase I Epoch 137/150 | Step 140/181 | loss=0.4697 | focal=0.0076 | dice=0.4621
+Phase I Epoch 137/150 | Step 160/181 | loss=0.4652 | focal=0.0076 | dice=0.4576
+Phase I Epoch 137/150 | Step 180/181 | loss=0.4783 | focal=0.0077 | dice=0.4706
+Phase I Epoch 137/150 | Step 181/181 | loss=0.4759 | focal=0.0077 | dice=0.4683
+Phase I Epoch 137 | train_loss=0.4759 | val_loc_f1=0.933654 | threshold=0.70
+Phase I no improvement for 31 epoch(s). Best epoch=106
+
+Phase I epoch 138/150 | LR=0.00000096
+Phase I Epoch 138/150 | Step 20/181 | loss=0.4667 | focal=0.0089 | dice=0.4578
+Phase I Epoch 138/150 | Step 40/181 | loss=0.4995 | focal=0.0087 | dice=0.4908
+Phase I Epoch 138/150 | Step 60/181 | loss=0.5094 | focal=0.0077 | dice=0.5017
+Phase I Epoch 138/150 | Step 80/181 | loss=0.5090 | focal=0.0076 | dice=0.5015
+Phase I Epoch 138/150 | Step 100/181 | loss=0.5089 | focal=0.0076 | dice=0.5012
+Phase I Epoch 138/150 | Step 120/181 | loss=0.5004 | focal=0.0075 | dice=0.4929
+Phase I Epoch 138/150 | Step 140/181 | loss=0.4852 | focal=0.0080 | dice=0.4772
+Phase I Epoch 138/150 | Step 160/181 | loss=0.4852 | focal=0.0079 | dice=0.4773
+Phase I Epoch 138/150 | Step 180/181 | loss=0.4847 | focal=0.0077 | dice=0.4770
+Phase I Epoch 138/150 | Step 181/181 | loss=0.4822 | focal=0.0077 | dice=0.4745
+Phase I Epoch 138 | train_loss=0.4822 | val_loc_f1=0.934990 | threshold=0.70
+Phase I no improvement for 32 epoch(s). Best epoch=106
+
+Phase I epoch 139/150 | LR=0.00000082
+Phase I Epoch 139/150 | Step 20/181 | loss=0.4867 | focal=0.0084 | dice=0.4782
+Phase I Epoch 139/150 | Step 40/181 | loss=0.4740 | focal=0.0085 | dice=0.4655
+Phase I Epoch 139/150 | Step 60/181 | loss=0.4913 | focal=0.0073 | dice=0.4839
+Phase I Epoch 139/150 | Step 80/181 | loss=0.5071 | focal=0.0072 | dice=0.4999
+Phase I Epoch 139/150 | Step 100/181 | loss=0.4926 | focal=0.0073 | dice=0.4854
+Phase I Epoch 139/150 | Step 120/181 | loss=0.4953 | focal=0.0074 | dice=0.4879
+Phase I Epoch 139/150 | Step 140/181 | loss=0.5075 | focal=0.0073 | dice=0.5001
+Phase I Epoch 139/150 | Step 160/181 | loss=0.5048 | focal=0.0074 | dice=0.4974
+Phase I Epoch 139/150 | Step 180/181 | loss=0.4835 | focal=0.0077 | dice=0.4759
+Phase I Epoch 139/150 | Step 181/181 | loss=0.4864 | focal=0.0076 | dice=0.4788
+Phase I Epoch 139 | train_loss=0.4864 | val_loc_f1=0.935940 | threshold=0.75
+Phase I no improvement for 33 epoch(s). Best epoch=106
+
+Phase I epoch 140/150 | LR=0.00000069
+Phase I Epoch 140/150 | Step 20/181 | loss=0.5571 | focal=0.0066 | dice=0.5505
+Phase I Epoch 140/150 | Step 40/181 | loss=0.4610 | focal=0.0070 | dice=0.4539
+Phase I Epoch 140/150 | Step 60/181 | loss=0.4925 | focal=0.0072 | dice=0.4853
+Phase I Epoch 140/150 | Step 80/181 | loss=0.4838 | focal=0.0074 | dice=0.4764
+Phase I Epoch 140/150 | Step 100/181 | loss=0.4881 | focal=0.0072 | dice=0.4809
+Phase I Epoch 140/150 | Step 120/181 | loss=0.4952 | focal=0.0072 | dice=0.4880
+Phase I Epoch 140/150 | Step 140/181 | loss=0.4777 | focal=0.0082 | dice=0.4696
+Phase I Epoch 140/150 | Step 160/181 | loss=0.4907 | focal=0.0080 | dice=0.4827
+Phase I Epoch 140/150 | Step 180/181 | loss=0.4921 | focal=0.0078 | dice=0.4843
+Phase I Epoch 140/150 | Step 181/181 | loss=0.4923 | focal=0.0078 | dice=0.4846
+Phase I Epoch 140 | train_loss=0.4923 | val_loc_f1=0.935531 | threshold=0.75
+Phase I no improvement for 34 epoch(s). Best epoch=106
+
+Phase I epoch 141/150 | LR=0.00000057
+Phase I Epoch 141/150 | Step 20/181 | loss=0.4378 | focal=0.0096 | dice=0.4282
+Phase I Epoch 141/150 | Step 40/181 | loss=0.4461 | focal=0.0074 | dice=0.4388
+Phase I Epoch 141/150 | Step 60/181 | loss=0.4308 | focal=0.0090 | dice=0.4218
+Phase I Epoch 141/150 | Step 80/181 | loss=0.4670 | focal=0.0082 | dice=0.4588
+Phase I Epoch 141/150 | Step 100/181 | loss=0.4661 | focal=0.0084 | dice=0.4578
+Phase I Epoch 141/150 | Step 120/181 | loss=0.4764 | focal=0.0080 | dice=0.4684
+Phase I Epoch 141/150 | Step 140/181 | loss=0.4872 | focal=0.0077 | dice=0.4795
+Phase I Epoch 141/150 | Step 160/181 | loss=0.4962 | focal=0.0077 | dice=0.4885
+Phase I Epoch 141/150 | Step 180/181 | loss=0.4951 | focal=0.0075 | dice=0.4876
+Phase I Epoch 141/150 | Step 181/181 | loss=0.4979 | focal=0.0075 | dice=0.4904
+Phase I Epoch 141 | train_loss=0.4979 | val_loc_f1=0.935896 | threshold=0.70
+Phase I no improvement for 35 epoch(s). Best epoch=106
+
+Phase I epoch 142/150 | LR=0.00000046
+Phase I Epoch 142/150 | Step 20/181 | loss=0.4801 | focal=0.0054 | dice=0.4747
+Phase I Epoch 142/150 | Step 40/181 | loss=0.4846 | focal=0.0079 | dice=0.4766
+Phase I Epoch 142/150 | Step 60/181 | loss=0.4832 | focal=0.0074 | dice=0.4758
+Phase I Epoch 142/150 | Step 80/181 | loss=0.5048 | focal=0.0065 | dice=0.4983
+Phase I Epoch 142/150 | Step 100/181 | loss=0.4899 | focal=0.0064 | dice=0.4835
+Phase I Epoch 142/150 | Step 120/181 | loss=0.4732 | focal=0.0068 | dice=0.4664
+Phase I Epoch 142/150 | Step 140/181 | loss=0.4798 | focal=0.0072 | dice=0.4726
+Phase I Epoch 142/150 | Step 160/181 | loss=0.4829 | focal=0.0071 | dice=0.4758
+Phase I Epoch 142/150 | Step 180/181 | loss=0.4944 | focal=0.0075 | dice=0.4869
+Phase I Epoch 142/150 | Step 181/181 | loss=0.4972 | focal=0.0075 | dice=0.4898
+Phase I Epoch 142 | train_loss=0.4972 | val_loc_f1=0.937286 | threshold=0.75
+Phase I no improvement for 36 epoch(s). Best epoch=106
+
+Phase I epoch 143/150 | LR=0.00000036
+Phase I Epoch 143/150 | Step 20/181 | loss=0.5027 | focal=0.0060 | dice=0.4967
+Phase I Epoch 143/150 | Step 40/181 | loss=0.5060 | focal=0.0069 | dice=0.4991
+Phase I Epoch 143/150 | Step 60/181 | loss=0.5240 | focal=0.0074 | dice=0.5166
+Phase I Epoch 143/150 | Step 80/181 | loss=0.4995 | focal=0.0065 | dice=0.4930
+Phase I Epoch 143/150 | Step 100/181 | loss=0.4970 | focal=0.0070 | dice=0.4899
+Phase I Epoch 143/150 | Step 120/181 | loss=0.5073 | focal=0.0074 | dice=0.4999
+Phase I Epoch 143/150 | Step 140/181 | loss=0.5072 | focal=0.0076 | dice=0.4996
+Phase I Epoch 143/150 | Step 160/181 | loss=0.5069 | focal=0.0074 | dice=0.4995
+Phase I Epoch 143/150 | Step 180/181 | loss=0.4995 | focal=0.0077 | dice=0.4918
+Phase I Epoch 143/150 | Step 181/181 | loss=0.4970 | focal=0.0077 | dice=0.4893
+Phase I Epoch 143 | train_loss=0.4970 | val_loc_f1=0.937788 | threshold=0.75
+Saved Phase I best checkpoint | epoch=143 | loc_f1=0.937788
+
+Phase I epoch 144/150 | LR=0.00000028
+Phase I Epoch 144/150 | Step 20/181 | loss=0.5798 | focal=0.0060 | dice=0.5739
+Phase I Epoch 144/150 | Step 40/181 | loss=0.5247 | focal=0.0086 | dice=0.5161
+Phase I Epoch 144/150 | Step 60/181 | loss=0.4644 | focal=0.0089 | dice=0.4555
+Phase I Epoch 144/150 | Step 80/181 | loss=0.4760 | focal=0.0093 | dice=0.4668
+Phase I Epoch 144/150 | Step 100/181 | loss=0.4956 | focal=0.0085 | dice=0.4871
+Phase I Epoch 144/150 | Step 120/181 | loss=0.5092 | focal=0.0081 | dice=0.5012
+Phase I Epoch 144/150 | Step 140/181 | loss=0.4958 | focal=0.0082 | dice=0.4876
+Phase I Epoch 144/150 | Step 160/181 | loss=0.5004 | focal=0.0082 | dice=0.4922
+Phase I Epoch 144/150 | Step 180/181 | loss=0.4959 | focal=0.0082 | dice=0.4877
+Phase I Epoch 144/150 | Step 181/181 | loss=0.4987 | focal=0.0082 | dice=0.4905
+Phase I Epoch 144 | train_loss=0.4987 | val_loc_f1=0.934668 | threshold=0.75
+Phase I no improvement for 1 epoch(s). Best epoch=143
+
+Phase I epoch 145/150 | LR=0.00000021
+Phase I Epoch 145/150 | Step 20/181 | loss=0.4935 | focal=0.0099 | dice=0.4836
+Phase I Epoch 145/150 | Step 40/181 | loss=0.4885 | focal=0.0081 | dice=0.4804
+Phase I Epoch 145/150 | Step 60/181 | loss=0.5114 | focal=0.0085 | dice=0.5030
+Phase I Epoch 145/150 | Step 80/181 | loss=0.5230 | focal=0.0081 | dice=0.5149
+Phase I Epoch 145/150 | Step 100/181 | loss=0.5119 | focal=0.0085 | dice=0.5033
+Phase I Epoch 145/150 | Step 120/181 | loss=0.4913 | focal=0.0089 | dice=0.4823
+Phase I Epoch 145/150 | Step 140/181 | loss=0.4938 | focal=0.0088 | dice=0.4849
+Phase I Epoch 145/150 | Step 160/181 | loss=0.5012 | focal=0.0084 | dice=0.4927
+Phase I Epoch 145/150 | Step 180/181 | loss=0.4963 | focal=0.0083 | dice=0.4880
+Phase I Epoch 145/150 | Step 181/181 | loss=0.4940 | focal=0.0084 | dice=0.4856
+Phase I Epoch 145 | train_loss=0.4940 | val_loc_f1=0.933664 | threshold=0.75
+Phase I no improvement for 2 epoch(s). Best epoch=143
+
+Phase I epoch 146/150 | LR=0.00000014
+Phase I Epoch 146/150 | Step 20/181 | loss=0.6337 | focal=0.0130 | dice=0.6208
+Phase I Epoch 146/150 | Step 40/181 | loss=0.4889 | focal=0.0120 | dice=0.4769
+Phase I Epoch 146/150 | Step 60/181 | loss=0.4720 | focal=0.0106 | dice=0.4614
+Phase I Epoch 146/150 | Step 80/181 | loss=0.4922 | focal=0.0100 | dice=0.4822
+Phase I Epoch 146/150 | Step 100/181 | loss=0.5006 | focal=0.0098 | dice=0.4908
+Phase I Epoch 146/150 | Step 120/181 | loss=0.5024 | focal=0.0096 | dice=0.4928
+Phase I Epoch 146/150 | Step 140/181 | loss=0.5132 | focal=0.0090 | dice=0.5043
+Phase I Epoch 146/150 | Step 160/181 | loss=0.5080 | focal=0.0087 | dice=0.4993
+Phase I Epoch 146/150 | Step 180/181 | loss=0.5003 | focal=0.0086 | dice=0.4917
+Phase I Epoch 146/150 | Step 181/181 | loss=0.5031 | focal=0.0085 | dice=0.4945
+Phase I Epoch 146 | train_loss=0.5031 | val_loc_f1=0.934504 | threshold=0.75
+Phase I no improvement for 3 epoch(s). Best epoch=143
+
+Phase I epoch 147/150 | LR=0.00000009
+Phase I Epoch 147/150 | Step 20/181 | loss=0.4876 | focal=0.0097 | dice=0.4779
+Phase I Epoch 147/150 | Step 40/181 | loss=0.5300 | focal=0.0072 | dice=0.5228
+Phase I Epoch 147/150 | Step 60/181 | loss=0.5256 | focal=0.0089 | dice=0.5166
+Phase I Epoch 147/150 | Step 80/181 | loss=0.5040 | focal=0.0093 | dice=0.4947
+Phase I Epoch 147/150 | Step 100/181 | loss=0.5081 | focal=0.0085 | dice=0.4996
+Phase I Epoch 147/150 | Step 120/181 | loss=0.5090 | focal=0.0089 | dice=0.5001
+Phase I Epoch 147/150 | Step 140/181 | loss=0.5189 | focal=0.0085 | dice=0.5104
+Phase I Epoch 147/150 | Step 160/181 | loss=0.4998 | focal=0.0083 | dice=0.4915
+Phase I Epoch 147/150 | Step 180/181 | loss=0.4981 | focal=0.0082 | dice=0.4899
+Phase I Epoch 147/150 | Step 181/181 | loss=0.4983 | focal=0.0082 | dice=0.4901
+Phase I Epoch 147 | train_loss=0.4983 | val_loc_f1=0.935825 | threshold=0.75
+Phase I no improvement for 4 epoch(s). Best epoch=143
+
+Phase I epoch 148/150 | LR=0.00000005
+Phase I Epoch 148/150 | Step 20/181 | loss=0.4169 | focal=0.0082 | dice=0.4087
+Phase I Epoch 148/150 | Step 40/181 | loss=0.4507 | focal=0.0094 | dice=0.4413
+Phase I Epoch 148/150 | Step 60/181 | loss=0.4777 | focal=0.0088 | dice=0.4688
+Phase I Epoch 148/150 | Step 80/181 | loss=0.4843 | focal=0.0085 | dice=0.4758
+Phase I Epoch 148/150 | Step 100/181 | loss=0.4913 | focal=0.0084 | dice=0.4829
+Phase I Epoch 148/150 | Step 120/181 | loss=0.5026 | focal=0.0083 | dice=0.4943
+Phase I Epoch 148/150 | Step 140/181 | loss=0.5034 | focal=0.0081 | dice=0.4953
+Phase I Epoch 148/150 | Step 160/181 | loss=0.4983 | focal=0.0081 | dice=0.4902
+Phase I Epoch 148/150 | Step 180/181 | loss=0.4993 | focal=0.0082 | dice=0.4911
+Phase I Epoch 148/150 | Step 181/181 | loss=0.5020 | focal=0.0082 | dice=0.4939
+Phase I Epoch 148 | train_loss=0.5020 | val_loc_f1=0.935471 | threshold=0.65
+Phase I no improvement for 5 epoch(s). Best epoch=143
+
+Phase I epoch 149/150 | LR=0.00000002
+Phase I Epoch 149/150 | Step 20/181 | loss=0.4849 | focal=0.0083 | dice=0.4766
+Phase I Epoch 149/150 | Step 40/181 | loss=0.5319 | focal=0.0080 | dice=0.5239
+Phase I Epoch 149/150 | Step 60/181 | loss=0.4715 | focal=0.0089 | dice=0.4625
+Phase I Epoch 149/150 | Step 80/181 | loss=0.4630 | focal=0.0094 | dice=0.4536
+Phase I Epoch 149/150 | Step 100/181 | loss=0.4918 | focal=0.0089 | dice=0.4829
+Phase I Epoch 149/150 | Step 120/181 | loss=0.4971 | focal=0.0082 | dice=0.4889
+Phase I Epoch 149/150 | Step 140/181 | loss=0.5023 | focal=0.0081 | dice=0.4942
+Phase I Epoch 149/150 | Step 160/181 | loss=0.4990 | focal=0.0077 | dice=0.4913
+Phase I Epoch 149/150 | Step 180/181 | loss=0.4898 | focal=0.0080 | dice=0.4818
+Phase I Epoch 149/150 | Step 181/181 | loss=0.4901 | focal=0.0080 | dice=0.4821
+Phase I Epoch 149 | train_loss=0.4901 | val_loc_f1=0.936983 | threshold=0.75
+Phase I no improvement for 6 epoch(s). Best epoch=143
+
+Phase I epoch 150/150 | LR=0.00000001
+Phase I Epoch 150/150 | Step 20/181 | loss=0.4392 | focal=0.0075 | dice=0.4317
+Phase I Epoch 150/150 | Step 40/181 | loss=0.4326 | focal=0.0119 | dice=0.4207
+Phase I Epoch 150/150 | Step 60/181 | loss=0.4963 | focal=0.0099 | dice=0.4864
+Phase I Epoch 150/150 | Step 80/181 | loss=0.4813 | focal=0.0092 | dice=0.4721
+Phase I Epoch 150/150 | Step 100/181 | loss=0.5087 | focal=0.0082 | dice=0.5006
+Phase I Epoch 150/150 | Step 120/181 | loss=0.4996 | focal=0.0085 | dice=0.4911
+Phase I Epoch 150/150 | Step 140/181 | loss=0.4869 | focal=0.0083 | dice=0.4786
+Phase I Epoch 150/150 | Step 160/181 | loss=0.4952 | focal=0.0082 | dice=0.4870
+Phase I Epoch 150/150 | Step 180/181 | loss=0.5069 | focal=0.0081 | dice=0.4988
+Phase I Epoch 150/150 | Step 181/181 | loss=0.5043 | focal=0.0080 | dice=0.4963
+Phase I Epoch 150 | train_loss=0.5043 | val_loc_f1=0.933774 | threshold=0.70
+Phase I no improvement for 7 epoch(s). Best epoch=143
+Phase I done. Best epoch=143, best loc F1=0.937788, threshold=0.75
+Done.
+Fine-tuned Texas Phase-I checkpoint:
+-rw-r--r-- 1 j244s673 j244s673_users 133M Jun  5 09:47 /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/checkpoints/phase1_best.pt
+
+=======================================================
+STEP 2: xBD Phase-II weights -> fine-tune Phase II on Texas Tornadoes
+Using the newly fine-tuned Texas Phase-I checkpoint
+=======================================================
+Wrote runtime fine-tuning script: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/_runtime_train_texas_tornadoes_hrtbda_v5_phase2_finetune.py
+===== HRTBDA V5 MULTI-LABEL RARE-CROP CASCADED TRAINING =====
+Phase: phase2_test
+Resume Phase I from: none
+Existing Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/checkpoints/phase1_best.pt
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/checkpoints/phase2_best.pt
+Device: cuda
+xBD root: /homes/j244s673/documents/wsu/phd/texas_tornadoes_preprocessed
+Train split(s): ['train']
+Val split: val
+Test split: test
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest
+Phase I epochs: 150
+Phase II epochs: 30
+Batch size: 2
+Eval batch size: 1
+Gradient accumulation steps: 4
+Effective batch size: 8
+Image size: 1024
+Phase II crop size: 608
+Crop candidate count: 8
+LR: 5e-05
+Weight decay: 0.0001
+Base channels: 48
+Decoder channels: 128
+Window size: 8
+Focal gamma: 2.0
+Max grad norm: 1.0
+Warmup epochs: 3
+Architecture: HRTBDA v5 4-branch HRNet-style + DCSwin + CSF fusion
+Damage head: 4 independent sigmoid channels + auxiliary localization head
+Final inference: Phase I mask gives localization; Phase II predicts 4 foreground damage classes.
+Postprocess dilation: minor
+Domain adaptation: none
+=======================================
+
+================ PHASE II: MULTI-LABEL RARE-CROP DAMAGE CLASSIFICATION ================
+Train samples: 363
+Val samples:   45
+Phase II training crop size: 608
+Crop candidates per sample: 8
+Crop weights [no,minor,major,destroyed]: [1.0, 12.0, 12.0, 4.0]
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/checkpoints/phase1_best.pt
+Phase I stored epoch: 143
+Phase I stored best_metric: 0.937788
+Phase I threshold used for mask: 0.75
+Loaded Phase I backbone into Phase II from: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/checkpoints/phase1_best.pt
+Missing keys: 0 | Unexpected keys: 0
+Applying external Phase-II initialization before fine-tuning.
+Loading external Phase-II initialization checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Using Phase-II init checkpoint key: model
+Loaded Phase-II initialization checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Missing keys: 0 | Unexpected keys: 0
+  damage counts [no,minor,major,destroyed]: [1989864, 21423, 95733, 36735]
+  damage weights [no,minor,major,destroyed]: [0.01772475215065121, 2.4695313128421814, 0.5526283446578235, 0.9601155903493442]
+
+Phase II epoch 1/30 | LR=0.00001667
+Phase II Epoch 1/30 | Step 20/181 | loss=0.9934 | focal=0.0597 | dice=0.8161 | aux=0.5880
+Phase II Epoch 1/30 | Step 40/181 | loss=1.0013 | focal=0.0577 | dice=0.8161 | aux=0.6373
+Phase II Epoch 1/30 | Step 60/181 | loss=0.9847 | focal=0.0517 | dice=0.8120 | aux=0.6053
+Phase II Epoch 1/30 | Step 80/181 | loss=0.9707 | focal=0.0484 | dice=0.7998 | aux=0.6125
+Phase II Epoch 1/30 | Step 100/181 | loss=0.9432 | focal=0.0413 | dice=0.7763 | aux=0.6285
+Phase II Epoch 1/30 | Step 120/181 | loss=0.9306 | focal=0.0408 | dice=0.7623 | aux=0.6374
+Phase II Epoch 1/30 | Step 140/181 | loss=0.8951 | focal=0.0375 | dice=0.7260 | aux=0.6580
+Phase II Epoch 1/30 | Step 160/181 | loss=0.8732 | focal=0.0339 | dice=0.7030 | aux=0.6813
+Phase II Epoch 1/30 | Step 180/181 | loss=0.8816 | focal=0.0326 | dice=0.7143 | aux=0.6735
+Phase II Epoch 1/30 | Step 181/181 | loss=0.8778 | focal=0.0324 | dice=0.7104 | aux=0.6754
+main Epoch 001 | train_loss=0.8778 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.961916 | minor=0.000000 | major=0.000000 | destroyed=0.444121
+Saved Phase II best checkpoint | epoch=1 | cascade_score=0.281338
+
+Phase II epoch 2/30 | LR=0.00003333
+Phase II Epoch 2/30 | Step 20/181 | loss=0.7549 | focal=0.0105 | dice=0.6095 | aux=0.6750
+Phase II Epoch 2/30 | Step 40/181 | loss=0.8002 | focal=0.0176 | dice=0.6353 | aux=0.7367
+Phase II Epoch 2/30 | Step 60/181 | loss=0.8073 | focal=0.0165 | dice=0.6523 | aux=0.6923
+Phase II Epoch 2/30 | Step 80/181 | loss=0.8465 | focal=0.0147 | dice=0.6987 | aux=0.6660
+Phase II Epoch 2/30 | Step 100/181 | loss=0.8431 | focal=0.0131 | dice=0.6953 | aux=0.6737
+Phase II Epoch 2/30 | Step 120/181 | loss=0.8396 | focal=0.0115 | dice=0.6946 | aux=0.6678
+Phase II Epoch 2/30 | Step 140/181 | loss=0.8298 | focal=0.0110 | dice=0.6839 | aux=0.6744
+Phase II Epoch 2/30 | Step 160/181 | loss=0.8193 | focal=0.0147 | dice=0.6694 | aux=0.6760
+Phase II Epoch 2/30 | Step 180/181 | loss=0.8277 | focal=0.0168 | dice=0.6800 | aux=0.6545
+Phase II Epoch 2/30 | Step 181/181 | loss=0.8242 | focal=0.0167 | dice=0.6762 | aux=0.6564
+main Epoch 002 | train_loss=0.8242 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.964440 | minor=0.000000 | major=0.000000 | destroyed=0.397928
+Phase II no improvement for 1 epoch(s). Best epoch=1
+
+Phase II epoch 3/30 | LR=0.00005000
+Phase II Epoch 3/30 | Step 20/181 | loss=0.9315 | focal=0.0224 | dice=0.7826 | aux=0.6324
+Phase II Epoch 3/30 | Step 40/181 | loss=0.8952 | focal=0.0230 | dice=0.7446 | aux=0.6382
+Phase II Epoch 3/30 | Step 60/181 | loss=0.9161 | focal=0.0174 | dice=0.7703 | aux=0.6422
+Phase II Epoch 3/30 | Step 80/181 | loss=0.8915 | focal=0.0148 | dice=0.7474 | aux=0.6467
+Phase II Epoch 3/30 | Step 100/181 | loss=0.8902 | focal=0.0129 | dice=0.7521 | aux=0.6261
+Phase II Epoch 3/30 | Step 120/181 | loss=0.8702 | focal=0.0110 | dice=0.7335 | aux=0.6283
+Phase II Epoch 3/30 | Step 140/181 | loss=0.8784 | focal=0.0118 | dice=0.7414 | aux=0.6261
+Phase II Epoch 3/30 | Step 160/181 | loss=0.8713 | focal=0.0128 | dice=0.7320 | aux=0.6326
+Phase II Epoch 3/30 | Step 180/181 | loss=0.8896 | focal=0.0120 | dice=0.7517 | aux=0.6293
+Phase II Epoch 3/30 | Step 181/181 | loss=0.8912 | focal=0.0120 | dice=0.7531 | aux=0.6309
+main Epoch 003 | train_loss=0.8912 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.966403 | minor=0.000000 | major=0.000000 | destroyed=0.543407
+Saved Phase II best checkpoint | epoch=3 | cascade_score=0.281338
+
+Phase II epoch 4/30 | LR=0.00005000
+Phase II Epoch 4/30 | Step 20/181 | loss=0.8161 | focal=0.0065 | dice=0.6844 | aux=0.6264
+Phase II Epoch 4/30 | Step 40/181 | loss=0.8238 | focal=0.0143 | dice=0.6819 | aux=0.6382
+Phase II Epoch 4/30 | Step 60/181 | loss=0.8154 | focal=0.0113 | dice=0.6769 | aux=0.6361
+Phase II Epoch 4/30 | Step 80/181 | loss=0.8606 | focal=0.0102 | dice=0.7288 | aux=0.6083
+Phase II Epoch 4/30 | Step 100/181 | loss=0.8673 | focal=0.0117 | dice=0.7335 | aux=0.6106
+Phase II Epoch 4/30 | Step 120/181 | loss=0.8778 | focal=0.0114 | dice=0.7475 | aux=0.5946
+Phase II Epoch 4/30 | Step 140/181 | loss=0.8759 | focal=0.0119 | dice=0.7436 | aux=0.6019
+Phase II Epoch 4/30 | Step 160/181 | loss=0.8695 | focal=0.0148 | dice=0.7312 | aux=0.6176
+Phase II Epoch 4/30 | Step 180/181 | loss=0.8411 | focal=0.0140 | dice=0.7024 | aux=0.6235
+Phase II Epoch 4/30 | Step 181/181 | loss=0.8424 | focal=0.0148 | dice=0.7029 | aux=0.6235
+main Epoch 004 | train_loss=0.8424 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.965578 | minor=0.000000 | major=0.000000 | destroyed=0.414420
+Phase II no improvement for 1 epoch(s). Best epoch=3
+
+Phase II epoch 5/30 | LR=0.00004983
+Phase II Epoch 5/30 | Step 20/181 | loss=0.9024 | focal=0.0220 | dice=0.7517 | aux=0.6434
+Phase II Epoch 5/30 | Step 40/181 | loss=0.8961 | focal=0.0199 | dice=0.7547 | aux=0.6074
+Phase II Epoch 5/30 | Step 60/181 | loss=0.8610 | focal=0.0152 | dice=0.7175 | aux=0.6420
+Phase II Epoch 5/30 | Step 80/181 | loss=0.8642 | focal=0.0142 | dice=0.7251 | aux=0.6243
+Phase II Epoch 5/30 | Step 100/181 | loss=0.8703 | focal=0.0135 | dice=0.7348 | aux=0.6096
+Phase II Epoch 5/30 | Step 120/181 | loss=0.8588 | focal=0.0125 | dice=0.7245 | aux=0.6088
+Phase II Epoch 5/30 | Step 140/181 | loss=0.8475 | focal=0.0110 | dice=0.7135 | aux=0.6149
+Phase II Epoch 5/30 | Step 160/181 | loss=0.8310 | focal=0.0100 | dice=0.6961 | aux=0.6245
+Phase II Epoch 5/30 | Step 180/181 | loss=0.8299 | focal=0.0116 | dice=0.6946 | aux=0.6185
+Phase II Epoch 5/30 | Step 181/181 | loss=0.8319 | focal=0.0116 | dice=0.6963 | aux=0.6205
+main Epoch 005 | train_loss=0.8319 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.966629 | minor=0.000000 | major=0.000000 | destroyed=0.519481
+Phase II no improvement for 2 epoch(s). Best epoch=3
+
+Phase II epoch 6/30 | LR=0.00004933
+Phase II Epoch 6/30 | Step 20/181 | loss=0.7145 | focal=0.0058 | dice=0.5906 | aux=0.5908
+Phase II Epoch 6/30 | Step 40/181 | loss=0.8215 | focal=0.0159 | dice=0.6880 | aux=0.5880
+Phase II Epoch 6/30 | Step 60/181 | loss=0.8136 | focal=0.0112 | dice=0.6802 | aux=0.6111
+Phase II Epoch 6/30 | Step 80/181 | loss=0.8278 | focal=0.0102 | dice=0.6972 | aux=0.6026
+Phase II Epoch 6/30 | Step 100/181 | loss=0.8288 | focal=0.0095 | dice=0.6986 | aux=0.6033
+Phase II Epoch 6/30 | Step 120/181 | loss=0.8447 | focal=0.0118 | dice=0.7098 | aux=0.6152
+Phase II Epoch 6/30 | Step 140/181 | loss=0.8238 | focal=0.0111 | dice=0.6878 | aux=0.6245
+Phase II Epoch 6/30 | Step 160/181 | loss=0.8166 | focal=0.0100 | dice=0.6791 | aux=0.6374
+Phase II Epoch 6/30 | Step 180/181 | loss=0.8229 | focal=0.0128 | dice=0.6857 | aux=0.6219
+Phase II Epoch 6/30 | Step 181/181 | loss=0.8194 | focal=0.0127 | dice=0.6819 | aux=0.6240
+main Epoch 006 | train_loss=0.8194 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.963321 | minor=0.000000 | major=0.000000 | destroyed=0.575363
+Saved Phase II best checkpoint | epoch=6 | cascade_score=0.281338
+
+Phase II epoch 7/30 | LR=0.00004849
+Phase II Epoch 7/30 | Step 20/181 | loss=0.9058 | focal=0.0179 | dice=0.7699 | aux=0.5895
+Phase II Epoch 7/30 | Step 40/181 | loss=0.8809 | focal=0.0140 | dice=0.7461 | aux=0.6036
+Phase II Epoch 7/30 | Step 60/181 | loss=0.8425 | focal=0.0125 | dice=0.7108 | aux=0.5962
+Phase II Epoch 7/30 | Step 80/181 | loss=0.8129 | focal=0.0142 | dice=0.6753 | aux=0.6171
+Phase II Epoch 7/30 | Step 100/181 | loss=0.8085 | focal=0.0151 | dice=0.6674 | aux=0.6300
+Phase II Epoch 7/30 | Step 120/181 | loss=0.7978 | focal=0.0131 | dice=0.6582 | aux=0.6328
+Phase II Epoch 7/30 | Step 140/181 | loss=0.8090 | focal=0.0122 | dice=0.6734 | aux=0.6171
+Phase II Epoch 7/30 | Step 160/181 | loss=0.8245 | focal=0.0111 | dice=0.6911 | aux=0.6119
+Phase II Epoch 7/30 | Step 180/181 | loss=0.8345 | focal=0.0102 | dice=0.7043 | aux=0.6003
+Phase II Epoch 7/30 | Step 181/181 | loss=0.8356 | focal=0.0101 | dice=0.7054 | aux=0.6004
+main Epoch 007 | train_loss=0.8356 | hold_score_cascade=0.281339 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000004 | no=0.965076 | minor=0.000000 | major=0.003107 | destroyed=0.560809
+Saved Phase II best checkpoint | epoch=7 | cascade_score=0.281339
+
+Phase II epoch 8/30 | LR=0.00004734
+Phase II Epoch 8/30 | Step 20/181 | loss=0.7920 | focal=0.0032 | dice=0.6715 | aux=0.5865
+Phase II Epoch 8/30 | Step 40/181 | loss=0.8084 | focal=0.0031 | dice=0.6830 | aux=0.6116
+Phase II Epoch 8/30 | Step 60/181 | loss=0.7885 | focal=0.0129 | dice=0.6466 | aux=0.6453
+Phase II Epoch 8/30 | Step 80/181 | loss=0.8266 | focal=0.0104 | dice=0.6910 | aux=0.6263
+Phase II Epoch 8/30 | Step 100/181 | loss=0.8514 | focal=0.0093 | dice=0.7216 | aux=0.6022
+Phase II Epoch 8/30 | Step 120/181 | loss=0.8624 | focal=0.0111 | dice=0.7322 | aux=0.5954
+Phase II Epoch 8/30 | Step 140/181 | loss=0.8593 | focal=0.0097 | dice=0.7312 | aux=0.5918
+Phase II Epoch 8/30 | Step 160/181 | loss=0.8504 | focal=0.0115 | dice=0.7207 | aux=0.5906
+Phase II Epoch 8/30 | Step 180/181 | loss=0.8402 | focal=0.0108 | dice=0.7110 | aux=0.5915
+Phase II Epoch 8/30 | Step 181/181 | loss=0.8418 | focal=0.0108 | dice=0.7126 | aux=0.5922
+main Epoch 008 | train_loss=0.8418 | hold_score_cascade=0.281339 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000004 | no=0.966058 | minor=0.000000 | major=0.061949 | destroyed=0.591678
+Saved Phase II best checkpoint | epoch=8 | cascade_score=0.281339
+
+Phase II epoch 9/30 | LR=0.00004589
+Phase II Epoch 9/30 | Step 20/181 | loss=0.8483 | focal=0.0036 | dice=0.7230 | aux=0.6085
+Phase II Epoch 9/30 | Step 40/181 | loss=0.8691 | focal=0.0052 | dice=0.7423 | aux=0.6079
+Phase II Epoch 9/30 | Step 60/181 | loss=0.8621 | focal=0.0046 | dice=0.7313 | aux=0.6308
+Phase II Epoch 9/30 | Step 80/181 | loss=0.8411 | focal=0.0062 | dice=0.7121 | aux=0.6140
+Phase II Epoch 9/30 | Step 100/181 | loss=0.8625 | focal=0.0059 | dice=0.7346 | aux=0.6104
+Phase II Epoch 9/30 | Step 120/181 | loss=0.8814 | focal=0.0086 | dice=0.7521 | aux=0.6037
+Phase II Epoch 9/30 | Step 140/181 | loss=0.8750 | focal=0.0090 | dice=0.7428 | aux=0.6159
+Phase II Epoch 9/30 | Step 160/181 | loss=0.8580 | focal=0.0109 | dice=0.7219 | aux=0.6261
+Phase II Epoch 9/30 | Step 180/181 | loss=0.8673 | focal=0.0128 | dice=0.7305 | aux=0.6204
+Phase II Epoch 9/30 | Step 181/181 | loss=0.8636 | focal=0.0127 | dice=0.7264 | aux=0.6225
+main Epoch 009 | train_loss=0.8636 | hold_score_cascade=0.281339 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000004 | no=0.957556 | minor=0.000000 | major=0.301606 | destroyed=0.578662
+Saved Phase II best checkpoint | epoch=9 | cascade_score=0.281339
+
+Phase II epoch 10/30 | LR=0.00004415
+Phase II Epoch 10/30 | Step 20/181 | loss=0.7376 | focal=0.0084 | dice=0.5851 | aux=0.7204
+Phase II Epoch 10/30 | Step 40/181 | loss=0.7516 | focal=0.0064 | dice=0.6099 | aux=0.6767
+Phase II Epoch 10/30 | Step 60/181 | loss=0.7736 | focal=0.0063 | dice=0.6452 | aux=0.6104
+Phase II Epoch 10/30 | Step 80/181 | loss=0.7988 | focal=0.0089 | dice=0.6651 | aux=0.6242
+Phase II Epoch 10/30 | Step 100/181 | loss=0.7811 | focal=0.0088 | dice=0.6457 | aux=0.6328
+Phase II Epoch 10/30 | Step 120/181 | loss=0.7653 | focal=0.0097 | dice=0.6305 | aux=0.6255
+Phase II Epoch 10/30 | Step 140/181 | loss=0.7787 | focal=0.0107 | dice=0.6467 | aux=0.6070
+Phase II Epoch 10/30 | Step 160/181 | loss=0.7982 | focal=0.0109 | dice=0.6672 | aux=0.6006
+Phase II Epoch 10/30 | Step 180/181 | loss=0.7996 | focal=0.0100 | dice=0.6689 | aux=0.6034
+Phase II Epoch 10/30 | Step 181/181 | loss=0.8014 | focal=0.0100 | dice=0.6707 | aux=0.6036
+main Epoch 010 | train_loss=0.8014 | hold_score_cascade=0.281339 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000004 | no=0.965453 | minor=0.000000 | major=0.585968 | destroyed=0.539727
+Saved Phase II best checkpoint | epoch=10 | cascade_score=0.281339
+
+Phase II epoch 11/30 | LR=0.00004216
+Phase II Epoch 11/30 | Step 20/181 | loss=0.9157 | focal=0.0078 | dice=0.7945 | aux=0.5668
+Phase II Epoch 11/30 | Step 40/181 | loss=0.9203 | focal=0.0100 | dice=0.7956 | aux=0.5737
+Phase II Epoch 11/30 | Step 60/181 | loss=0.9083 | focal=0.0103 | dice=0.7819 | aux=0.5804
+Phase II Epoch 11/30 | Step 80/181 | loss=0.8862 | focal=0.0140 | dice=0.7506 | aux=0.6081
+Phase II Epoch 11/30 | Step 100/181 | loss=0.8832 | focal=0.0144 | dice=0.7481 | aux=0.6036
+Phase II Epoch 11/30 | Step 120/181 | loss=0.8769 | focal=0.0138 | dice=0.7433 | aux=0.5991
+Phase II Epoch 11/30 | Step 140/181 | loss=0.8696 | focal=0.0130 | dice=0.7370 | aux=0.5979
+Phase II Epoch 11/30 | Step 160/181 | loss=0.8638 | focal=0.0117 | dice=0.7306 | aux=0.6079
+Phase II Epoch 11/30 | Step 180/181 | loss=0.8506 | focal=0.0105 | dice=0.7173 | aux=0.6141
+Phase II Epoch 11/30 | Step 181/181 | loss=0.8521 | focal=0.0104 | dice=0.7188 | aux=0.6140
+main Epoch 011 | train_loss=0.8521 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.966030 | minor=0.000000 | major=0.000000 | destroyed=0.469216
+Phase II no improvement for 1 epoch(s). Best epoch=10
+
+Phase II epoch 12/30 | LR=0.00003993
+Phase II Epoch 12/30 | Step 20/181 | loss=0.7961 | focal=0.0046 | dice=0.6567 | aux=0.6739
+Phase II Epoch 12/30 | Step 40/181 | loss=0.8231 | focal=0.0050 | dice=0.6890 | aux=0.6454
+Phase II Epoch 12/30 | Step 60/181 | loss=0.8199 | focal=0.0064 | dice=0.6857 | aux=0.6385
+Phase II Epoch 12/30 | Step 80/181 | loss=0.8615 | focal=0.0161 | dice=0.7198 | aux=0.6278
+Phase II Epoch 12/30 | Step 100/181 | loss=0.8220 | focal=0.0140 | dice=0.6794 | aux=0.6430
+Phase II Epoch 12/30 | Step 120/181 | loss=0.8408 | focal=0.0133 | dice=0.7041 | aux=0.6174
+Phase II Epoch 12/30 | Step 140/181 | loss=0.8493 | focal=0.0123 | dice=0.7144 | aux=0.6130
+Phase II Epoch 12/30 | Step 160/181 | loss=0.8273 | focal=0.0109 | dice=0.6917 | aux=0.6232
+Phase II Epoch 12/30 | Step 180/181 | loss=0.8416 | focal=0.0134 | dice=0.7060 | aux=0.6107
+Phase II Epoch 12/30 | Step 181/181 | loss=0.8431 | focal=0.0134 | dice=0.7076 | aux=0.6109
+main Epoch 012 | train_loss=0.8431 | hold_score_cascade=0.281339 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000004 | no=0.966544 | minor=0.000000 | major=0.006734 | destroyed=0.559517
+Phase II no improvement for 2 epoch(s). Best epoch=10
+
+Phase II epoch 13/30 | LR=0.00003750
+Phase II Epoch 13/30 | Step 20/181 | loss=0.9280 | focal=0.0123 | dice=0.8120 | aux=0.5186
+Phase II Epoch 13/30 | Step 40/181 | loss=0.8818 | focal=0.0065 | dice=0.7650 | aux=0.5517
+Phase II Epoch 13/30 | Step 60/181 | loss=0.8706 | focal=0.0061 | dice=0.7459 | aux=0.5932
+Phase II Epoch 13/30 | Step 80/181 | loss=0.9032 | focal=0.0067 | dice=0.7817 | aux=0.5740
+Phase II Epoch 13/30 | Step 100/181 | loss=0.8615 | focal=0.0059 | dice=0.7359 | aux=0.5983
+Phase II Epoch 13/30 | Step 120/181 | loss=0.8596 | focal=0.0059 | dice=0.7356 | aux=0.5902
+Phase II Epoch 13/30 | Step 140/181 | loss=0.8556 | focal=0.0052 | dice=0.7301 | aux=0.6012
+Phase II Epoch 13/30 | Step 160/181 | loss=0.8462 | focal=0.0060 | dice=0.7182 | aux=0.6103
+Phase II Epoch 13/30 | Step 180/181 | loss=0.8377 | focal=0.0067 | dice=0.7097 | aux=0.6066
+Phase II Epoch 13/30 | Step 181/181 | loss=0.8392 | focal=0.0066 | dice=0.7113 | aux=0.6064
+main Epoch 013 | train_loss=0.8392 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.965431 | minor=0.000000 | major=0.000000 | destroyed=0.584800
+Phase II no improvement for 3 epoch(s). Best epoch=10
+
+Phase II epoch 14/30 | LR=0.00003490
+Phase II Epoch 14/30 | Step 20/181 | loss=0.7870 | focal=0.0049 | dice=0.6693 | aux=0.5639
+Phase II Epoch 14/30 | Step 40/181 | loss=0.7823 | focal=0.0129 | dice=0.6476 | aux=0.6086
+Phase II Epoch 14/30 | Step 60/181 | loss=0.8229 | focal=0.0110 | dice=0.6973 | aux=0.5729
+Phase II Epoch 14/30 | Step 80/181 | loss=0.8309 | focal=0.0101 | dice=0.7047 | aux=0.5809
+Phase II Epoch 14/30 | Step 100/181 | loss=0.8115 | focal=0.0085 | dice=0.6864 | aux=0.5827
+Phase II Epoch 14/30 | Step 120/181 | loss=0.8000 | focal=0.0078 | dice=0.6753 | aux=0.5844
+Phase II Epoch 14/30 | Step 140/181 | loss=0.7798 | focal=0.0071 | dice=0.6532 | aux=0.5979
+Phase II Epoch 14/30 | Step 160/181 | loss=0.7684 | focal=0.0064 | dice=0.6413 | aux=0.6033
+Phase II Epoch 14/30 | Step 180/181 | loss=0.7826 | focal=0.0083 | dice=0.6567 | aux=0.5883
+Phase II Epoch 14/30 | Step 181/181 | loss=0.7836 | focal=0.0082 | dice=0.6582 | aux=0.5859
+main Epoch 014 | train_loss=0.7836 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.966029 | minor=0.000000 | major=0.000000 | destroyed=0.486278
+Phase II no improvement for 4 epoch(s). Best epoch=10
+
+Phase II epoch 15/30 | LR=0.00003217
+Phase II Epoch 15/30 | Step 20/181 | loss=0.8496 | focal=0.0097 | dice=0.7291 | aux=0.5544
+Phase II Epoch 15/30 | Step 40/181 | loss=0.8332 | focal=0.0068 | dice=0.7137 | aux=0.5634
+Phase II Epoch 15/30 | Step 60/181 | loss=0.7768 | focal=0.0076 | dice=0.6465 | aux=0.6136
+Phase II Epoch 15/30 | Step 80/181 | loss=0.7949 | focal=0.0075 | dice=0.6690 | aux=0.5918
+Phase II Epoch 15/30 | Step 100/181 | loss=0.8097 | focal=0.0074 | dice=0.6871 | aux=0.5759
+Phase II Epoch 15/30 | Step 120/181 | loss=0.7916 | focal=0.0072 | dice=0.6648 | aux=0.5981
+Phase II Epoch 15/30 | Step 140/181 | loss=0.7901 | focal=0.0072 | dice=0.6633 | aux=0.5979
+Phase II Epoch 15/30 | Step 160/181 | loss=0.7960 | focal=0.0067 | dice=0.6689 | aux=0.6023
+Phase II Epoch 15/30 | Step 180/181 | loss=0.7973 | focal=0.0065 | dice=0.6701 | aux=0.6037
+Phase II Epoch 15/30 | Step 181/181 | loss=0.7986 | focal=0.0065 | dice=0.6719 | aux=0.6014
+main Epoch 015 | train_loss=0.7986 | hold_score_cascade=0.281339 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000004 | no=0.965773 | minor=0.000000 | major=0.183192 | destroyed=0.458448
+Phase II no improvement for 5 epoch(s). Best epoch=10
+
+Phase II epoch 16/30 | LR=0.00002934
+Phase II Epoch 16/30 | Step 20/181 | loss=0.7701 | focal=0.0027 | dice=0.6622 | aux=0.5257
+Phase II Epoch 16/30 | Step 40/181 | loss=0.7619 | focal=0.0017 | dice=0.6473 | aux=0.5642
+Phase II Epoch 16/30 | Step 60/181 | loss=0.7953 | focal=0.0079 | dice=0.6732 | aux=0.5712
+Phase II Epoch 16/30 | Step 80/181 | loss=0.8068 | focal=0.0086 | dice=0.6847 | aux=0.5677
+Phase II Epoch 16/30 | Step 100/181 | loss=0.8356 | focal=0.0089 | dice=0.7128 | aux=0.5693
+Phase II Epoch 16/30 | Step 120/181 | loss=0.8111 | focal=0.0087 | dice=0.6859 | aux=0.5826
+Phase II Epoch 16/30 | Step 140/181 | loss=0.8065 | focal=0.0084 | dice=0.6825 | aux=0.5780
+Phase II Epoch 16/30 | Step 160/181 | loss=0.8073 | focal=0.0080 | dice=0.6822 | aux=0.5857
+Phase II Epoch 16/30 | Step 180/181 | loss=0.8003 | focal=0.0075 | dice=0.6739 | aux=0.5945
+Phase II Epoch 16/30 | Step 181/181 | loss=0.7970 | focal=0.0074 | dice=0.6702 | aux=0.5968
+main Epoch 016 | train_loss=0.7970 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.966739 | minor=0.000000 | major=0.000000 | destroyed=0.577266
+Phase II no improvement for 6 epoch(s). Best epoch=10
+
+Phase II epoch 17/30 | LR=0.00002645
+Phase II Epoch 17/30 | Step 20/181 | loss=0.7953 | focal=0.0182 | dice=0.6538 | aux=0.6169
+Phase II Epoch 17/30 | Step 40/181 | loss=0.7331 | focal=0.0125 | dice=0.5946 | aux=0.6299
+Phase II Epoch 17/30 | Step 60/181 | loss=0.7561 | focal=0.0088 | dice=0.6188 | aux=0.6425
+Phase II Epoch 17/30 | Step 80/181 | loss=0.7947 | focal=0.0074 | dice=0.6661 | aux=0.6056
+Phase II Epoch 17/30 | Step 100/181 | loss=0.8137 | focal=0.0067 | dice=0.6874 | aux=0.5982
+Phase II Epoch 17/30 | Step 120/181 | loss=0.8415 | focal=0.0082 | dice=0.7153 | aux=0.5897
+Phase II Epoch 17/30 | Step 140/181 | loss=0.8371 | focal=0.0080 | dice=0.7102 | aux=0.5940
+Phase II Epoch 17/30 | Step 160/181 | loss=0.8506 | focal=0.0109 | dice=0.7235 | aux=0.5807
+Phase II Epoch 17/30 | Step 180/181 | loss=0.8453 | focal=0.0104 | dice=0.7168 | aux=0.5903
+Phase II Epoch 17/30 | Step 181/181 | loss=0.8417 | focal=0.0104 | dice=0.7128 | aux=0.5926
+main Epoch 017 | train_loss=0.8417 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.960854 | minor=0.000000 | major=0.000000 | destroyed=0.570883
+Phase II no improvement for 7 epoch(s). Best epoch=10
+
+Phase II epoch 18/30 | LR=0.00002355
+Phase II Epoch 18/30 | Step 20/181 | loss=0.7726 | focal=0.0056 | dice=0.6440 | aux=0.6147
+Phase II Epoch 18/30 | Step 40/181 | loss=0.8402 | focal=0.0096 | dice=0.7189 | aux=0.5583
+Phase II Epoch 18/30 | Step 60/181 | loss=0.8372 | focal=0.0078 | dice=0.7140 | aux=0.5767
+Phase II Epoch 18/30 | Step 80/181 | loss=0.8403 | focal=0.0076 | dice=0.7169 | aux=0.5789
+Phase II Epoch 18/30 | Step 100/181 | loss=0.8453 | focal=0.0063 | dice=0.7207 | aux=0.5920
+Phase II Epoch 18/30 | Step 120/181 | loss=0.8449 | focal=0.0081 | dice=0.7178 | aux=0.5949
+Phase II Epoch 18/30 | Step 140/181 | loss=0.8305 | focal=0.0108 | dice=0.7003 | aux=0.5974
+Phase II Epoch 18/30 | Step 160/181 | loss=0.8388 | focal=0.0116 | dice=0.7086 | aux=0.5931
+Phase II Epoch 18/30 | Step 180/181 | loss=0.8296 | focal=0.0104 | dice=0.6992 | aux=0.6000
+Phase II Epoch 18/30 | Step 181/181 | loss=0.8262 | focal=0.0104 | dice=0.6953 | aux=0.6025
+main Epoch 018 | train_loss=0.8262 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.964707 | minor=0.000000 | major=0.000000 | destroyed=0.480580
+Phase II no improvement for 8 epoch(s). Best epoch=10
+
+Phase II epoch 19/30 | LR=0.00002066
+Phase II Epoch 19/30 | Step 20/181 | loss=0.9204 | focal=0.0013 | dice=0.7966 | aux=0.6126
+Phase II Epoch 19/30 | Step 40/181 | loss=0.8490 | focal=0.0014 | dice=0.7220 | aux=0.6281
+Phase II Epoch 19/30 | Step 60/181 | loss=0.8749 | focal=0.0016 | dice=0.7555 | aux=0.5887
+Phase II Epoch 19/30 | Step 80/181 | loss=0.8639 | focal=0.0044 | dice=0.7427 | aux=0.5845
+Phase II Epoch 19/30 | Step 100/181 | loss=0.8339 | focal=0.0037 | dice=0.7081 | aux=0.6109
+Phase II Epoch 19/30 | Step 120/181 | loss=0.8282 | focal=0.0047 | dice=0.7014 | aux=0.6104
+Phase II Epoch 19/30 | Step 140/181 | loss=0.8431 | focal=0.0064 | dice=0.7157 | aux=0.6049
+Phase II Epoch 19/30 | Step 160/181 | loss=0.8663 | focal=0.0071 | dice=0.7419 | aux=0.5868
+Phase II Epoch 19/30 | Step 180/181 | loss=0.8525 | focal=0.0073 | dice=0.7276 | aux=0.5878
+Phase II Epoch 19/30 | Step 181/181 | loss=0.8528 | focal=0.0073 | dice=0.7284 | aux=0.5851
+main Epoch 019 | train_loss=0.8528 | hold_score_cascade=0.281339 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000004 | no=0.964628 | minor=0.000000 | major=0.023626 | destroyed=0.496759
+Phase II no improvement for 9 epoch(s). Best epoch=10
+
+Phase II epoch 20/30 | LR=0.00001783
+Phase II Epoch 20/30 | Step 20/181 | loss=0.7888 | focal=0.0120 | dice=0.6517 | aux=0.6252
+Phase II Epoch 20/30 | Step 40/181 | loss=0.8586 | focal=0.0092 | dice=0.7409 | aux=0.5423
+Phase II Epoch 20/30 | Step 60/181 | loss=0.8947 | focal=0.0068 | dice=0.7812 | aux=0.5336
+Phase II Epoch 20/30 | Step 80/181 | loss=0.8834 | focal=0.0055 | dice=0.7641 | aux=0.5690
+Phase II Epoch 20/30 | Step 100/181 | loss=0.8742 | focal=0.0063 | dice=0.7514 | aux=0.5827
+Phase II Epoch 20/30 | Step 120/181 | loss=0.8439 | focal=0.0077 | dice=0.7201 | aux=0.5805
+Phase II Epoch 20/30 | Step 140/181 | loss=0.8418 | focal=0.0073 | dice=0.7162 | aux=0.5917
+Phase II Epoch 20/30 | Step 160/181 | loss=0.8582 | focal=0.0066 | dice=0.7340 | aux=0.5880
+Phase II Epoch 20/30 | Step 180/181 | loss=0.8534 | focal=0.0062 | dice=0.7283 | aux=0.5945
+Phase II Epoch 20/30 | Step 181/181 | loss=0.8548 | focal=0.0062 | dice=0.7298 | aux=0.5944
+main Epoch 020 | train_loss=0.8548 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.958634 | minor=0.000000 | major=0.000000 | destroyed=0.419574
+Phase II no improvement for 10 epoch(s). Best epoch=10
+
+Phase II epoch 21/30 | LR=0.00001510
+Phase II Epoch 21/30 | Step 20/181 | loss=0.8641 | focal=0.0024 | dice=0.7356 | aux=0.6307
+Phase II Epoch 21/30 | Step 40/181 | loss=0.8678 | focal=0.0151 | dice=0.7356 | aux=0.5854
+Phase II Epoch 21/30 | Step 60/181 | loss=0.8219 | focal=0.0111 | dice=0.6981 | aux=0.5637
+Phase II Epoch 21/30 | Step 80/181 | loss=0.8003 | focal=0.0087 | dice=0.6734 | aux=0.5913
+Phase II Epoch 21/30 | Step 100/181 | loss=0.7928 | focal=0.0089 | dice=0.6639 | aux=0.5998
+Phase II Epoch 21/30 | Step 120/181 | loss=0.8046 | focal=0.0078 | dice=0.6794 | aux=0.5868
+Phase II Epoch 21/30 | Step 140/181 | loss=0.8045 | focal=0.0071 | dice=0.6781 | aux=0.5964
+Phase II Epoch 21/30 | Step 160/181 | loss=0.8099 | focal=0.0065 | dice=0.6839 | aux=0.5974
+Phase II Epoch 21/30 | Step 180/181 | loss=0.8196 | focal=0.0060 | dice=0.6951 | aux=0.5927
+Phase II Epoch 21/30 | Step 181/181 | loss=0.8162 | focal=0.0059 | dice=0.6913 | aux=0.5949
+main Epoch 021 | train_loss=0.8162 | hold_score_cascade=0.281339 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000004 | no=0.966899 | minor=0.000000 | major=0.018546 | destroyed=0.579352
+Phase II no improvement for 11 epoch(s). Best epoch=10
+
+Phase II epoch 22/30 | LR=0.00001250
+Phase II Epoch 22/30 | Step 20/181 | loss=0.6451 | focal=0.0025 | dice=0.5168 | aux=0.6290
+Phase II Epoch 22/30 | Step 40/181 | loss=0.7125 | focal=0.0027 | dice=0.5763 | aux=0.6674
+Phase II Epoch 22/30 | Step 60/181 | loss=0.7651 | focal=0.0063 | dice=0.6337 | aux=0.6253
+Phase II Epoch 22/30 | Step 80/181 | loss=0.7843 | focal=0.0051 | dice=0.6541 | aux=0.6256
+Phase II Epoch 22/30 | Step 100/181 | loss=0.7822 | focal=0.0043 | dice=0.6546 | aux=0.6167
+Phase II Epoch 22/30 | Step 120/181 | loss=0.8055 | focal=0.0040 | dice=0.6808 | aux=0.6035
+Phase II Epoch 22/30 | Step 140/181 | loss=0.7893 | focal=0.0056 | dice=0.6610 | aux=0.6133
+Phase II Epoch 22/30 | Step 160/181 | loss=0.8091 | focal=0.0058 | dice=0.6829 | aux=0.6017
+Phase II Epoch 22/30 | Step 180/181 | loss=0.8242 | focal=0.0059 | dice=0.6999 | aux=0.5920
+Phase II Epoch 22/30 | Step 181/181 | loss=0.8208 | focal=0.0059 | dice=0.6961 | aux=0.5943
+main Epoch 022 | train_loss=0.8208 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.963591 | minor=0.000000 | major=0.000000 | destroyed=0.605186
+Phase II no improvement for 12 epoch(s). Best epoch=10
+
+Phase II epoch 23/30 | LR=0.00001007
+Phase II Epoch 23/30 | Step 20/181 | loss=0.6975 | focal=0.0022 | dice=0.5689 | aux=0.6321
+Phase II Epoch 23/30 | Step 40/181 | loss=0.8384 | focal=0.0021 | dice=0.7253 | aux=0.5548
+Phase II Epoch 23/30 | Step 60/181 | loss=0.8126 | focal=0.0028 | dice=0.6917 | aux=0.5904
+Phase II Epoch 23/30 | Step 80/181 | loss=0.8290 | focal=0.0048 | dice=0.7054 | aux=0.5941
+Phase II Epoch 23/30 | Step 100/181 | loss=0.8505 | focal=0.0058 | dice=0.7275 | aux=0.5863
+Phase II Epoch 23/30 | Step 120/181 | loss=0.8330 | focal=0.0060 | dice=0.7073 | aux=0.5987
+Phase II Epoch 23/30 | Step 140/181 | loss=0.8377 | focal=0.0055 | dice=0.7140 | aux=0.5910
+Phase II Epoch 23/30 | Step 160/181 | loss=0.8284 | focal=0.0054 | dice=0.7036 | aux=0.5969
+Phase II Epoch 23/30 | Step 180/181 | loss=0.8291 | focal=0.0052 | dice=0.7047 | aux=0.5965
+Phase II Epoch 23/30 | Step 181/181 | loss=0.8294 | focal=0.0051 | dice=0.7049 | aux=0.5967
+main Epoch 023 | train_loss=0.8294 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.964900 | minor=0.000000 | major=0.000000 | destroyed=0.574864
+Phase II no improvement for 13 epoch(s). Best epoch=10
+
+Phase II epoch 24/30 | LR=0.00000784
+Phase II Epoch 24/30 | Step 20/181 | loss=0.9585 | focal=0.0178 | dice=0.8434 | aux=0.4868
+Phase II Epoch 24/30 | Step 40/181 | loss=0.9050 | focal=0.0175 | dice=0.7780 | aux=0.5469
+Phase II Epoch 24/30 | Step 60/181 | loss=0.8891 | focal=0.0131 | dice=0.7609 | aux=0.5751
+Phase II Epoch 24/30 | Step 80/181 | loss=0.8829 | focal=0.0131 | dice=0.7530 | aux=0.5843
+Phase II Epoch 24/30 | Step 100/181 | loss=0.8352 | focal=0.0108 | dice=0.7043 | aux=0.6008
+Phase II Epoch 24/30 | Step 120/181 | loss=0.8323 | focal=0.0104 | dice=0.7009 | aux=0.6053
+Phase II Epoch 24/30 | Step 140/181 | loss=0.8435 | focal=0.0091 | dice=0.7150 | aux=0.5975
+Phase II Epoch 24/30 | Step 160/181 | loss=0.8397 | focal=0.0083 | dice=0.7137 | aux=0.5886
+Phase II Epoch 24/30 | Step 180/181 | loss=0.8462 | focal=0.0096 | dice=0.7186 | aux=0.5902
+Phase II Epoch 24/30 | Step 181/181 | loss=0.8471 | focal=0.0095 | dice=0.7201 | aux=0.5872
+main Epoch 024 | train_loss=0.8471 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.964480 | minor=0.000000 | major=0.000000 | destroyed=0.576991
+Phase II no improvement for 14 epoch(s). Best epoch=10
+
+Phase II epoch 25/30 | LR=0.00000585
+Phase II Epoch 25/30 | Step 20/181 | loss=0.8802 | focal=0.0034 | dice=0.7605 | aux=0.5817
+Phase II Epoch 25/30 | Step 40/181 | loss=0.8659 | focal=0.0043 | dice=0.7534 | aux=0.5412
+Phase II Epoch 25/30 | Step 60/181 | loss=0.8398 | focal=0.0031 | dice=0.7229 | aux=0.5692
+Phase II Epoch 25/30 | Step 80/181 | loss=0.8649 | focal=0.0093 | dice=0.7387 | aux=0.5839
+Phase II Epoch 25/30 | Step 100/181 | loss=0.8457 | focal=0.0079 | dice=0.7215 | aux=0.5816
+Phase II Epoch 25/30 | Step 120/181 | loss=0.8346 | focal=0.0092 | dice=0.7070 | aux=0.5920
+Phase II Epoch 25/30 | Step 140/181 | loss=0.8176 | focal=0.0095 | dice=0.6876 | aux=0.6023
+Phase II Epoch 25/30 | Step 160/181 | loss=0.8181 | focal=0.0084 | dice=0.6894 | aux=0.6015
+Phase II Epoch 25/30 | Step 180/181 | loss=0.8077 | focal=0.0083 | dice=0.6803 | aux=0.5957
+Phase II Epoch 25/30 | Step 181/181 | loss=0.8094 | focal=0.0083 | dice=0.6820 | aux=0.5959
+main Epoch 025 | train_loss=0.8094 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.955975 | minor=0.000000 | major=0.000000 | destroyed=0.544912
+Phase II no improvement for 15 epoch(s). Best epoch=10
+
+Phase II epoch 26/30 | LR=0.00000411
+Phase II Epoch 26/30 | Step 20/181 | loss=0.7681 | focal=0.0034 | dice=0.6487 | aux=0.5799
+Phase II Epoch 26/30 | Step 40/181 | loss=0.7698 | focal=0.0035 | dice=0.6488 | aux=0.5881
+Phase II Epoch 26/30 | Step 60/181 | loss=0.8045 | focal=0.0060 | dice=0.6831 | aux=0.5769
+Phase II Epoch 26/30 | Step 80/181 | loss=0.8168 | focal=0.0053 | dice=0.6987 | aux=0.5645
+Phase II Epoch 26/30 | Step 100/181 | loss=0.8063 | focal=0.0043 | dice=0.6860 | aux=0.5797
+Phase II Epoch 26/30 | Step 120/181 | loss=0.8082 | focal=0.0058 | dice=0.6876 | aux=0.5739
+Phase II Epoch 26/30 | Step 140/181 | loss=0.7982 | focal=0.0056 | dice=0.6736 | aux=0.5949
+Phase II Epoch 26/30 | Step 160/181 | loss=0.8068 | focal=0.0079 | dice=0.6810 | aux=0.5891
+Phase II Epoch 26/30 | Step 180/181 | loss=0.8099 | focal=0.0093 | dice=0.6809 | aux=0.5985
+Phase II Epoch 26/30 | Step 181/181 | loss=0.8116 | focal=0.0092 | dice=0.6827 | aux=0.5985
+main Epoch 026 | train_loss=0.8116 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.964965 | minor=0.000000 | major=0.000000 | destroyed=0.560093
+Phase II no improvement for 16 epoch(s). Best epoch=10
+
+Phase II epoch 27/30 | LR=0.00000266
+Phase II Epoch 27/30 | Step 20/181 | loss=0.6568 | focal=0.0007 | dice=0.5195 | aux=0.6829
+Phase II Epoch 27/30 | Step 40/181 | loss=0.7003 | focal=0.0054 | dice=0.5586 | aux=0.6816
+Phase II Epoch 27/30 | Step 60/181 | loss=0.7530 | focal=0.0044 | dice=0.6143 | aux=0.6714
+Phase II Epoch 27/30 | Step 80/181 | loss=0.7702 | focal=0.0049 | dice=0.6321 | aux=0.6660
+Phase II Epoch 27/30 | Step 100/181 | loss=0.7755 | focal=0.0041 | dice=0.6403 | aux=0.6554
+Phase II Epoch 27/30 | Step 120/181 | loss=0.8003 | focal=0.0073 | dice=0.6682 | aux=0.6242
+Phase II Epoch 27/30 | Step 140/181 | loss=0.8131 | focal=0.0071 | dice=0.6837 | aux=0.6109
+Phase II Epoch 27/30 | Step 160/181 | loss=0.8338 | focal=0.0073 | dice=0.7088 | aux=0.5884
+Phase II Epoch 27/30 | Step 180/181 | loss=0.8284 | focal=0.0072 | dice=0.7039 | aux=0.5869
+Phase II Epoch 27/30 | Step 181/181 | loss=0.8266 | focal=0.0073 | dice=0.7019 | aux=0.5872
+main Epoch 027 | train_loss=0.8266 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.965585 | minor=0.000000 | major=0.000000 | destroyed=0.497492
+Phase II no improvement for 17 epoch(s). Best epoch=10
+
+Phase II epoch 28/30 | LR=0.00000151
+Phase II Epoch 28/30 | Step 20/181 | loss=0.7522 | focal=0.0036 | dice=0.6115 | aux=0.6859
+Phase II Epoch 28/30 | Step 40/181 | loss=0.7686 | focal=0.0030 | dice=0.6378 | aux=0.6396
+Phase II Epoch 28/30 | Step 60/181 | loss=0.7931 | focal=0.0025 | dice=0.6609 | aux=0.6490
+Phase II Epoch 28/30 | Step 80/181 | loss=0.7881 | focal=0.0087 | dice=0.6486 | aux=0.6542
+Phase II Epoch 28/30 | Step 100/181 | loss=0.7968 | focal=0.0080 | dice=0.6630 | aux=0.6288
+Phase II Epoch 28/30 | Step 120/181 | loss=0.8107 | focal=0.0069 | dice=0.6836 | aux=0.6013
+Phase II Epoch 28/30 | Step 140/181 | loss=0.8144 | focal=0.0065 | dice=0.6879 | aux=0.5996
+Phase II Epoch 28/30 | Step 160/181 | loss=0.8154 | focal=0.0058 | dice=0.6890 | aux=0.6025
+Phase II Epoch 28/30 | Step 180/181 | loss=0.8322 | focal=0.0060 | dice=0.7052 | aux=0.6052
+Phase II Epoch 28/30 | Step 181/181 | loss=0.8287 | focal=0.0060 | dice=0.7013 | aux=0.6073
+main Epoch 028 | train_loss=0.8287 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.965262 | minor=0.000000 | major=0.000000 | destroyed=0.578534
+Phase II no improvement for 18 epoch(s). Best epoch=10
+
+Phase II epoch 29/30 | LR=0.00000067
+Phase II Epoch 29/30 | Step 20/181 | loss=0.6108 | focal=0.0009 | dice=0.4625 | aux=0.7372
+Phase II Epoch 29/30 | Step 40/181 | loss=0.7581 | focal=0.0018 | dice=0.6296 | aux=0.6340
+Phase II Epoch 29/30 | Step 60/181 | loss=0.7803 | focal=0.0068 | dice=0.6450 | aux=0.6427
+Phase II Epoch 29/30 | Step 80/181 | loss=0.7647 | focal=0.0057 | dice=0.6344 | aux=0.6230
+Phase II Epoch 29/30 | Step 100/181 | loss=0.7690 | focal=0.0051 | dice=0.6401 | aux=0.6193
+Phase II Epoch 29/30 | Step 120/181 | loss=0.7760 | focal=0.0047 | dice=0.6472 | aux=0.6207
+Phase II Epoch 29/30 | Step 140/181 | loss=0.7776 | focal=0.0049 | dice=0.6482 | aux=0.6225
+Phase II Epoch 29/30 | Step 160/181 | loss=0.7732 | focal=0.0054 | dice=0.6453 | aux=0.6122
+Phase II Epoch 29/30 | Step 180/181 | loss=0.7813 | focal=0.0053 | dice=0.6540 | aux=0.6105
+Phase II Epoch 29/30 | Step 181/181 | loss=0.7782 | focal=0.0052 | dice=0.6503 | aux=0.6131
+main Epoch 029 | train_loss=0.7782 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.963527 | minor=0.000000 | major=0.000000 | destroyed=0.504349
+Phase II no improvement for 19 epoch(s). Best epoch=10
+
+Phase II epoch 30/30 | LR=0.00000017
+Phase II Epoch 30/30 | Step 20/181 | loss=0.9115 | focal=0.0025 | dice=0.7867 | aux=0.6111
+Phase II Epoch 30/30 | Step 40/181 | loss=0.9338 | focal=0.0026 | dice=0.8107 | aux=0.6028
+Phase II Epoch 30/30 | Step 60/181 | loss=0.8959 | focal=0.0027 | dice=0.7793 | aux=0.5697
+Phase II Epoch 30/30 | Step 80/181 | loss=0.8611 | focal=0.0060 | dice=0.7390 | aux=0.5804
+Phase II Epoch 30/30 | Step 100/181 | loss=0.8784 | focal=0.0070 | dice=0.7594 | aux=0.5599
+Phase II Epoch 30/30 | Step 120/181 | loss=0.8405 | focal=0.0059 | dice=0.7183 | aux=0.5819
+Phase II Epoch 30/30 | Step 140/181 | loss=0.8497 | focal=0.0066 | dice=0.7272 | aux=0.5798
+Phase II Epoch 30/30 | Step 160/181 | loss=0.8510 | focal=0.0077 | dice=0.7269 | aux=0.5822
+Phase II Epoch 30/30 | Step 180/181 | loss=0.8464 | focal=0.0072 | dice=0.7210 | aux=0.5912
+Phase II Epoch 30/30 | Step 181/181 | loss=0.8475 | focal=0.0071 | dice=0.7225 | aux=0.5891
+main Epoch 030 | train_loss=0.8475 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.964692 | minor=0.000000 | major=0.000000 | destroyed=0.561633
+Phase II no improvement for 20 epoch(s). Best epoch=10
+
+================ PHASE II SHORT FINE-TUNING STAGE ================
+
+Fine-tune epoch 1/3 | LR=0.00005000
+Fine-tune Epoch 1/3 | Step 20/181 | loss=0.8075 | focal=0.0135 | dice=0.6846 | aux=0.5474
+Fine-tune Epoch 1/3 | Step 40/181 | loss=0.8804 | focal=0.0123 | dice=0.7638 | aux=0.5213
+Fine-tune Epoch 1/3 | Step 60/181 | loss=0.8151 | focal=0.0133 | dice=0.6897 | aux=0.5606
+Fine-tune Epoch 1/3 | Step 80/181 | loss=0.8334 | focal=0.0104 | dice=0.7099 | aux=0.5654
+Fine-tune Epoch 1/3 | Step 100/181 | loss=0.8378 | focal=0.0090 | dice=0.7154 | aux=0.5669
+Fine-tune Epoch 1/3 | Step 120/181 | loss=0.8232 | focal=0.0077 | dice=0.6981 | aux=0.5869
+Fine-tune Epoch 1/3 | Step 140/181 | loss=0.8064 | focal=0.0069 | dice=0.6811 | aux=0.5922
+Fine-tune Epoch 1/3 | Step 160/181 | loss=0.8193 | focal=0.0072 | dice=0.6933 | aux=0.5942
+Fine-tune Epoch 1/3 | Step 180/181 | loss=0.8338 | focal=0.0070 | dice=0.7078 | aux=0.5946
+Fine-tune Epoch 1/3 | Step 181/181 | loss=0.8348 | focal=0.0070 | dice=0.7094 | aux=0.5920
+finetune Epoch 031 | train_loss=0.8348 | hold_score_cascade=0.281339 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000004 | no=0.960406 | minor=0.000000 | major=0.050609 | destroyed=0.587849
+Phase II no improvement for 21 epoch(s). Best epoch=10
+
+Fine-tune epoch 2/3 | LR=0.00002500
+Fine-tune Epoch 2/3 | Step 20/181 | loss=0.7668 | focal=0.0161 | dice=0.6466 | aux=0.5205
+Fine-tune Epoch 2/3 | Step 40/181 | loss=0.7282 | focal=0.0114 | dice=0.6044 | aux=0.5618
+Fine-tune Epoch 2/3 | Step 60/181 | loss=0.7640 | focal=0.0124 | dice=0.6346 | aux=0.5847
+Fine-tune Epoch 2/3 | Step 80/181 | loss=0.7841 | focal=0.0098 | dice=0.6577 | aux=0.5833
+Fine-tune Epoch 2/3 | Step 100/181 | loss=0.8107 | focal=0.0082 | dice=0.6854 | aux=0.5854
+Fine-tune Epoch 2/3 | Step 120/181 | loss=0.7968 | focal=0.0116 | dice=0.6646 | aux=0.6032
+Fine-tune Epoch 2/3 | Step 140/181 | loss=0.8033 | focal=0.0104 | dice=0.6731 | aux=0.5988
+Fine-tune Epoch 2/3 | Step 160/181 | loss=0.8169 | focal=0.0095 | dice=0.6896 | aux=0.5892
+Fine-tune Epoch 2/3 | Step 180/181 | loss=0.8291 | focal=0.0087 | dice=0.7027 | aux=0.5883
+Fine-tune Epoch 2/3 | Step 181/181 | loss=0.8256 | focal=0.0086 | dice=0.6989 | aux=0.5907
+finetune Epoch 032 | train_loss=0.8256 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.965824 | minor=0.000000 | major=0.000000 | destroyed=0.621200
+Phase II no improvement for 22 epoch(s). Best epoch=10
+
+Fine-tune epoch 3/3 | LR=0.00001250
+Fine-tune Epoch 3/3 | Step 20/181 | loss=0.8808 | focal=0.0029 | dice=0.7646 | aux=0.5667
+Fine-tune Epoch 3/3 | Step 40/181 | loss=0.8691 | focal=0.0029 | dice=0.7496 | aux=0.5827
+Fine-tune Epoch 3/3 | Step 60/181 | loss=0.7887 | focal=0.0052 | dice=0.6574 | aux=0.6307
+Fine-tune Epoch 3/3 | Step 80/181 | loss=0.7865 | focal=0.0051 | dice=0.6580 | aux=0.6172
+Fine-tune Epoch 3/3 | Step 100/181 | loss=0.7914 | focal=0.0047 | dice=0.6651 | aux=0.6077
+Fine-tune Epoch 3/3 | Step 120/181 | loss=0.8060 | focal=0.0045 | dice=0.6822 | aux=0.5963
+Fine-tune Epoch 3/3 | Step 140/181 | loss=0.8166 | focal=0.0046 | dice=0.6944 | aux=0.5879
+Fine-tune Epoch 3/3 | Step 160/181 | loss=0.7864 | focal=0.0047 | dice=0.6609 | aux=0.6036
+Fine-tune Epoch 3/3 | Step 180/181 | loss=0.7841 | focal=0.0054 | dice=0.6586 | aux=0.6008
+Fine-tune Epoch 3/3 | Step 181/181 | loss=0.7860 | focal=0.0054 | dice=0.6604 | aux=0.6012
+finetune Epoch 033 | train_loss=0.7860 | hold_score_cascade=0.281338 | hold_loc_f1_from_phase1=0.937788 | hold_damage_f1=0.000002 | no=0.964444 | minor=0.000000 | major=0.000000 | destroyed=0.628177
+Phase II no improvement for 23 epoch(s). Best epoch=10
+Phase II done. Best epoch=10, best hold cascade score=0.281339
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/checkpoints/phase1_best.pt
+Phase I stored epoch: 143
+Phase I stored best_metric: 0.937788
+Phase I threshold used for mask: 0.75
+Experiment: HRTBDA v5 multi-label rare-crop cascade train -> val -> test
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/checkpoints/phase1_best.pt
+Phase I stored best epoch: 143
+Phase I stored hold Localization F1: 0.937788
+Phase I threshold used for mask: 0.75
+Damage post-processing dilation: minor
+Best Phase II epoch selected on hold cascade score: 10
+Test Localization F1 from Phase I mask: 0.949038
+No Damage F1:    0.941981
+Minor Damage F1: 0.467581
+Major Damage F1: 0.179342
+Destroyed F1:    0.632121
+Damage F1:       0.386170
+Overall Score:   0.555031
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_TEXAS_TORNADOES_resetbest/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt
+Done.
+Done.

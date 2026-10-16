@@ -1,0 +1,1128 @@
+===== JOB INFO =====
+Tue Apr 28 04:40:16 PM CDT 2026
+compute202516
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+MODEL: ChangeFormerV6
+DOMAIN_ADAPTATION: none
+XBD_ROOT: /homes/j244s673/documents/wsu/phd/xview2
+TRAIN_SPLIT: tier3
+VAL_SPLIT: hold
+TEST_SPLIT: test
+OUTPUT_DIR: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_test_xbd_changeformer
+EPOCHS: 80
+BATCH_SIZE: 8
+NUM_WORKERS: 8
+IMG_SIZE: 256
+LEARNING_RATE: 1e-4
+WEIGHT_DECAY: 0.01
+SCHEDULER: linear_decay_to_zero
+MAX_GRAD_NORM: 1.0
+EMBED_DIM: 256
+THRESHOLDS: 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90
+CHANGEFORMER_ROOT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/external/ChangeFormer
+Tue Apr 28 16:40:16 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.51.03              Driver Version: 575.51.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:01:00.0 Off |                    0 |
+| N/A   26C    P8             29W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+====================
+===== COMMAND =====
+python -u transformer/scripts/train_xbd_changeformer_damage.py --xbd-root /homes/j244s673/documents/wsu/phd/xview2 --train-split tier3 --val-split hold --test-split test --output-dir /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_test_xbd_changeformer --epochs 80 --batch-size 8 --num-workers 8 --img-size 256 --lr 1e-4 --weight-decay 0.01 --seed 42 --embed-dim 256 --save-every 1 --early-stopping-patience 15 --max-grad-norm 1.0 --loc-bce-weight 1.0 --loc-dice-weight 1.0 --dmg-ce-weight 1.0 --thresholds 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90 
+===================
+===== CHANGEFORMER XBD DAMAGE TRAINING =====
+Model: ChangeFormerV6
+xBD root: /homes/j244s673/documents/wsu/phd/xview2
+Train split: tier3
+Val split: hold
+Test split: test
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_test_xbd_changeformer
+Image size: 256
+Batch size: 8
+Epochs: 80
+Learning rate: 0.0001
+Weight decay: 0.01
+Scheduler: linear decay to zero
+Max grad norm: 1.0
+Thresholds: [0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9]
+No domain adaptation.
+===========================================
+Train samples: 6369
+Val samples:   933
+Test samples:  933
+===== MODEL =====
+<class 'models.ChangeFormer.ChangeFormerV6'>
+ChangeFormerV6(
+  (Tenc_x2): EncoderTransformer_v3(
+    (patch_embed1): OverlapPatchEmbed(
+      (proj): Conv2d(3, 64, kernel_size=(7, 7), stride=(4, 4), padding=(3, 3))
+      (norm): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+    )
+    (patch_embed2): OverlapPatchEmbed(
+      (proj): Conv2d(64, 128, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3))
+      (norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+    )
+    (patch_embed3): OverlapPatchEmbed(
+      (proj): Conv2d(128, 320, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3))
+      (norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+    )
+    (patch_embed4): OverlapPatchEmbed(
+      (proj): Conv2d(320, 512, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3))
+      (norm): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+    )
+    (block1): ModuleList(
+      (0): Block(
+        (norm1): LayerNorm((64,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (q): Linear(in_features=64, out_features=64, bias=True)
+          (kv): Linear(in_features=64, out_features=128, bias=True)
+          (attn_drop): Dropout(p=0.1, inplace=False)
+          (proj): Linear(in_features=64, out_features=64, bias=True)
+          (proj_drop): Dropout(p=0.1, inplace=False)
+          (sr): Conv2d(64, 64, kernel_size=(8, 8), stride=(8, 8))
+          (norm): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        )
+        (drop_path): Identity()
+        (norm2): LayerNorm((64,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=64, out_features=256, bias=True)
+          (dwconv): DWConv(
+            (dwconv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256)
+          )
+          (act): GELU(approximate='none')
+          (fc2): Linear(in_features=256, out_features=64, bias=True)
+          (drop): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (1): Block(
+        (norm1): LayerNorm((64,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (q): Linear(in_features=64, out_features=64, bias=True)
+          (kv): Linear(in_features=64, out_features=128, bias=True)
+          (attn_drop): Dropout(p=0.1, inplace=False)
+          (proj): Linear(in_features=64, out_features=64, bias=True)
+          (proj_drop): Dropout(p=0.1, inplace=False)
+          (sr): Conv2d(64, 64, kernel_size=(8, 8), stride=(8, 8))
+          (norm): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        )
+        (drop_path): DropPath(drop_prob=0.008)
+        (norm2): LayerNorm((64,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=64, out_features=256, bias=True)
+          (dwconv): DWConv(
+            (dwconv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256)
+          )
+          (act): GELU(approximate='none')
+          (fc2): Linear(in_features=256, out_features=64, bias=True)
+          (drop): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (2): Block(
+        (norm1): LayerNorm((64,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (q): Linear(in_features=64, out_features=64, bias=True)
+          (kv): Linear(in_features=64, out_features=128, bias=True)
+          (attn_drop): Dropout(p=0.1, inplace=False)
+          (proj): Linear(in_features=64, out_features=64, bias=True)
+          (proj_drop): Dropout(p=0.1, inplace=False)
+          (sr): Conv2d(64, 64, kernel_size=(8, 8), stride=(8, 8))
+          (norm): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        )
+        (drop_path): DropPath(drop_prob=0.017)
+        (norm2): LayerNorm((64,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=64, out_features=256, bias=True)
+          (dwconv): DWConv(
+            (dwconv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256)
+          )
+          (act): GELU(approximate='none')
+          (fc2): Linear(in_features=256, out_features=64, bias=True)
+          (drop): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+    (norm1): LayerNorm((64,), eps=1e-06, elementwise_affine=True)
+    (block2): ModuleList(
+      (0): Block(
+        (norm1): LayerNorm((128,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (q): Linear(in_features=128, out_features=128, bias=True)
+          (kv): Linear(in_features=128, out_features=256, bias=True)
+          (attn_drop): Dropout(p=0.1, inplace=False)
+          (proj): Linear(in_features=128, out_features=128, bias=True)
+          (proj_drop): Dropout(p=0.1, inplace=False)
+          (sr): Conv2d(128, 128, kernel_size=(4, 4), stride=(4, 4))
+          (norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+        )
+        (drop_path): DropPath(drop_prob=0.025)
+        (norm2): LayerNorm((128,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=128, out_features=512, bias=True)
+          (dwconv): DWConv(
+            (dwconv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512)
+          )
+          (act): GELU(approximate='none')
+          (fc2): Linear(in_features=512, out_features=128, bias=True)
+          (drop): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (1): Block(
+        (norm1): LayerNorm((128,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (q): Linear(in_features=128, out_features=128, bias=True)
+          (kv): Linear(in_features=128, out_features=256, bias=True)
+          (attn_drop): Dropout(p=0.1, inplace=False)
+          (proj): Linear(in_features=128, out_features=128, bias=True)
+          (proj_drop): Dropout(p=0.1, inplace=False)
+          (sr): Conv2d(128, 128, kernel_size=(4, 4), stride=(4, 4))
+          (norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+        )
+        (drop_path): DropPath(drop_prob=0.033)
+        (norm2): LayerNorm((128,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=128, out_features=512, bias=True)
+          (dwconv): DWConv(
+            (dwconv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512)
+          )
+          (act): GELU(approximate='none')
+          (fc2): Linear(in_features=512, out_features=128, bias=True)
+          (drop): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (2): Block(
+        (norm1): LayerNorm((128,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (q): Linear(in_features=128, out_features=128, bias=True)
+          (kv): Linear(in_features=128, out_features=256, bias=True)
+          (attn_drop): Dropout(p=0.1, inplace=False)
+          (proj): Linear(in_features=128, out_features=128, bias=True)
+          (proj_drop): Dropout(p=0.1, inplace=False)
+          (sr): Conv2d(128, 128, kernel_size=(4, 4), stride=(4, 4))
+          (norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+        )
+        (drop_path): DropPath(drop_prob=0.042)
+        (norm2): LayerNorm((128,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=128, out_features=512, bias=True)
+          (dwconv): DWConv(
+            (dwconv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512)
+          )
+          (act): GELU(approximate='none')
+          (fc2): Linear(in_features=512, out_features=128, bias=True)
+          (drop): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+    (norm2): LayerNorm((128,), eps=1e-06, elementwise_affine=True)
+    (block3): ModuleList(
+      (0): Block(
+        (norm1): LayerNorm((320,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (q): Linear(in_features=320, out_features=320, bias=True)
+          (kv): Linear(in_features=320, out_features=640, bias=True)
+          (attn_drop): Dropout(p=0.1, inplace=False)
+          (proj): Linear(in_features=320, out_features=320, bias=True)
+          (proj_drop): Dropout(p=0.1, inplace=False)
+          (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+          (norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+        )
+        (drop_path): DropPath(drop_prob=0.050)
+        (norm2): LayerNorm((320,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=320, out_features=1280, bias=True)
+          (dwconv): DWConv(
+            (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+          )
+          (act): GELU(approximate='none')
+          (fc2): Linear(in_features=1280, out_features=320, bias=True)
+          (drop): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (1): Block(
+        (norm1): LayerNorm((320,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (q): Linear(in_features=320, out_features=320, bias=True)
+          (kv): Linear(in_features=320, out_features=640, bias=True)
+          (attn_drop): Dropout(p=0.1, inplace=False)
+          (proj): Linear(in_features=320, out_features=320, bias=True)
+          (proj_drop): Dropout(p=0.1, inplace=False)
+          (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+          (norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+        )
+        (drop_path): DropPath(drop_prob=0.058)
+        (norm2): LayerNorm((320,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=320, out_features=1280, bias=True)
+          (dwconv): DWConv(
+            (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+          )
+          (act): GELU(approximate='none')
+          (fc2): Linear(in_features=1280, out_features=320, bias=True)
+          (drop): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (2): Block(
+        (norm1): LayerNorm((320,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (q): Linear(in_features=320, out_features=320, bias=True)
+          (kv): Linear(in_features=320, out_features=640, bias=True)
+          (attn_drop): Dropout(p=0.1, inplace=False)
+          (proj): Linear(in_features=320, out_features=320, bias=True)
+          (proj_drop): Dropout(p=0.1, inplace=False)
+          (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+          (norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+        )
+        (drop_path): DropPath(drop_prob=0.067)
+        (norm2): LayerNorm((320,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=320, out_features=1280, bias=True)
+          (dwconv): DWConv(
+            (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+          )
+          (act): GELU(approximate='none')
+          (fc2): Linear(in_features=1280, out_features=320, bias=True)
+          (drop): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (3): Block(
+        (norm1): LayerNorm((320,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (q): Linear(in_features=320, out_features=320, bias=True)
+          (kv): Linear(in_features=320, out_features=640, bias=True)
+          (attn_drop): Dropout(p=0.1, inplace=False)
+          (proj): Linear(in_features=320, out_features=320, bias=True)
+          (proj_drop): Dropout(p=0.1, inplace=False)
+          (sr): Conv2d(320, 320, kernel_size=(2, 2), stride=(2, 2))
+          (norm): LayerNorm((320,), eps=1e-05, elementwise_affine=True)
+        )
+        (drop_path): DropPath(drop_prob=0.075)
+        (norm2): LayerNorm((320,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=320, out_features=1280, bias=True)
+          (dwconv): DWConv(
+            (dwconv): Conv2d(1280, 1280, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=1280)
+          )
+          (act): GELU(approximate='none')
+          (fc2): Linear(in_features=1280, out_features=320, bias=True)
+          (drop): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+    (norm3): LayerNorm((320,), eps=1e-06, elementwise_affine=True)
+    (block4): ModuleList(
+      (0): Block(
+        (norm1): LayerNorm((512,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (q): Linear(in_features=512, out_features=512, bias=True)
+          (kv): Linear(in_features=512, out_features=1024, bias=True)
+          (attn_drop): Dropout(p=0.1, inplace=False)
+          (proj): Linear(in_features=512, out_features=512, bias=True)
+          (proj_drop): Dropout(p=0.1, inplace=False)
+        )
+        (drop_path): DropPath(drop_prob=0.083)
+        (norm2): LayerNorm((512,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=512, out_features=2048, bias=True)
+          (dwconv): DWConv(
+            (dwconv): Conv2d(2048, 2048, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=2048)
+          )
+          (act): GELU(approximate='none')
+          (fc2): Linear(in_features=2048, out_features=512, bias=True)
+          (drop): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (1): Block(
+        (norm1): LayerNorm((512,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (q): Linear(in_features=512, out_features=512, bias=True)
+          (kv): Linear(in_features=512, out_features=1024, bias=True)
+          (attn_drop): Dropout(p=0.1, inplace=False)
+          (proj): Linear(in_features=512, out_features=512, bias=True)
+          (proj_drop): Dropout(p=0.1, inplace=False)
+        )
+        (drop_path): DropPath(drop_prob=0.092)
+        (norm2): LayerNorm((512,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=512, out_features=2048, bias=True)
+          (dwconv): DWConv(
+            (dwconv): Conv2d(2048, 2048, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=2048)
+          )
+          (act): GELU(approximate='none')
+          (fc2): Linear(in_features=2048, out_features=512, bias=True)
+          (drop): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (2): Block(
+        (norm1): LayerNorm((512,), eps=1e-06, elementwise_affine=True)
+        (attn): Attention(
+          (q): Linear(in_features=512, out_features=512, bias=True)
+          (kv): Linear(in_features=512, out_features=1024, bias=True)
+          (attn_drop): Dropout(p=0.1, inplace=False)
+          (proj): Linear(in_features=512, out_features=512, bias=True)
+          (proj_drop): Dropout(p=0.1, inplace=False)
+        )
+        (drop_path): DropPath(drop_prob=0.100)
+        (norm2): LayerNorm((512,), eps=1e-06, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=512, out_features=2048, bias=True)
+          (dwconv): DWConv(
+            (dwconv): Conv2d(2048, 2048, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=2048)
+          )
+          (act): GELU(approximate='none')
+          (fc2): Linear(in_features=2048, out_features=512, bias=True)
+          (drop): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+    (norm4): LayerNorm((512,), eps=1e-06, elementwise_affine=True)
+  )
+  (TDec_x2): DecoderTransformer_v3(
+    (linear_c4): MLP(
+      (proj): Linear(in_features=512, out_features=256, bias=True)
+    )
+    (linear_c3): MLP(
+      (proj): Linear(in_features=320, out_features=256, bias=True)
+    )
+    (linear_c2): MLP(
+      (proj): Linear(in_features=128, out_features=256, bias=True)
+    )
+    (linear_c1): MLP(
+      (proj): Linear(in_features=64, out_features=256, bias=True)
+    )
+    (diff_c4): Sequential(
+      (0): Conv2d(512, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): ReLU()
+      (2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (3): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (4): ReLU()
+    )
+    (diff_c3): Sequential(
+      (0): Conv2d(512, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): ReLU()
+      (2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (3): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (4): ReLU()
+    )
+    (diff_c2): Sequential(
+      (0): Conv2d(512, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): ReLU()
+      (2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (3): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (4): ReLU()
+    )
+    (diff_c1): Sequential(
+      (0): Conv2d(512, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): ReLU()
+      (2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (3): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (4): ReLU()
+    )
+    (make_pred_c4): Sequential(
+      (0): Conv2d(256, 5, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): ReLU()
+      (2): BatchNorm2d(5, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (3): Conv2d(5, 5, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    )
+    (make_pred_c3): Sequential(
+      (0): Conv2d(256, 5, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): ReLU()
+      (2): BatchNorm2d(5, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (3): Conv2d(5, 5, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    )
+    (make_pred_c2): Sequential(
+      (0): Conv2d(256, 5, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): ReLU()
+      (2): BatchNorm2d(5, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (3): Conv2d(5, 5, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    )
+    (make_pred_c1): Sequential(
+      (0): Conv2d(256, 5, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (1): ReLU()
+      (2): BatchNorm2d(5, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (3): Conv2d(5, 5, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    )
+    (linear_fuse): Sequential(
+      (0): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1))
+      (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (convd2x): UpsampleConvLayer(
+      (conv2d): ConvTranspose2d(256, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    )
+    (dense_2x): Sequential(
+      (0): ResidualBlock(
+        (conv1): ConvLayer(
+          (conv2d): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        )
+        (conv2): ConvLayer(
+          (conv2d): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        )
+        (relu): ReLU()
+      )
+    )
+    (convd1x): UpsampleConvLayer(
+      (conv2d): ConvTranspose2d(256, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    )
+    (dense_1x): Sequential(
+      (0): ResidualBlock(
+        (conv1): ConvLayer(
+          (conv2d): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        )
+        (conv2): ConvLayer(
+          (conv2d): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        )
+        (relu): ReLU()
+      )
+    )
+    (change_probability): ConvLayer(
+      (conv2d): Conv2d(256, 5, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    )
+    (active): Sigmoid()
+  )
+)
+=================
+Localization pos_weight: [56.34074020385742]
+Damage class weights:    [0.09901104867458344, 1.0584478378295898, 1.64476478099823, 1.1977763175964355]
+
+Starting epoch 1/80
+Current LR: 0.00010000
+Epoch 1/80 | Step 20/796 | loss=3.4728 | loc_bce=1.1889 | loc_dice_loss=0.9649 | dmg_ce=1.3190
+Epoch 1/80 | Step 40/796 | loss=3.5186 | loc_bce=1.1321 | loc_dice_loss=0.9570 | dmg_ce=1.4296
+Epoch 1/80 | Step 60/796 | loss=3.4155 | loc_bce=1.0926 | loc_dice_loss=0.9476 | dmg_ce=1.3753
+Epoch 1/80 | Step 80/796 | loss=3.3222 | loc_bce=1.0224 | loc_dice_loss=0.9448 | dmg_ce=1.3550
+Epoch 1/80 | Step 100/796 | loss=3.2587 | loc_bce=0.9721 | loc_dice_loss=0.9408 | dmg_ce=1.3458
+Epoch 1/80 | Step 120/796 | loss=3.2326 | loc_bce=0.9504 | loc_dice_loss=0.9385 | dmg_ce=1.3438
+Epoch 1/80 | Step 140/796 | loss=3.1643 | loc_bce=0.9029 | loc_dice_loss=0.9333 | dmg_ce=1.3281
+Epoch 1/80 | Step 160/796 | loss=3.2005 | loc_bce=0.9389 | loc_dice_loss=0.9318 | dmg_ce=1.3297
+Epoch 1/80 | Step 180/796 | loss=3.1551 | loc_bce=0.9172 | loc_dice_loss=0.9304 | dmg_ce=1.3075
+Epoch 1/80 | Step 200/796 | loss=3.1024 | loc_bce=0.8789 | loc_dice_loss=0.9297 | dmg_ce=1.2938
+Epoch 1/80 | Step 220/796 | loss=3.0901 | loc_bce=0.8617 | loc_dice_loss=0.9277 | dmg_ce=1.3007
+Epoch 1/80 | Step 240/796 | loss=3.1100 | loc_bce=0.8630 | loc_dice_loss=0.9269 | dmg_ce=1.3202
+Epoch 1/80 | Step 260/796 | loss=3.0955 | loc_bce=0.8527 | loc_dice_loss=0.9256 | dmg_ce=1.3172
+Epoch 1/80 | Step 280/796 | loss=3.0630 | loc_bce=0.8326 | loc_dice_loss=0.9237 | dmg_ce=1.3067
+Epoch 1/80 | Step 300/796 | loss=3.0666 | loc_bce=0.8346 | loc_dice_loss=0.9220 | dmg_ce=1.3100
+Epoch 1/80 | Step 320/796 | loss=3.0468 | loc_bce=0.8140 | loc_dice_loss=0.9221 | dmg_ce=1.3107
+Epoch 1/80 | Step 340/796 | loss=3.0266 | loc_bce=0.7980 | loc_dice_loss=0.9204 | dmg_ce=1.3081
+Epoch 1/80 | Step 360/796 | loss=3.0032 | loc_bce=0.7858 | loc_dice_loss=0.9209 | dmg_ce=1.2965
+Epoch 1/80 | Step 380/796 | loss=2.9862 | loc_bce=0.7646 | loc_dice_loss=0.9221 | dmg_ce=1.2996
+Epoch 1/80 | Step 400/796 | loss=2.9706 | loc_bce=0.7481 | loc_dice_loss=0.9221 | dmg_ce=1.3005
+Epoch 1/80 | Step 420/796 | loss=2.9519 | loc_bce=0.7295 | loc_dice_loss=0.9220 | dmg_ce=1.3004
+Epoch 1/80 | Step 440/796 | loss=2.9380 | loc_bce=0.7231 | loc_dice_loss=0.9205 | dmg_ce=1.2944
+Epoch 1/80 | Step 460/796 | loss=2.9290 | loc_bce=0.7212 | loc_dice_loss=0.9202 | dmg_ce=1.2876
+Epoch 1/80 | Step 480/796 | loss=2.9278 | loc_bce=0.7144 | loc_dice_loss=0.9204 | dmg_ce=1.2931
+Epoch 1/80 | Step 500/796 | loss=2.9160 | loc_bce=0.7055 | loc_dice_loss=0.9203 | dmg_ce=1.2902
+Epoch 1/80 | Step 520/796 | loss=2.9211 | loc_bce=0.7109 | loc_dice_loss=0.9206 | dmg_ce=1.2897
+Epoch 1/80 | Step 540/796 | loss=2.9104 | loc_bce=0.7030 | loc_dice_loss=0.9202 | dmg_ce=1.2873
+Epoch 1/80 | Step 560/796 | loss=2.8986 | loc_bce=0.6959 | loc_dice_loss=0.9200 | dmg_ce=1.2827
+Epoch 1/80 | Step 580/796 | loss=2.8934 | loc_bce=0.6920 | loc_dice_loss=0.9193 | dmg_ce=1.2821
+Epoch 1/80 | Step 600/796 | loss=2.8806 | loc_bce=0.6822 | loc_dice_loss=0.9192 | dmg_ce=1.2791
+Epoch 1/80 | Step 620/796 | loss=2.8722 | loc_bce=0.6731 | loc_dice_loss=0.9190 | dmg_ce=1.2801
+Epoch 1/80 | Step 640/796 | loss=2.8626 | loc_bce=0.6660 | loc_dice_loss=0.9188 | dmg_ce=1.2778
+Epoch 1/80 | Step 660/796 | loss=2.8599 | loc_bce=0.6627 | loc_dice_loss=0.9185 | dmg_ce=1.2787
+Epoch 1/80 | Step 680/796 | loss=2.8480 | loc_bce=0.6572 | loc_dice_loss=0.9185 | dmg_ce=1.2723
+Epoch 1/80 | Step 700/796 | loss=2.8498 | loc_bce=0.6556 | loc_dice_loss=0.9181 | dmg_ce=1.2761
+Epoch 1/80 | Step 720/796 | loss=2.8411 | loc_bce=0.6476 | loc_dice_loss=0.9175 | dmg_ce=1.2760
+Epoch 1/80 | Step 740/796 | loss=2.8323 | loc_bce=0.6435 | loc_dice_loss=0.9167 | dmg_ce=1.2720
+Epoch 1/80 | Step 760/796 | loss=2.8221 | loc_bce=0.6372 | loc_dice_loss=0.9163 | dmg_ce=1.2685
+Epoch 1/80 | Step 780/796 | loss=2.8150 | loc_bce=0.6329 | loc_dice_loss=0.9163 | dmg_ce=1.2658
+Epoch 1/80 | Step 796/796 | loss=2.8080 | loc_bce=0.6320 | loc_dice_loss=0.9158 | dmg_ce=1.2601
+Epoch 001 | train_loss=2.8080 | hold_score=0.141586 | hold_threshold=0.90 | hold_loc_f1=0.471950 | hold_damage_f1=0.000002
+Saved best checkpoint at epoch 1 | hold_score=0.141586 | threshold=0.90
+
+Starting epoch 2/80
+Current LR: 0.00009875
+Epoch 2/80 | Step 20/796 | loss=2.6687 | loc_bce=0.4934 | loc_dice_loss=0.9104 | dmg_ce=1.2649
+Epoch 2/80 | Step 40/796 | loss=2.5016 | loc_bce=0.4446 | loc_dice_loss=0.9005 | dmg_ce=1.1565
+Epoch 2/80 | Step 60/796 | loss=2.5088 | loc_bce=0.4667 | loc_dice_loss=0.9021 | dmg_ce=1.1400
+Epoch 2/80 | Step 80/796 | loss=2.4981 | loc_bce=0.4487 | loc_dice_loss=0.9024 | dmg_ce=1.1470
+Epoch 2/80 | Step 100/796 | loss=2.5225 | loc_bce=0.4726 | loc_dice_loss=0.9030 | dmg_ce=1.1469
+Epoch 2/80 | Step 120/796 | loss=2.5617 | loc_bce=0.5065 | loc_dice_loss=0.9005 | dmg_ce=1.1547
+Epoch 2/80 | Step 140/796 | loss=2.5059 | loc_bce=0.4790 | loc_dice_loss=0.8989 | dmg_ce=1.1281
+Epoch 2/80 | Step 160/796 | loss=2.4678 | loc_bce=0.4658 | loc_dice_loss=0.8980 | dmg_ce=1.1041
+Epoch 2/80 | Step 180/796 | loss=2.4732 | loc_bce=0.4705 | loc_dice_loss=0.8945 | dmg_ce=1.1082
+Epoch 2/80 | Step 200/796 | loss=2.4673 | loc_bce=0.4629 | loc_dice_loss=0.8943 | dmg_ce=1.1101
+Epoch 2/80 | Step 220/796 | loss=2.4667 | loc_bce=0.4599 | loc_dice_loss=0.8926 | dmg_ce=1.1142
+Epoch 2/80 | Step 240/796 | loss=2.4578 | loc_bce=0.4610 | loc_dice_loss=0.8894 | dmg_ce=1.1075
+Epoch 2/80 | Step 260/796 | loss=2.4425 | loc_bce=0.4554 | loc_dice_loss=0.8915 | dmg_ce=1.0956
+Epoch 2/80 | Step 280/796 | loss=2.4479 | loc_bce=0.4528 | loc_dice_loss=0.8913 | dmg_ce=1.1038
+Epoch 2/80 | Step 300/796 | loss=2.4429 | loc_bce=0.4478 | loc_dice_loss=0.8909 | dmg_ce=1.1042
+Epoch 2/80 | Step 320/796 | loss=2.4470 | loc_bce=0.4535 | loc_dice_loss=0.8911 | dmg_ce=1.1024
+Epoch 2/80 | Step 340/796 | loss=2.4498 | loc_bce=0.4519 | loc_dice_loss=0.8916 | dmg_ce=1.1064
+Epoch 2/80 | Step 360/796 | loss=2.4578 | loc_bce=0.4571 | loc_dice_loss=0.8908 | dmg_ce=1.1099
+Epoch 2/80 | Step 380/796 | loss=2.4600 | loc_bce=0.4556 | loc_dice_loss=0.8907 | dmg_ce=1.1137
+Epoch 2/80 | Step 400/796 | loss=2.4525 | loc_bce=0.4528 | loc_dice_loss=0.8908 | dmg_ce=1.1089
+Epoch 2/80 | Step 420/796 | loss=2.4488 | loc_bce=0.4512 | loc_dice_loss=0.8901 | dmg_ce=1.1075
+Epoch 2/80 | Step 440/796 | loss=2.4533 | loc_bce=0.4505 | loc_dice_loss=0.8897 | dmg_ce=1.1131
+Epoch 2/80 | Step 460/796 | loss=2.4478 | loc_bce=0.4477 | loc_dice_loss=0.8894 | dmg_ce=1.1107
+Epoch 2/80 | Step 480/796 | loss=2.4488 | loc_bce=0.4479 | loc_dice_loss=0.8886 | dmg_ce=1.1124
+Epoch 2/80 | Step 500/796 | loss=2.4474 | loc_bce=0.4445 | loc_dice_loss=0.8885 | dmg_ce=1.1143
+Epoch 2/80 | Step 520/796 | loss=2.4388 | loc_bce=0.4401 | loc_dice_loss=0.8891 | dmg_ce=1.1096
+Epoch 2/80 | Step 540/796 | loss=2.4407 | loc_bce=0.4391 | loc_dice_loss=0.8893 | dmg_ce=1.1123
+Epoch 2/80 | Step 560/796 | loss=2.4381 | loc_bce=0.4370 | loc_dice_loss=0.8895 | dmg_ce=1.1116
+Epoch 2/80 | Step 580/796 | loss=2.4349 | loc_bce=0.4331 | loc_dice_loss=0.8892 | dmg_ce=1.1126
+Epoch 2/80 | Step 600/796 | loss=2.4439 | loc_bce=0.4388 | loc_dice_loss=0.8895 | dmg_ce=1.1156
+Epoch 2/80 | Step 620/796 | loss=2.4479 | loc_bce=0.4410 | loc_dice_loss=0.8900 | dmg_ce=1.1169
+Epoch 2/80 | Step 640/796 | loss=2.4452 | loc_bce=0.4395 | loc_dice_loss=0.8903 | dmg_ce=1.1154
+Epoch 2/80 | Step 660/796 | loss=2.4454 | loc_bce=0.4405 | loc_dice_loss=0.8901 | dmg_ce=1.1148
+Epoch 2/80 | Step 680/796 | loss=2.4472 | loc_bce=0.4403 | loc_dice_loss=0.8895 | dmg_ce=1.1174
+Epoch 2/80 | Step 700/796 | loss=2.4411 | loc_bce=0.4375 | loc_dice_loss=0.8903 | dmg_ce=1.1134
+Epoch 2/80 | Step 720/796 | loss=2.4379 | loc_bce=0.4389 | loc_dice_loss=0.8899 | dmg_ce=1.1091
+Epoch 2/80 | Step 740/796 | loss=2.4347 | loc_bce=0.4397 | loc_dice_loss=0.8898 | dmg_ce=1.1052
+Epoch 2/80 | Step 760/796 | loss=2.4302 | loc_bce=0.4362 | loc_dice_loss=0.8902 | dmg_ce=1.1038
+Epoch 2/80 | Step 780/796 | loss=2.4248 | loc_bce=0.4357 | loc_dice_loss=0.8900 | dmg_ce=1.0991
+Epoch 2/80 | Step 796/796 | loss=2.4198 | loc_bce=0.4342 | loc_dice_loss=0.8897 | dmg_ce=1.0959
+Epoch 002 | train_loss=2.4198 | hold_score=0.157272 | hold_threshold=0.85 | hold_loc_f1=0.485098 | hold_damage_f1=0.016775
+Saved best checkpoint at epoch 2 | hold_score=0.157272 | threshold=0.85
+
+Starting epoch 3/80
+Current LR: 0.00009750
+Epoch 3/80 | Step 20/796 | loss=2.4813 | loc_bce=0.5520 | loc_dice_loss=0.8721 | dmg_ce=1.0572
+Epoch 3/80 | Step 40/796 | loss=2.4000 | loc_bce=0.4367 | loc_dice_loss=0.8840 | dmg_ce=1.0793
+Epoch 3/80 | Step 60/796 | loss=2.4096 | loc_bce=0.4480 | loc_dice_loss=0.8808 | dmg_ce=1.0808
+Epoch 3/80 | Step 80/796 | loss=2.3560 | loc_bce=0.4216 | loc_dice_loss=0.8812 | dmg_ce=1.0532
+Epoch 3/80 | Step 100/796 | loss=2.3420 | loc_bce=0.4149 | loc_dice_loss=0.8824 | dmg_ce=1.0446
+Epoch 3/80 | Step 120/796 | loss=2.3436 | loc_bce=0.4154 | loc_dice_loss=0.8790 | dmg_ce=1.0493
+Epoch 3/80 | Step 140/796 | loss=2.3280 | loc_bce=0.4124 | loc_dice_loss=0.8795 | dmg_ce=1.0361
+Epoch 3/80 | Step 160/796 | loss=2.3374 | loc_bce=0.4004 | loc_dice_loss=0.8812 | dmg_ce=1.0557
+Epoch 3/80 | Step 180/796 | loss=2.3434 | loc_bce=0.3991 | loc_dice_loss=0.8784 | dmg_ce=1.0660
+Epoch 3/80 | Step 200/796 | loss=2.3306 | loc_bce=0.3964 | loc_dice_loss=0.8770 | dmg_ce=1.0573
+Epoch 3/80 | Step 220/796 | loss=2.3426 | loc_bce=0.3994 | loc_dice_loss=0.8765 | dmg_ce=1.0666
+Epoch 3/80 | Step 240/796 | loss=2.3150 | loc_bce=0.3853 | loc_dice_loss=0.8770 | dmg_ce=1.0526
+Epoch 3/80 | Step 260/796 | loss=2.3354 | loc_bce=0.3880 | loc_dice_loss=0.8759 | dmg_ce=1.0716
+Epoch 3/80 | Step 280/796 | loss=2.3249 | loc_bce=0.3864 | loc_dice_loss=0.8773 | dmg_ce=1.0612
+Epoch 3/80 | Step 300/796 | loss=2.3230 | loc_bce=0.3841 | loc_dice_loss=0.8771 | dmg_ce=1.0618
+Epoch 3/80 | Step 320/796 | loss=2.3376 | loc_bce=0.3925 | loc_dice_loss=0.8759 | dmg_ce=1.0692
+Epoch 3/80 | Step 340/796 | loss=2.3454 | loc_bce=0.3894 | loc_dice_loss=0.8768 | dmg_ce=1.0791
+Epoch 3/80 | Step 360/796 | loss=2.3464 | loc_bce=0.3894 | loc_dice_loss=0.8781 | dmg_ce=1.0789
+Epoch 3/80 | Step 380/796 | loss=2.3418 | loc_bce=0.3919 | loc_dice_loss=0.8777 | dmg_ce=1.0722
+Epoch 3/80 | Step 400/796 | loss=2.3305 | loc_bce=0.3907 | loc_dice_loss=0.8776 | dmg_ce=1.0622
+Epoch 3/80 | Step 420/796 | loss=2.3257 | loc_bce=0.3888 | loc_dice_loss=0.8767 | dmg_ce=1.0601
+Epoch 3/80 | Step 440/796 | loss=2.3250 | loc_bce=0.3936 | loc_dice_loss=0.8753 | dmg_ce=1.0561
+Epoch 3/80 | Step 460/796 | loss=2.3242 | loc_bce=0.3909 | loc_dice_loss=0.8754 | dmg_ce=1.0579
+Epoch 3/80 | Step 480/796 | loss=2.3094 | loc_bce=0.3883 | loc_dice_loss=0.8746 | dmg_ce=1.0466
+Epoch 3/80 | Step 500/796 | loss=2.3081 | loc_bce=0.3891 | loc_dice_loss=0.8743 | dmg_ce=1.0447
+Epoch 3/80 | Step 520/796 | loss=2.3072 | loc_bce=0.3915 | loc_dice_loss=0.8736 | dmg_ce=1.0421
+Epoch 3/80 | Step 540/796 | loss=2.3024 | loc_bce=0.3899 | loc_dice_loss=0.8738 | dmg_ce=1.0387
+Epoch 3/80 | Step 560/796 | loss=2.2988 | loc_bce=0.3854 | loc_dice_loss=0.8740 | dmg_ce=1.0395
+Epoch 3/80 | Step 580/796 | loss=2.2885 | loc_bce=0.3855 | loc_dice_loss=0.8728 | dmg_ce=1.0301
+Epoch 3/80 | Step 600/796 | loss=2.2791 | loc_bce=0.3811 | loc_dice_loss=0.8728 | dmg_ce=1.0253
+Epoch 3/80 | Step 620/796 | loss=2.2786 | loc_bce=0.3854 | loc_dice_loss=0.8717 | dmg_ce=1.0215
+Epoch 3/80 | Step 640/796 | loss=2.2748 | loc_bce=0.3853 | loc_dice_loss=0.8722 | dmg_ce=1.0173
+Epoch 3/80 | Step 660/796 | loss=2.2735 | loc_bce=0.3857 | loc_dice_loss=0.8717 | dmg_ce=1.0162
+Epoch 3/80 | Step 680/796 | loss=2.2713 | loc_bce=0.3850 | loc_dice_loss=0.8718 | dmg_ce=1.0144
+Epoch 3/80 | Step 700/796 | loss=2.2785 | loc_bce=0.3864 | loc_dice_loss=0.8708 | dmg_ce=1.0213
+Epoch 3/80 | Step 720/796 | loss=2.2745 | loc_bce=0.3842 | loc_dice_loss=0.8712 | dmg_ce=1.0192
+Epoch 3/80 | Step 740/796 | loss=2.2751 | loc_bce=0.3837 | loc_dice_loss=0.8709 | dmg_ce=1.0205
+Epoch 3/80 | Step 760/796 | loss=2.2733 | loc_bce=0.3807 | loc_dice_loss=0.8707 | dmg_ce=1.0219
+Epoch 3/80 | Step 780/796 | loss=2.2731 | loc_bce=0.3813 | loc_dice_loss=0.8707 | dmg_ce=1.0211
+Epoch 3/80 | Step 796/796 | loss=2.2707 | loc_bce=0.3809 | loc_dice_loss=0.8707 | dmg_ce=1.0191
+Epoch 003 | train_loss=2.2707 | hold_score=0.167064 | hold_threshold=0.90 | hold_loc_f1=0.547169 | hold_damage_f1=0.004161
+Saved best checkpoint at epoch 3 | hold_score=0.167064 | threshold=0.90
+
+Starting epoch 4/80
+Current LR: 0.00009625
+Epoch 4/80 | Step 20/796 | loss=2.1618 | loc_bce=0.2998 | loc_dice_loss=0.8423 | dmg_ce=1.0197
+Epoch 4/80 | Step 40/796 | loss=2.1718 | loc_bce=0.3840 | loc_dice_loss=0.8456 | dmg_ce=0.9422
+Epoch 4/80 | Step 60/796 | loss=2.1406 | loc_bce=0.3850 | loc_dice_loss=0.8465 | dmg_ce=0.9091
+Epoch 4/80 | Step 80/796 | loss=2.1355 | loc_bce=0.3835 | loc_dice_loss=0.8567 | dmg_ce=0.8953
+Epoch 4/80 | Step 100/796 | loss=2.1958 | loc_bce=0.3671 | loc_dice_loss=0.8592 | dmg_ce=0.9695
+Epoch 4/80 | Step 120/796 | loss=2.1799 | loc_bce=0.3642 | loc_dice_loss=0.8600 | dmg_ce=0.9557
+Epoch 4/80 | Step 140/796 | loss=2.1311 | loc_bce=0.3570 | loc_dice_loss=0.8577 | dmg_ce=0.9164
+Epoch 4/80 | Step 160/796 | loss=2.1004 | loc_bce=0.3490 | loc_dice_loss=0.8588 | dmg_ce=0.8925
+Epoch 4/80 | Step 180/796 | loss=2.0934 | loc_bce=0.3516 | loc_dice_loss=0.8596 | dmg_ce=0.8821
+Epoch 4/80 | Step 200/796 | loss=2.1061 | loc_bce=0.3565 | loc_dice_loss=0.8583 | dmg_ce=0.8913
+Epoch 4/80 | Step 220/796 | loss=2.1156 | loc_bce=0.3560 | loc_dice_loss=0.8577 | dmg_ce=0.9019
+Epoch 4/80 | Step 240/796 | loss=2.1333 | loc_bce=0.3590 | loc_dice_loss=0.8580 | dmg_ce=0.9162
+Epoch 4/80 | Step 260/796 | loss=2.1485 | loc_bce=0.3580 | loc_dice_loss=0.8571 | dmg_ce=0.9334
+Epoch 4/80 | Step 280/796 | loss=2.1560 | loc_bce=0.3546 | loc_dice_loss=0.8580 | dmg_ce=0.9434
+Epoch 4/80 | Step 300/796 | loss=2.1596 | loc_bce=0.3565 | loc_dice_loss=0.8576 | dmg_ce=0.9455
+Epoch 4/80 | Step 320/796 | loss=2.1702 | loc_bce=0.3533 | loc_dice_loss=0.8591 | dmg_ce=0.9578
+Epoch 4/80 | Step 340/796 | loss=2.1572 | loc_bce=0.3500 | loc_dice_loss=0.8599 | dmg_ce=0.9473
+Epoch 4/80 | Step 360/796 | loss=2.1603 | loc_bce=0.3518 | loc_dice_loss=0.8606 | dmg_ce=0.9479
+Epoch 4/80 | Step 380/796 | loss=2.1673 | loc_bce=0.3608 | loc_dice_loss=0.8612 | dmg_ce=0.9453
+Epoch 4/80 | Step 400/796 | loss=2.1657 | loc_bce=0.3574 | loc_dice_loss=0.8611 | dmg_ce=0.9472
+Epoch 4/80 | Step 420/796 | loss=2.1651 | loc_bce=0.3604 | loc_dice_loss=0.8594 | dmg_ce=0.9453
+Epoch 4/80 | Step 440/796 | loss=2.1650 | loc_bce=0.3633 | loc_dice_loss=0.8593 | dmg_ce=0.9425
+Epoch 4/80 | Step 460/796 | loss=2.1647 | loc_bce=0.3639 | loc_dice_loss=0.8572 | dmg_ce=0.9436
+Epoch 4/80 | Step 480/796 | loss=2.1556 | loc_bce=0.3611 | loc_dice_loss=0.8580 | dmg_ce=0.9365
+Epoch 4/80 | Step 500/796 | loss=2.1498 | loc_bce=0.3591 | loc_dice_loss=0.8579 | dmg_ce=0.9328
+Epoch 4/80 | Step 520/796 | loss=2.1519 | loc_bce=0.3603 | loc_dice_loss=0.8584 | dmg_ce=0.9331
+Epoch 4/80 | Step 540/796 | loss=2.1500 | loc_bce=0.3598 | loc_dice_loss=0.8589 | dmg_ce=0.9312
+Epoch 4/80 | Step 560/796 | loss=2.1432 | loc_bce=0.3568 | loc_dice_loss=0.8584 | dmg_ce=0.9279
+Epoch 4/80 | Step 580/796 | loss=2.1375 | loc_bce=0.3555 | loc_dice_loss=0.8590 | dmg_ce=0.9231
+Epoch 4/80 | Step 600/796 | loss=2.1439 | loc_bce=0.3615 | loc_dice_loss=0.8582 | dmg_ce=0.9242
+Epoch 4/80 | Step 620/796 | loss=2.1441 | loc_bce=0.3600 | loc_dice_loss=0.8585 | dmg_ce=0.9256
+Epoch 4/80 | Step 640/796 | loss=2.1465 | loc_bce=0.3603 | loc_dice_loss=0.8576 | dmg_ce=0.9286
+Epoch 4/80 | Step 660/796 | loss=2.1502 | loc_bce=0.3575 | loc_dice_loss=0.8575 | dmg_ce=0.9352
+Epoch 4/80 | Step 680/796 | loss=2.1507 | loc_bce=0.3587 | loc_dice_loss=0.8580 | dmg_ce=0.9340
+Epoch 4/80 | Step 700/796 | loss=2.1465 | loc_bce=0.3584 | loc_dice_loss=0.8579 | dmg_ce=0.9302
+Epoch 4/80 | Step 720/796 | loss=2.1447 | loc_bce=0.3594 | loc_dice_loss=0.8588 | dmg_ce=0.9264
+Epoch 4/80 | Step 740/796 | loss=2.1523 | loc_bce=0.3592 | loc_dice_loss=0.8589 | dmg_ce=0.9342
+Epoch 4/80 | Step 760/796 | loss=2.1480 | loc_bce=0.3586 | loc_dice_loss=0.8583 | dmg_ce=0.9310
+Epoch 4/80 | Step 780/796 | loss=2.1434 | loc_bce=0.3566 | loc_dice_loss=0.8576 | dmg_ce=0.9292
+Epoch 4/80 | Step 796/796 | loss=2.1436 | loc_bce=0.3585 | loc_dice_loss=0.8570 | dmg_ce=0.9281
+Epoch 004 | train_loss=2.1436 | hold_score=0.223490 | hold_threshold=0.90 | hold_loc_f1=0.522839 | hold_damage_f1=0.095198
+Saved best checkpoint at epoch 4 | hold_score=0.223490 | threshold=0.90
+
+Starting epoch 5/80
+Current LR: 0.00009500
+Epoch 5/80 | Step 20/796 | loss=2.1964 | loc_bce=0.3361 | loc_dice_loss=0.8791 | dmg_ce=0.9813
+Epoch 5/80 | Step 40/796 | loss=2.0414 | loc_bce=0.3483 | loc_dice_loss=0.8517 | dmg_ce=0.8414
+Epoch 5/80 | Step 60/796 | loss=2.0976 | loc_bce=0.3707 | loc_dice_loss=0.8394 | dmg_ce=0.8875
+Epoch 5/80 | Step 80/796 | loss=2.1340 | loc_bce=0.3509 | loc_dice_loss=0.8501 | dmg_ce=0.9329
+Epoch 5/80 | Step 100/796 | loss=2.1460 | loc_bce=0.3505 | loc_dice_loss=0.8510 | dmg_ce=0.9445
+Epoch 5/80 | Step 120/796 | loss=2.0783 | loc_bce=0.3373 | loc_dice_loss=0.8534 | dmg_ce=0.8876
+Epoch 5/80 | Step 140/796 | loss=2.0248 | loc_bce=0.3262 | loc_dice_loss=0.8535 | dmg_ce=0.8451
+Epoch 5/80 | Step 160/796 | loss=2.0569 | loc_bce=0.3305 | loc_dice_loss=0.8488 | dmg_ce=0.8776
+Epoch 5/80 | Step 180/796 | loss=2.0573 | loc_bce=0.3224 | loc_dice_loss=0.8477 | dmg_ce=0.8872
+Epoch 5/80 | Step 200/796 | loss=2.0554 | loc_bce=0.3269 | loc_dice_loss=0.8422 | dmg_ce=0.8863
+Epoch 5/80 | Step 220/796 | loss=2.0601 | loc_bce=0.3308 | loc_dice_loss=0.8401 | dmg_ce=0.8892
+Epoch 5/80 | Step 240/796 | loss=2.0425 | loc_bce=0.3251 | loc_dice_loss=0.8417 | dmg_ce=0.8757
+Epoch 5/80 | Step 260/796 | loss=2.0525 | loc_bce=0.3379 | loc_dice_loss=0.8406 | dmg_ce=0.8740
+Epoch 5/80 | Step 280/796 | loss=2.0618 | loc_bce=0.3358 | loc_dice_loss=0.8429 | dmg_ce=0.8830
+Epoch 5/80 | Step 300/796 | loss=2.0543 | loc_bce=0.3339 | loc_dice_loss=0.8425 | dmg_ce=0.8780
+Epoch 5/80 | Step 320/796 | loss=2.0555 | loc_bce=0.3408 | loc_dice_loss=0.8422 | dmg_ce=0.8725
+Epoch 5/80 | Step 340/796 | loss=2.0532 | loc_bce=0.3423 | loc_dice_loss=0.8426 | dmg_ce=0.8684
+Epoch 5/80 | Step 360/796 | loss=2.0495 | loc_bce=0.3427 | loc_dice_loss=0.8423 | dmg_ce=0.8645
+Epoch 5/80 | Step 380/796 | loss=2.0488 | loc_bce=0.3436 | loc_dice_loss=0.8420 | dmg_ce=0.8632
+Epoch 5/80 | Step 400/796 | loss=2.0697 | loc_bce=0.3450 | loc_dice_loss=0.8422 | dmg_ce=0.8825
+Epoch 5/80 | Step 420/796 | loss=2.0671 | loc_bce=0.3393 | loc_dice_loss=0.8437 | dmg_ce=0.8841
+Epoch 5/80 | Step 440/796 | loss=2.0688 | loc_bce=0.3415 | loc_dice_loss=0.8434 | dmg_ce=0.8838
+Epoch 5/80 | Step 460/796 | loss=2.0667 | loc_bce=0.3388 | loc_dice_loss=0.8434 | dmg_ce=0.8845
+Epoch 5/80 | Step 480/796 | loss=2.0831 | loc_bce=0.3474 | loc_dice_loss=0.8427 | dmg_ce=0.8930
+Epoch 5/80 | Step 500/796 | loss=2.0855 | loc_bce=0.3428 | loc_dice_loss=0.8441 | dmg_ce=0.8985
+Epoch 5/80 | Step 520/796 | loss=2.0770 | loc_bce=0.3396 | loc_dice_loss=0.8439 | dmg_ce=0.8935
+Epoch 5/80 | Step 540/796 | loss=2.0790 | loc_bce=0.3364 | loc_dice_loss=0.8437 | dmg_ce=0.8989
+Epoch 5/80 | Step 560/796 | loss=2.0840 | loc_bce=0.3391 | loc_dice_loss=0.8452 | dmg_ce=0.8997
+Epoch 5/80 | Step 580/796 | loss=2.0846 | loc_bce=0.3395 | loc_dice_loss=0.8460 | dmg_ce=0.8992
+Epoch 5/80 | Step 600/796 | loss=2.0922 | loc_bce=0.3428 | loc_dice_loss=0.8461 | dmg_ce=0.9033
+Epoch 5/80 | Step 620/796 | loss=2.0903 | loc_bce=0.3401 | loc_dice_loss=0.8460 | dmg_ce=0.9043
+Epoch 5/80 | Step 640/796 | loss=2.0854 | loc_bce=0.3379 | loc_dice_loss=0.8456 | dmg_ce=0.9019
+Epoch 5/80 | Step 660/796 | loss=2.0850 | loc_bce=0.3350 | loc_dice_loss=0.8462 | dmg_ce=0.9038
+Epoch 5/80 | Step 680/796 | loss=2.0839 | loc_bce=0.3382 | loc_dice_loss=0.8450 | dmg_ce=0.9007
+Epoch 5/80 | Step 700/796 | loss=2.0884 | loc_bce=0.3412 | loc_dice_loss=0.8448 | dmg_ce=0.9025
+Epoch 5/80 | Step 720/796 | loss=2.0785 | loc_bce=0.3384 | loc_dice_loss=0.8447 | dmg_ce=0.8954
+Epoch 5/80 | Step 740/796 | loss=2.0877 | loc_bce=0.3420 | loc_dice_loss=0.8446 | dmg_ce=0.9011
+Epoch 5/80 | Step 760/796 | loss=2.0863 | loc_bce=0.3388 | loc_dice_loss=0.8451 | dmg_ce=0.9024
+Epoch 5/80 | Step 780/796 | loss=2.0831 | loc_bce=0.3374 | loc_dice_loss=0.8453 | dmg_ce=0.9004
+Epoch 5/80 | Step 796/796 | loss=2.0843 | loc_bce=0.3377 | loc_dice_loss=0.8451 | dmg_ce=0.9014
+Epoch 005 | train_loss=2.0843 | hold_score=0.202756 | hold_threshold=0.85 | hold_loc_f1=0.565282 | hold_damage_f1=0.047387
+No improvement for 1 epoch(s). Best epoch=4 | best_hold_score=0.223490
+
+Starting epoch 6/80
+Current LR: 0.00009375
+Epoch 6/80 | Step 20/796 | loss=2.1027 | loc_bce=0.2155 | loc_dice_loss=0.8552 | dmg_ce=1.0320
+Epoch 6/80 | Step 40/796 | loss=2.0193 | loc_bce=0.2474 | loc_dice_loss=0.8470 | dmg_ce=0.9249
+Epoch 6/80 | Step 60/796 | loss=1.9594 | loc_bce=0.2687 | loc_dice_loss=0.8409 | dmg_ce=0.8498
+Epoch 6/80 | Step 80/796 | loss=1.9417 | loc_bce=0.2662 | loc_dice_loss=0.8418 | dmg_ce=0.8336
+Epoch 6/80 | Step 100/796 | loss=1.9400 | loc_bce=0.2945 | loc_dice_loss=0.8304 | dmg_ce=0.8151
+Epoch 6/80 | Step 120/796 | loss=1.9749 | loc_bce=0.2969 | loc_dice_loss=0.8350 | dmg_ce=0.8431
+Epoch 6/80 | Step 140/796 | loss=1.9889 | loc_bce=0.2953 | loc_dice_loss=0.8327 | dmg_ce=0.8608
+Epoch 6/80 | Step 160/796 | loss=2.0048 | loc_bce=0.2871 | loc_dice_loss=0.8316 | dmg_ce=0.8861
+Epoch 6/80 | Step 180/796 | loss=1.9982 | loc_bce=0.2900 | loc_dice_loss=0.8315 | dmg_ce=0.8768
+Epoch 6/80 | Step 200/796 | loss=1.9854 | loc_bce=0.2967 | loc_dice_loss=0.8310 | dmg_ce=0.8577
+Epoch 6/80 | Step 220/796 | loss=1.9637 | loc_bce=0.2912 | loc_dice_loss=0.8312 | dmg_ce=0.8413
+Epoch 6/80 | Step 240/796 | loss=1.9625 | loc_bce=0.2867 | loc_dice_loss=0.8336 | dmg_ce=0.8421
+Epoch 6/80 | Step 260/796 | loss=1.9612 | loc_bce=0.2908 | loc_dice_loss=0.8338 | dmg_ce=0.8366
+Epoch 6/80 | Step 280/796 | loss=1.9730 | loc_bce=0.2905 | loc_dice_loss=0.8324 | dmg_ce=0.8501
+Epoch 6/80 | Step 300/796 | loss=1.9793 | loc_bce=0.2995 | loc_dice_loss=0.8321 | dmg_ce=0.8477
+Epoch 6/80 | Step 320/796 | loss=1.9842 | loc_bce=0.3102 | loc_dice_loss=0.8340 | dmg_ce=0.8400
+Epoch 6/80 | Step 340/796 | loss=1.9831 | loc_bce=0.3114 | loc_dice_loss=0.8329 | dmg_ce=0.8388
+Epoch 6/80 | Step 360/796 | loss=1.9939 | loc_bce=0.3108 | loc_dice_loss=0.8331 | dmg_ce=0.8499
+Epoch 6/80 | Step 380/796 | loss=1.9998 | loc_bce=0.3149 | loc_dice_loss=0.8327 | dmg_ce=0.8522
+Epoch 6/80 | Step 400/796 | loss=1.9968 | loc_bce=0.3149 | loc_dice_loss=0.8332 | dmg_ce=0.8487
+Epoch 6/80 | Step 420/796 | loss=1.9955 | loc_bce=0.3156 | loc_dice_loss=0.8331 | dmg_ce=0.8468
+Epoch 6/80 | Step 440/796 | loss=1.9915 | loc_bce=0.3168 | loc_dice_loss=0.8313 | dmg_ce=0.8433
+Epoch 6/80 | Step 460/796 | loss=1.9953 | loc_bce=0.3210 | loc_dice_loss=0.8311 | dmg_ce=0.8432
+Epoch 6/80 | Step 480/796 | loss=1.9930 | loc_bce=0.3222 | loc_dice_loss=0.8310 | dmg_ce=0.8398
+Epoch 6/80 | Step 500/796 | loss=1.9973 | loc_bce=0.3200 | loc_dice_loss=0.8307 | dmg_ce=0.8467
+Epoch 6/80 | Step 520/796 | loss=1.9958 | loc_bce=0.3195 | loc_dice_loss=0.8298 | dmg_ce=0.8465
+Epoch 6/80 | Step 540/796 | loss=1.9969 | loc_bce=0.3184 | loc_dice_loss=0.8304 | dmg_ce=0.8481
+Epoch 6/80 | Step 560/796 | loss=1.9918 | loc_bce=0.3158 | loc_dice_loss=0.8315 | dmg_ce=0.8446
+Epoch 6/80 | Step 580/796 | loss=1.9922 | loc_bce=0.3137 | loc_dice_loss=0.8308 | dmg_ce=0.8477
+Epoch 6/80 | Step 600/796 | loss=1.9964 | loc_bce=0.3135 | loc_dice_loss=0.8302 | dmg_ce=0.8526
+Epoch 6/80 | Step 620/796 | loss=1.9969 | loc_bce=0.3119 | loc_dice_loss=0.8305 | dmg_ce=0.8545
+Epoch 6/80 | Step 640/796 | loss=1.9971 | loc_bce=0.3104 | loc_dice_loss=0.8304 | dmg_ce=0.8563
+Epoch 6/80 | Step 660/796 | loss=1.9966 | loc_bce=0.3113 | loc_dice_loss=0.8308 | dmg_ce=0.8545
+Epoch 6/80 | Step 680/796 | loss=1.9903 | loc_bce=0.3096 | loc_dice_loss=0.8306 | dmg_ce=0.8501
+Epoch 6/80 | Step 700/796 | loss=1.9891 | loc_bce=0.3091 | loc_dice_loss=0.8301 | dmg_ce=0.8499
+Epoch 6/80 | Step 720/796 | loss=1.9860 | loc_bce=0.3079 | loc_dice_loss=0.8305 | dmg_ce=0.8476
+Epoch 6/80 | Step 740/796 | loss=1.9937 | loc_bce=0.3084 | loc_dice_loss=0.8313 | dmg_ce=0.8540
+Epoch 6/80 | Step 760/796 | loss=1.9931 | loc_bce=0.3081 | loc_dice_loss=0.8320 | dmg_ce=0.8531
+Epoch 6/80 | Step 780/796 | loss=1.9953 | loc_bce=0.3080 | loc_dice_loss=0.8324 | dmg_ce=0.8549
+Epoch 6/80 | Step 796/796 | loss=1.9910 | loc_bce=0.3071 | loc_dice_loss=0.8329 | dmg_ce=0.8511
+Epoch 006 | train_loss=1.9910 | hold_score=0.220321 | hold_threshold=0.85 | hold_loc_f1=0.568814 | hold_damage_f1=0.070967
+No improvement for 2 epoch(s). Best epoch=4 | best_hold_score=0.223490
+
+Starting epoch 7/80
+Current LR: 0.00009250
+Epoch 7/80 | Step 20/796 | loss=1.9907 | loc_bce=0.3216 | loc_dice_loss=0.8354 | dmg_ce=0.8337
+Epoch 7/80 | Step 40/796 | loss=1.9246 | loc_bce=0.3000 | loc_dice_loss=0.8497 | dmg_ce=0.7748
+Epoch 7/80 | Step 60/796 | loss=1.9663 | loc_bce=0.2984 | loc_dice_loss=0.8430 | dmg_ce=0.8248
+Epoch 7/80 | Step 80/796 | loss=1.9311 | loc_bce=0.2911 | loc_dice_loss=0.8416 | dmg_ce=0.7984
+Epoch 7/80 | Step 100/796 | loss=1.9232 | loc_bce=0.3010 | loc_dice_loss=0.8337 | dmg_ce=0.7885
+Epoch 7/80 | Step 120/796 | loss=1.9280 | loc_bce=0.2964 | loc_dice_loss=0.8311 | dmg_ce=0.8006
+Epoch 7/80 | Step 140/796 | loss=1.9179 | loc_bce=0.2983 | loc_dice_loss=0.8349 | dmg_ce=0.7847
+Epoch 7/80 | Step 160/796 | loss=1.9367 | loc_bce=0.2987 | loc_dice_loss=0.8324 | dmg_ce=0.8056
+Epoch 7/80 | Step 180/796 | loss=1.9460 | loc_bce=0.2979 | loc_dice_loss=0.8338 | dmg_ce=0.8143
+Epoch 7/80 | Step 200/796 | loss=1.9449 | loc_bce=0.2962 | loc_dice_loss=0.8318 | dmg_ce=0.8169
+Epoch 7/80 | Step 220/796 | loss=1.9565 | loc_bce=0.2918 | loc_dice_loss=0.8340 | dmg_ce=0.8306
+Epoch 7/80 | Step 240/796 | loss=1.9463 | loc_bce=0.2909 | loc_dice_loss=0.8333 | dmg_ce=0.8222
+Epoch 7/80 | Step 260/796 | loss=1.9467 | loc_bce=0.2827 | loc_dice_loss=0.8347 | dmg_ce=0.8292
+Epoch 7/80 | Step 280/796 | loss=1.9461 | loc_bce=0.2880 | loc_dice_loss=0.8321 | dmg_ce=0.8260
+Epoch 7/80 | Step 300/796 | loss=1.9395 | loc_bce=0.2913 | loc_dice_loss=0.8314 | dmg_ce=0.8167
+Epoch 7/80 | Step 320/796 | loss=1.9303 | loc_bce=0.2910 | loc_dice_loss=0.8294 | dmg_ce=0.8099
+Epoch 7/80 | Step 340/796 | loss=1.9290 | loc_bce=0.2883 | loc_dice_loss=0.8289 | dmg_ce=0.8119
+Epoch 7/80 | Step 360/796 | loss=1.9458 | loc_bce=0.2885 | loc_dice_loss=0.8292 | dmg_ce=0.8282
+Epoch 7/80 | Step 380/796 | loss=1.9622 | loc_bce=0.2901 | loc_dice_loss=0.8300 | dmg_ce=0.8420
+Epoch 7/80 | Step 400/796 | loss=1.9642 | loc_bce=0.2910 | loc_dice_loss=0.8304 | dmg_ce=0.8428
+Epoch 7/80 | Step 420/796 | loss=1.9675 | loc_bce=0.2916 | loc_dice_loss=0.8300 | dmg_ce=0.8459
+Epoch 7/80 | Step 440/796 | loss=1.9676 | loc_bce=0.2929 | loc_dice_loss=0.8298 | dmg_ce=0.8449
+Epoch 7/80 | Step 460/796 | loss=1.9744 | loc_bce=0.2921 | loc_dice_loss=0.8292 | dmg_ce=0.8531
+Epoch 7/80 | Step 480/796 | loss=1.9743 | loc_bce=0.2936 | loc_dice_loss=0.8278 | dmg_ce=0.8529
+Epoch 7/80 | Step 500/796 | loss=1.9763 | loc_bce=0.2950 | loc_dice_loss=0.8279 | dmg_ce=0.8534
+Epoch 7/80 | Step 520/796 | loss=1.9717 | loc_bce=0.2959 | loc_dice_loss=0.8272 | dmg_ce=0.8487
+Epoch 7/80 | Step 540/796 | loss=1.9701 | loc_bce=0.2941 | loc_dice_loss=0.8280 | dmg_ce=0.8481
+Epoch 7/80 | Step 560/796 | loss=1.9654 | loc_bce=0.2919 | loc_dice_loss=0.8278 | dmg_ce=0.8457
+Epoch 7/80 | Step 580/796 | loss=1.9573 | loc_bce=0.2912 | loc_dice_loss=0.8273 | dmg_ce=0.8388
+Epoch 7/80 | Step 600/796 | loss=1.9596 | loc_bce=0.2920 | loc_dice_loss=0.8265 | dmg_ce=0.8411
+Epoch 7/80 | Step 620/796 | loss=1.9526 | loc_bce=0.2909 | loc_dice_loss=0.8259 | dmg_ce=0.8357
+Epoch 7/80 | Step 640/796 | loss=1.9501 | loc_bce=0.2915 | loc_dice_loss=0.8250 | dmg_ce=0.8337
+Epoch 7/80 | Step 660/796 | loss=1.9652 | loc_bce=0.2992 | loc_dice_loss=0.8244 | dmg_ce=0.8416
+Epoch 7/80 | Step 680/796 | loss=1.9658 | loc_bce=0.2975 | loc_dice_loss=0.8254 | dmg_ce=0.8429
+Epoch 7/80 | Step 700/796 | loss=1.9625 | loc_bce=0.2976 | loc_dice_loss=0.8259 | dmg_ce=0.8390
+Epoch 7/80 | Step 720/796 | loss=1.9569 | loc_bce=0.2977 | loc_dice_loss=0.8257 | dmg_ce=0.8335
+Epoch 7/80 | Step 740/796 | loss=1.9634 | loc_bce=0.2987 | loc_dice_loss=0.8262 | dmg_ce=0.8385
+Epoch 7/80 | Step 760/796 | loss=1.9569 | loc_bce=0.2986 | loc_dice_loss=0.8255 | dmg_ce=0.8329
+Epoch 7/80 | Step 780/796 | loss=1.9524 | loc_bce=0.2970 | loc_dice_loss=0.8249 | dmg_ce=0.8306
+Epoch 7/80 | Step 796/796 | loss=1.9534 | loc_bce=0.2977 | loc_dice_loss=0.8248 | dmg_ce=0.8309
+Epoch 007 | train_loss=1.9534 | hold_score=0.211991 | hold_threshold=0.85 | hold_loc_f1=0.587838 | hold_damage_f1=0.050914
+No improvement for 3 epoch(s). Best epoch=4 | best_hold_score=0.223490
+
+Starting epoch 8/80
+Current LR: 0.00009125
+Epoch 8/80 | Step 20/796 | loss=1.8479 | loc_bce=0.2787 | loc_dice_loss=0.8459 | dmg_ce=0.7233
+Epoch 8/80 | Step 40/796 | loss=1.7960 | loc_bce=0.3001 | loc_dice_loss=0.8195 | dmg_ce=0.6765
+Epoch 8/80 | Step 60/796 | loss=1.8444 | loc_bce=0.2808 | loc_dice_loss=0.8245 | dmg_ce=0.7391
+Epoch 8/80 | Step 80/796 | loss=1.8708 | loc_bce=0.2892 | loc_dice_loss=0.8130 | dmg_ce=0.7687
+Epoch 8/80 | Step 100/796 | loss=1.8630 | loc_bce=0.2909 | loc_dice_loss=0.8090 | dmg_ce=0.7631
+Epoch 8/80 | Step 120/796 | loss=1.8402 | loc_bce=0.2759 | loc_dice_loss=0.8163 | dmg_ce=0.7480
+Epoch 8/80 | Step 140/796 | loss=1.8748 | loc_bce=0.2728 | loc_dice_loss=0.8174 | dmg_ce=0.7847
+Epoch 8/80 | Step 160/796 | loss=1.8729 | loc_bce=0.2725 | loc_dice_loss=0.8180 | dmg_ce=0.7823
+Epoch 8/80 | Step 180/796 | loss=1.8843 | loc_bce=0.2722 | loc_dice_loss=0.8180 | dmg_ce=0.7940
+Epoch 8/80 | Step 200/796 | loss=1.8769 | loc_bce=0.2781 | loc_dice_loss=0.8185 | dmg_ce=0.7803
+Epoch 8/80 | Step 220/796 | loss=1.8647 | loc_bce=0.2760 | loc_dice_loss=0.8203 | dmg_ce=0.7684
+Epoch 8/80 | Step 240/796 | loss=1.8532 | loc_bce=0.2783 | loc_dice_loss=0.8181 | dmg_ce=0.7569
+Epoch 8/80 | Step 260/796 | loss=1.8565 | loc_bce=0.2758 | loc_dice_loss=0.8190 | dmg_ce=0.7616
+Epoch 8/80 | Step 280/796 | loss=1.8460 | loc_bce=0.2714 | loc_dice_loss=0.8194 | dmg_ce=0.7552
+Epoch 8/80 | Step 300/796 | loss=1.8476 | loc_bce=0.2755 | loc_dice_loss=0.8178 | dmg_ce=0.7543
+Epoch 8/80 | Step 320/796 | loss=1.8398 | loc_bce=0.2748 | loc_dice_loss=0.8175 | dmg_ce=0.7475
+Epoch 8/80 | Step 340/796 | loss=1.8275 | loc_bce=0.2754 | loc_dice_loss=0.8171 | dmg_ce=0.7350
+Epoch 8/80 | Step 360/796 | loss=1.8379 | loc_bce=0.2697 | loc_dice_loss=0.8185 | dmg_ce=0.7498
+Epoch 8/80 | Step 380/796 | loss=1.8445 | loc_bce=0.2739 | loc_dice_loss=0.8169 | dmg_ce=0.7537
+Epoch 8/80 | Step 400/796 | loss=1.8378 | loc_bce=0.2735 | loc_dice_loss=0.8179 | dmg_ce=0.7465
+Epoch 8/80 | Step 420/796 | loss=1.8446 | loc_bce=0.2722 | loc_dice_loss=0.8194 | dmg_ce=0.7530
+Epoch 8/80 | Step 440/796 | loss=1.8505 | loc_bce=0.2748 | loc_dice_loss=0.8201 | dmg_ce=0.7556
+Epoch 8/80 | Step 460/796 | loss=1.8473 | loc_bce=0.2745 | loc_dice_loss=0.8188 | dmg_ce=0.7541
+Epoch 8/80 | Step 480/796 | loss=1.8429 | loc_bce=0.2737 | loc_dice_loss=0.8182 | dmg_ce=0.7509
+Epoch 8/80 | Step 500/796 | loss=1.8433 | loc_bce=0.2775 | loc_dice_loss=0.8173 | dmg_ce=0.7485
+Epoch 8/80 | Step 520/796 | loss=1.8562 | loc_bce=0.2781 | loc_dice_loss=0.8175 | dmg_ce=0.7606
+Epoch 8/80 | Step 540/796 | loss=1.8623 | loc_bce=0.2820 | loc_dice_loss=0.8165 | dmg_ce=0.7638
+Epoch 8/80 | Step 560/796 | loss=1.8631 | loc_bce=0.2793 | loc_dice_loss=0.8171 | dmg_ce=0.7667
+Epoch 8/80 | Step 580/796 | loss=1.8659 | loc_bce=0.2811 | loc_dice_loss=0.8172 | dmg_ce=0.7675
+Epoch 8/80 | Step 600/796 | loss=1.8625 | loc_bce=0.2801 | loc_dice_loss=0.8164 | dmg_ce=0.7660
+Epoch 8/80 | Step 620/796 | loss=1.8606 | loc_bce=0.2779 | loc_dice_loss=0.8174 | dmg_ce=0.7653
+Epoch 8/80 | Step 640/796 | loss=1.8543 | loc_bce=0.2774 | loc_dice_loss=0.8176 | dmg_ce=0.7594
+Epoch 8/80 | Step 660/796 | loss=1.8649 | loc_bce=0.2768 | loc_dice_loss=0.8169 | dmg_ce=0.7713
+Epoch 8/80 | Step 680/796 | loss=1.8676 | loc_bce=0.2768 | loc_dice_loss=0.8175 | dmg_ce=0.7732
+Epoch 8/80 | Step 700/796 | loss=1.8727 | loc_bce=0.2858 | loc_dice_loss=0.8167 | dmg_ce=0.7701
+Epoch 8/80 | Step 720/796 | loss=1.8725 | loc_bce=0.2840 | loc_dice_loss=0.8170 | dmg_ce=0.7716
+Epoch 8/80 | Step 740/796 | loss=1.8732 | loc_bce=0.2868 | loc_dice_loss=0.8168 | dmg_ce=0.7696
+Epoch 8/80 | Step 760/796 | loss=1.8754 | loc_bce=0.2886 | loc_dice_loss=0.8166 | dmg_ce=0.7702
+Epoch 8/80 | Step 780/796 | loss=1.8805 | loc_bce=0.2896 | loc_dice_loss=0.8169 | dmg_ce=0.7740
+Epoch 8/80 | Step 796/796 | loss=1.8773 | loc_bce=0.2895 | loc_dice_loss=0.8173 | dmg_ce=0.7705
+Epoch 008 | train_loss=1.8773 | hold_score=0.251782 | hold_threshold=0.85 | hold_loc_f1=0.567757 | hold_damage_f1=0.116364
+Saved best checkpoint at epoch 8 | hold_score=0.251782 | threshold=0.85
+
+Starting epoch 9/80
+Current LR: 0.00009000
+Epoch 9/80 | Step 20/796 | loss=1.9576 | loc_bce=0.2608 | loc_dice_loss=0.8043 | dmg_ce=0.8925
+Epoch 9/80 | Step 40/796 | loss=1.8580 | loc_bce=0.2432 | loc_dice_loss=0.8146 | dmg_ce=0.8002
+Epoch 9/80 | Step 60/796 | loss=1.8089 | loc_bce=0.2671 | loc_dice_loss=0.8049 | dmg_ce=0.7369
+Epoch 9/80 | Step 80/796 | loss=1.7982 | loc_bce=0.2699 | loc_dice_loss=0.8071 | dmg_ce=0.7211
+Epoch 9/80 | Step 100/796 | loss=1.8125 | loc_bce=0.2769 | loc_dice_loss=0.8078 | dmg_ce=0.7278
+Epoch 9/80 | Step 120/796 | loss=1.8364 | loc_bce=0.2841 | loc_dice_loss=0.8116 | dmg_ce=0.7407
+Epoch 9/80 | Step 140/796 | loss=1.8483 | loc_bce=0.2839 | loc_dice_loss=0.8153 | dmg_ce=0.7491
+Epoch 9/80 | Step 160/796 | loss=1.8361 | loc_bce=0.2786 | loc_dice_loss=0.8133 | dmg_ce=0.7441
+Epoch 9/80 | Step 180/796 | loss=1.8310 | loc_bce=0.2857 | loc_dice_loss=0.8099 | dmg_ce=0.7354
+Epoch 9/80 | Step 200/796 | loss=1.8197 | loc_bce=0.2863 | loc_dice_loss=0.8068 | dmg_ce=0.7267
+Epoch 9/80 | Step 220/796 | loss=1.8250 | loc_bce=0.2822 | loc_dice_loss=0.8053 | dmg_ce=0.7375
+Epoch 9/80 | Step 240/796 | loss=1.8364 | loc_bce=0.2792 | loc_dice_loss=0.8078 | dmg_ce=0.7494
+Epoch 9/80 | Step 260/796 | loss=1.8399 | loc_bce=0.2782 | loc_dice_loss=0.8077 | dmg_ce=0.7539
+Epoch 9/80 | Step 280/796 | loss=1.8253 | loc_bce=0.2771 | loc_dice_loss=0.8107 | dmg_ce=0.7375
+Epoch 9/80 | Step 300/796 | loss=1.8257 | loc_bce=0.2812 | loc_dice_loss=0.8104 | dmg_ce=0.7341
+Epoch 9/80 | Step 320/796 | loss=1.8270 | loc_bce=0.2781 | loc_dice_loss=0.8113 | dmg_ce=0.7375
+Epoch 9/80 | Step 340/796 | loss=1.8349 | loc_bce=0.2792 | loc_dice_loss=0.8106 | dmg_ce=0.7451
+Epoch 9/80 | Step 360/796 | loss=1.8282 | loc_bce=0.2811 | loc_dice_loss=0.8094 | dmg_ce=0.7377
+Epoch 9/80 | Step 380/796 | loss=1.8269 | loc_bce=0.2819 | loc_dice_loss=0.8086 | dmg_ce=0.7364
+Epoch 9/80 | Step 400/796 | loss=1.8210 | loc_bce=0.2840 | loc_dice_loss=0.8069 | dmg_ce=0.7301
+Epoch 9/80 | Step 420/796 | loss=1.8120 | loc_bce=0.2804 | loc_dice_loss=0.8077 | dmg_ce=0.7240
+Epoch 9/80 | Step 440/796 | loss=1.8050 | loc_bce=0.2779 | loc_dice_loss=0.8089 | dmg_ce=0.7182
+Epoch 9/80 | Step 460/796 | loss=1.7987 | loc_bce=0.2743 | loc_dice_loss=0.8101 | dmg_ce=0.7143
+Epoch 9/80 | Step 480/796 | loss=1.8068 | loc_bce=0.2745 | loc_dice_loss=0.8106 | dmg_ce=0.7217
+Epoch 9/80 | Step 500/796 | loss=1.8109 | loc_bce=0.2775 | loc_dice_loss=0.8111 | dmg_ce=0.7223
+Epoch 9/80 | Step 520/796 | loss=1.8156 | loc_bce=0.2785 | loc_dice_loss=0.8113 | dmg_ce=0.7259
+Epoch 9/80 | Step 540/796 | loss=1.8142 | loc_bce=0.2768 | loc_dice_loss=0.8106 | dmg_ce=0.7268
+Epoch 9/80 | Step 560/796 | loss=1.8175 | loc_bce=0.2774 | loc_dice_loss=0.8100 | dmg_ce=0.7300
+Epoch 9/80 | Step 580/796 | loss=1.8148 | loc_bce=0.2761 | loc_dice_loss=0.8096 | dmg_ce=0.7291
+Epoch 9/80 | Step 600/796 | loss=1.8149 | loc_bce=0.2760 | loc_dice_loss=0.8103 | dmg_ce=0.7285
+Epoch 9/80 | Step 620/796 | loss=1.8161 | loc_bce=0.2766 | loc_dice_loss=0.8094 | dmg_ce=0.7301
+Epoch 9/80 | Step 640/796 | loss=1.8121 | loc_bce=0.2747 | loc_dice_loss=0.8093 | dmg_ce=0.7282
+Epoch 9/80 | Step 660/796 | loss=1.8153 | loc_bce=0.2765 | loc_dice_loss=0.8090 | dmg_ce=0.7298
+Epoch 9/80 | Step 680/796 | loss=1.8170 | loc_bce=0.2790 | loc_dice_loss=0.8090 | dmg_ce=0.7290
+Epoch 9/80 | Step 700/796 | loss=1.8243 | loc_bce=0.2794 | loc_dice_loss=0.8086 | dmg_ce=0.7363
+Epoch 9/80 | Step 720/796 | loss=1.8248 | loc_bce=0.2787 | loc_dice_loss=0.8087 | dmg_ce=0.7373
+Epoch 9/80 | Step 740/796 | loss=1.8241 | loc_bce=0.2781 | loc_dice_loss=0.8095 | dmg_ce=0.7365
+Epoch 9/80 | Step 760/796 | loss=1.8263 | loc_bce=0.2780 | loc_dice_loss=0.8092 | dmg_ce=0.7392
+Epoch 9/80 | Step 780/796 | loss=1.8264 | loc_bce=0.2779 | loc_dice_loss=0.8083 | dmg_ce=0.7402
+Epoch 9/80 | Step 796/796 | loss=1.8274 | loc_bce=0.2778 | loc_dice_loss=0.8077 | dmg_ce=0.7419
+Epoch 009 | train_loss=1.8274 | hold_score=0.268517 | hold_threshold=0.85 | hold_loc_f1=0.605255 | hold_damage_f1=0.124201
+Saved best checkpoint at epoch 9 | hold_score=0.268517 | threshold=0.85
+
+Starting epoch 10/80
+Current LR: 0.00008875
+Epoch 10/80 | Step 20/796 | loss=1.7086 | loc_bce=0.2635 | loc_dice_loss=0.8119 | dmg_ce=0.6332
+Epoch 10/80 | Step 40/796 | loss=1.7135 | loc_bce=0.2519 | loc_dice_loss=0.8110 | dmg_ce=0.6505
+Epoch 10/80 | Step 60/796 | loss=1.7151 | loc_bce=0.2515 | loc_dice_loss=0.8058 | dmg_ce=0.6578
+Epoch 10/80 | Step 80/796 | loss=1.7794 | loc_bce=0.2634 | loc_dice_loss=0.8057 | dmg_ce=0.7102
+Epoch 10/80 | Step 100/796 | loss=1.8199 | loc_bce=0.2600 | loc_dice_loss=0.8114 | dmg_ce=0.7485
+Epoch 10/80 | Step 120/796 | loss=1.8050 | loc_bce=0.2571 | loc_dice_loss=0.8123 | dmg_ce=0.7356
+Epoch 10/80 | Step 140/796 | loss=1.7973 | loc_bce=0.2629 | loc_dice_loss=0.8072 | dmg_ce=0.7272
+Epoch 10/80 | Step 160/796 | loss=1.7977 | loc_bce=0.2620 | loc_dice_loss=0.8090 | dmg_ce=0.7268
+Epoch 10/80 | Step 180/796 | loss=1.7869 | loc_bce=0.2628 | loc_dice_loss=0.8127 | dmg_ce=0.7113
+Epoch 10/80 | Step 200/796 | loss=1.7886 | loc_bce=0.2613 | loc_dice_loss=0.8142 | dmg_ce=0.7131
+Epoch 10/80 | Step 220/796 | loss=1.8000 | loc_bce=0.2575 | loc_dice_loss=0.8140 | dmg_ce=0.7284
+Epoch 10/80 | Step 240/796 | loss=1.7907 | loc_bce=0.2547 | loc_dice_loss=0.8137 | dmg_ce=0.7223
+Epoch 10/80 | Step 260/796 | loss=1.7752 | loc_bce=0.2529 | loc_dice_loss=0.8121 | dmg_ce=0.7103
+Epoch 10/80 | Step 280/796 | loss=1.7710 | loc_bce=0.2550 | loc_dice_loss=0.8107 | dmg_ce=0.7054
+Epoch 10/80 | Step 300/796 | loss=1.7639 | loc_bce=0.2550 | loc_dice_loss=0.8099 | dmg_ce=0.6990
+Epoch 10/80 | Step 320/796 | loss=1.7734 | loc_bce=0.2579 | loc_dice_loss=0.8082 | dmg_ce=0.7073
+Epoch 10/80 | Step 340/796 | loss=1.7645 | loc_bce=0.2546 | loc_dice_loss=0.8072 | dmg_ce=0.7027
+Epoch 10/80 | Step 360/796 | loss=1.7731 | loc_bce=0.2605 | loc_dice_loss=0.8067 | dmg_ce=0.7059
+Epoch 10/80 | Step 380/796 | loss=1.7840 | loc_bce=0.2567 | loc_dice_loss=0.8090 | dmg_ce=0.7183
+Epoch 10/80 | Step 400/796 | loss=1.7771 | loc_bce=0.2562 | loc_dice_loss=0.8087 | dmg_ce=0.7122
+Epoch 10/80 | Step 420/796 | loss=1.7820 | loc_bce=0.2658 | loc_dice_loss=0.8078 | dmg_ce=0.7084
+Epoch 10/80 | Step 440/796 | loss=1.7865 | loc_bce=0.2652 | loc_dice_loss=0.8071 | dmg_ce=0.7142
+Epoch 10/80 | Step 460/796 | loss=1.7875 | loc_bce=0.2638 | loc_dice_loss=0.8066 | dmg_ce=0.7172
+Epoch 10/80 | Step 480/796 | loss=1.7823 | loc_bce=0.2629 | loc_dice_loss=0.8065 | dmg_ce=0.7129
+Epoch 10/80 | Step 500/796 | loss=1.7867 | loc_bce=0.2646 | loc_dice_loss=0.8049 | dmg_ce=0.7171
+Epoch 10/80 | Step 520/796 | loss=1.7928 | loc_bce=0.2645 | loc_dice_loss=0.8060 | dmg_ce=0.7223
+Epoch 10/80 | Step 540/796 | loss=1.7906 | loc_bce=0.2636 | loc_dice_loss=0.8060 | dmg_ce=0.7210
+Epoch 10/80 | Step 560/796 | loss=1.7908 | loc_bce=0.2613 | loc_dice_loss=0.8065 | dmg_ce=0.7230
+Epoch 10/80 | Step 580/796 | loss=1.7930 | loc_bce=0.2613 | loc_dice_loss=0.8063 | dmg_ce=0.7253
+Epoch 10/80 | Step 600/796 | loss=1.7962 | loc_bce=0.2623 | loc_dice_loss=0.8070 | dmg_ce=0.7269
+Epoch 10/80 | Step 620/796 | loss=1.7906 | loc_bce=0.2619 | loc_dice_loss=0.8064 | dmg_ce=0.7223
+Epoch 10/80 | Step 640/796 | loss=1.7959 | loc_bce=0.2626 | loc_dice_loss=0.8062 | dmg_ce=0.7271
+Epoch 10/80 | Step 660/796 | loss=1.7927 | loc_bce=0.2621 | loc_dice_loss=0.8060 | dmg_ce=0.7246
+Epoch 10/80 | Step 680/796 | loss=1.7930 | loc_bce=0.2628 | loc_dice_loss=0.8041 | dmg_ce=0.7260
+Epoch 10/80 | Step 700/796 | loss=1.7926 | loc_bce=0.2630 | loc_dice_loss=0.8036 | dmg_ce=0.7260
+Epoch 10/80 | Step 720/796 | loss=1.7921 | loc_bce=0.2632 | loc_dice_loss=0.8031 | dmg_ce=0.7258
+Epoch 10/80 | Step 740/796 | loss=1.7889 | loc_bce=0.2637 | loc_dice_loss=0.8024 | dmg_ce=0.7229
+Epoch 10/80 | Step 760/796 | loss=1.7872 | loc_bce=0.2643 | loc_dice_loss=0.8021 | dmg_ce=0.7207
+Epoch 10/80 | Step 780/796 | loss=1.7884 | loc_bce=0.2644 | loc_dice_loss=0.8026 | dmg_ce=0.7214
+Epoch 10/80 | Step 796/796 | loss=1.7880 | loc_bce=0.2654 | loc_dice_loss=0.8030 | dmg_ce=0.7196
+Epoch 010 | train_loss=1.7880 | hold_score=0.240312 | hold_threshold=0.90 | hold_loc_f1=0.599130 | hold_damage_f1=0.086533
+No improvement for 1 epoch(s). Best epoch=9 | best_hold_score=0.268517
+
+Starting epoch 11/80
+Current LR: 0.00008750
+Epoch 11/80 | Step 20/796 | loss=2.2582 | loc_bce=0.7739 | loc_dice_loss=0.8140 | dmg_ce=0.6703
+Epoch 11/80 | Step 40/796 | loss=2.0334 | loc_bce=0.5548 | loc_dice_loss=0.7958 | dmg_ce=0.6828
+Epoch 11/80 | Step 60/796 | loss=1.9541 | loc_bce=0.4403 | loc_dice_loss=0.7982 | dmg_ce=0.7156
+Epoch 11/80 | Step 80/796 | loss=1.9228 | loc_bce=0.4016 | loc_dice_loss=0.7921 | dmg_ce=0.7291
+Epoch 11/80 | Step 100/796 | loss=1.8777 | loc_bce=0.3677 | loc_dice_loss=0.7956 | dmg_ce=0.7144
+Epoch 11/80 | Step 120/796 | loss=1.8854 | loc_bce=0.3747 | loc_dice_loss=0.7936 | dmg_ce=0.7171
+Epoch 11/80 | Step 140/796 | loss=1.8717 | loc_bce=0.3478 | loc_dice_loss=0.7939 | dmg_ce=0.7300
+Epoch 11/80 | Step 160/796 | loss=1.8432 | loc_bce=0.3341 | loc_dice_loss=0.7982 | dmg_ce=0.7109
+Epoch 11/80 | Step 180/796 | loss=1.8561 | loc_bce=0.3238 | loc_dice_loss=0.7987 | dmg_ce=0.7337
+Epoch 11/80 | Step 200/796 | loss=1.8417 | loc_bce=0.3144 | loc_dice_loss=0.7981 | dmg_ce=0.7293
+Epoch 11/80 | Step 220/796 | loss=1.8344 | loc_bce=0.3095 | loc_dice_loss=0.7972 | dmg_ce=0.7277
+Epoch 11/80 | Step 240/796 | loss=1.8409 | loc_bce=0.3029 | loc_dice_loss=0.7993 | dmg_ce=0.7387
+Epoch 11/80 | Step 260/796 | loss=1.8243 | loc_bce=0.3026 | loc_dice_loss=0.7979 | dmg_ce=0.7238
+Epoch 11/80 | Step 280/796 | loss=1.8217 | loc_bce=0.2977 | loc_dice_loss=0.7990 | dmg_ce=0.7250
+Epoch 11/80 | Step 300/796 | loss=1.8126 | loc_bce=0.2974 | loc_dice_loss=0.7992 | dmg_ce=0.7160
+Epoch 11/80 | Step 320/796 | loss=1.8147 | loc_bce=0.2931 | loc_dice_loss=0.8006 | dmg_ce=0.7209
+Epoch 11/80 | Step 340/796 | loss=1.8119 | loc_bce=0.2895 | loc_dice_loss=0.7996 | dmg_ce=0.7229
+Epoch 11/80 | Step 360/796 | loss=1.8107 | loc_bce=0.2879 | loc_dice_loss=0.7992 | dmg_ce=0.7236
+Epoch 11/80 | Step 380/796 | loss=1.8082 | loc_bce=0.2853 | loc_dice_loss=0.7969 | dmg_ce=0.7261
+Epoch 11/80 | Step 400/796 | loss=1.8087 | loc_bce=0.2818 | loc_dice_loss=0.7990 | dmg_ce=0.7279
+Epoch 11/80 | Step 420/796 | loss=1.8011 | loc_bce=0.2822 | loc_dice_loss=0.7987 | dmg_ce=0.7201
+Epoch 11/80 | Step 440/796 | loss=1.8003 | loc_bce=0.2812 | loc_dice_loss=0.7992 | dmg_ce=0.7199
+Epoch 11/80 | Step 460/796 | loss=1.8125 | loc_bce=0.2810 | loc_dice_loss=0.7998 | dmg_ce=0.7317
+Epoch 11/80 | Step 480/796 | loss=1.8145 | loc_bce=0.2841 | loc_dice_loss=0.7989 | dmg_ce=0.7316
+Epoch 11/80 | Step 500/796 | loss=1.8091 | loc_bce=0.2798 | loc_dice_loss=0.7990 | dmg_ce=0.7303
+Epoch 11/80 | Step 520/796 | loss=1.8086 | loc_bce=0.2779 | loc_dice_loss=0.7990 | dmg_ce=0.7316
+Epoch 11/80 | Step 540/796 | loss=1.8102 | loc_bce=0.2789 | loc_dice_loss=0.7991 | dmg_ce=0.7323
+Epoch 11/80 | Step 560/796 | loss=1.8214 | loc_bce=0.2792 | loc_dice_loss=0.7997 | dmg_ce=0.7425
+Epoch 11/80 | Step 580/796 | loss=1.8288 | loc_bce=0.2774 | loc_dice_loss=0.7994 | dmg_ce=0.7520
+Epoch 11/80 | Step 600/796 | loss=1.8251 | loc_bce=0.2759 | loc_dice_loss=0.7987 | dmg_ce=0.7505
+Epoch 11/80 | Step 620/796 | loss=1.8188 | loc_bce=0.2757 | loc_dice_loss=0.7992 | dmg_ce=0.7439
+Epoch 11/80 | Step 640/796 | loss=1.8156 | loc_bce=0.2741 | loc_dice_loss=0.7985 | dmg_ce=0.7430
+Epoch 11/80 | Step 660/796 | loss=1.8056 | loc_bce=0.2723 | loc_dice_loss=0.7974 | dmg_ce=0.7359
+Epoch 11/80 | Step 680/796 | loss=1.7997 | loc_bce=0.2713 | loc_dice_loss=0.7976 | dmg_ce=0.7308
+Epoch 11/80 | Step 700/796 | loss=1.8043 | loc_bce=0.2707 | loc_dice_loss=0.7978 | dmg_ce=0.7358
+Epoch 11/80 | Step 720/796 | loss=1.8045 | loc_bce=0.2705 | loc_dice_loss=0.7973 | dmg_ce=0.7367
+Epoch 11/80 | Step 740/796 | loss=1.8062 | loc_bce=0.2709 | loc_dice_loss=0.7976 | dmg_ce=0.7377
+Epoch 11/80 | Step 760/796 | loss=1.8069 | loc_bce=0.2731 | loc_dice_loss=0.7975 | dmg_ce=0.7363
+Epoch 11/80 | Step 780/796 | loss=1.8118 | loc_bce=0.2746 | loc_dice_loss=0.7981 | dmg_ce=0.7390
+Epoch 11/80 | Step 796/796 | loss=1.8108 | loc_bce=0.2747 | loc_dice_loss=0.7978 | dmg_ce=0.7384
+Epoch 011 | train_loss=1.8108 | hold_score=0.280824 | hold_threshold=0.70 | hold_loc_f1=0.558050 | hold_damage_f1=0.162013
+Saved best checkpoint at epoch 11 | hold_score=0.280824 | threshold=0.70
+
+Starting epoch 12/80
+Current LR: 0.00008625
+Epoch 12/80 | Step 20/796 | loss=1.7048 | loc_bce=0.2236 | loc_dice_loss=0.8165 | dmg_ce=0.6647
+Epoch 12/80 | Step 40/796 | loss=1.7833 | loc_bce=0.2030 | loc_dice_loss=0.8089 | dmg_ce=0.7715
+Epoch 12/80 | Step 60/796 | loss=1.7784 | loc_bce=0.2145 | loc_dice_loss=0.8134 | dmg_ce=0.7505
+Epoch 12/80 | Step 80/796 | loss=1.7449 | loc_bce=0.2161 | loc_dice_loss=0.8117 | dmg_ce=0.7170
+Epoch 12/80 | Step 100/796 | loss=1.7298 | loc_bce=0.2198 | loc_dice_loss=0.8131 | dmg_ce=0.6970
+Epoch 12/80 | Step 120/796 | loss=1.7159 | loc_bce=0.2182 | loc_dice_loss=0.8129 | dmg_ce=0.6847
+Epoch 12/80 | Step 140/796 | loss=1.7068 | loc_bce=0.2201 | loc_dice_loss=0.8107 | dmg_ce=0.6761
+Epoch 12/80 | Step 160/796 | loss=1.7178 | loc_bce=0.2258 | loc_dice_loss=0.8073 | dmg_ce=0.6847
+Epoch 12/80 | Step 180/796 | loss=1.7247 | loc_bce=0.2262 | loc_dice_loss=0.8030 | dmg_ce=0.6954
+Epoch 12/80 | Step 200/796 | loss=1.7558 | loc_bce=0.2301 | loc_dice_loss=0.8018 | dmg_ce=0.7240
+Epoch 12/80 | Step 220/796 | loss=1.7577 | loc_bce=0.2311 | loc_dice_loss=0.8000 | dmg_ce=0.7266
+Epoch 12/80 | Step 240/796 | loss=1.7578 | loc_bce=0.2367 | loc_dice_loss=0.7999 | dmg_ce=0.7212
+Epoch 12/80 | Step 260/796 | loss=1.7646 | loc_bce=0.2373 | loc_dice_loss=0.7981 | dmg_ce=0.7291
+Epoch 12/80 | Step 280/796 | loss=1.7493 | loc_bce=0.2413 | loc_dice_loss=0.7952 | dmg_ce=0.7129
+Epoch 12/80 | Step 300/796 | loss=1.7551 | loc_bce=0.2437 | loc_dice_loss=0.7938 | dmg_ce=0.7176
+Epoch 12/80 | Step 320/796 | loss=1.7497 | loc_bce=0.2431 | loc_dice_loss=0.7964 | dmg_ce=0.7102
+Epoch 12/80 | Step 340/796 | loss=1.7407 | loc_bce=0.2438 | loc_dice_loss=0.7951 | dmg_ce=0.7018
+Epoch 12/80 | Step 360/796 | loss=1.7337 | loc_bce=0.2428 | loc_dice_loss=0.7928 | dmg_ce=0.6981
+Epoch 12/80 | Step 380/796 | loss=1.7380 | loc_bce=0.2425 | loc_dice_loss=0.7928 | dmg_ce=0.7027
+Epoch 12/80 | Step 400/796 | loss=1.7362 | loc_bce=0.2406 | loc_dice_loss=0.7940 | dmg_ce=0.7016
+Epoch 12/80 | Step 420/796 | loss=1.7405 | loc_bce=0.2417 | loc_dice_loss=0.7945 | dmg_ce=0.7043
+Epoch 12/80 | Step 440/796 | loss=1.7547 | loc_bce=0.2417 | loc_dice_loss=0.7963 | dmg_ce=0.7168
+Epoch 12/80 | Step 460/796 | loss=1.7544 | loc_bce=0.2423 | loc_dice_loss=0.7959 | dmg_ce=0.7163
+Epoch 12/80 | Step 480/796 | loss=1.7508 | loc_bce=0.2432 | loc_dice_loss=0.7947 | dmg_ce=0.7129
+Epoch 12/80 | Step 500/796 | loss=1.7567 | loc_bce=0.2455 | loc_dice_loss=0.7932 | dmg_ce=0.7181
+Epoch 12/80 | Step 520/796 | loss=1.7559 | loc_bce=0.2436 | loc_dice_loss=0.7939 | dmg_ce=0.7185
+Epoch 12/80 | Step 540/796 | loss=1.7545 | loc_bce=0.2430 | loc_dice_loss=0.7943 | dmg_ce=0.7173
+Epoch 12/80 | Step 560/796 | loss=1.7528 | loc_bce=0.2443 | loc_dice_loss=0.7943 | dmg_ce=0.7142
+Epoch 12/80 | Step 580/796 | loss=1.7527 | loc_bce=0.2466 | loc_dice_loss=0.7934 | dmg_ce=0.7127
+Epoch 12/80 | Step 600/796 | loss=1.7526 | loc_bce=0.2485 | loc_dice_loss=0.7915 | dmg_ce=0.7127
+Epoch 12/80 | Step 620/796 | loss=1.7532 | loc_bce=0.2479 | loc_dice_loss=0.7919 | dmg_ce=0.7134
+Epoch 12/80 | Step 640/796 | loss=1.7467 | loc_bce=0.2452 | loc_dice_loss=0.7931 | dmg_ce=0.7084
+Epoch 12/80 | Step 660/796 | loss=1.7464 | loc_bce=0.2441 | loc_dice_loss=0.7923 | dmg_ce=0.7100
+Epoch 12/80 | Step 680/796 | loss=1.7507 | loc_bce=0.2441 | loc_dice_loss=0.7921 | dmg_ce=0.7145
+Epoch 12/80 | Step 700/796 | loss=1.7499 | loc_bce=0.2448 | loc_dice_loss=0.7926 | dmg_ce=0.7125
+Epoch 12/80 | Step 720/796 | loss=1.7476 | loc_bce=0.2483 | loc_dice_loss=0.7917 | dmg_ce=0.7076
+Epoch 12/80 | Step 740/796 | loss=1.7525 | loc_bce=0.2522 | loc_dice_loss=0.7907 | dmg_ce=0.7095
+Epoch 12/80 | Step 760/796 | loss=1.7547 | loc_bce=0.2541 | loc_dice_loss=0.7907 | dmg_ce=0.7099
+Epoch 12/80 | Step 780/796 | loss=1.7547 | loc_bce=0.2550 | loc_dice_loss=0.7909 | dmg_ce=0.7087
+Epoch 12/80 | Step 796/796 | loss=1.7566 | loc_bce=0.2555 | loc_dice_loss=0.7908 | dmg_ce=0.7104
+Epoch 012 | train_loss=1.7566 | hold_score=0.286362 | hold_threshold=0.90 | hold_loc_f1=0.612210 | hold_damage_f1=0.146714
+Saved best checkpoint at epoch 12 | hold_score=0.286362 | threshold=0.90
+
+Starting epoch 13/80
+Current LR: 0.00008500
+Epoch 13/80 | Step 20/796 | loss=1.8569 | loc_bce=0.2634 | loc_dice_loss=0.7884 | dmg_ce=0.8052
+Epoch 13/80 | Step 40/796 | loss=1.7907 | loc_bce=0.2869 | loc_dice_loss=0.7883 | dmg_ce=0.7156
+Epoch 13/80 | Step 60/796 | loss=1.7138 | loc_bce=0.2835 | loc_dice_loss=0.7836 | dmg_ce=0.6467
+Epoch 13/80 | Step 80/796 | loss=1.6782 | loc_bce=0.2624 | loc_dice_loss=0.7808 | dmg_ce=0.6350
+Epoch 13/80 | Step 100/796 | loss=1.6822 | loc_bce=0.2449 | loc_dice_loss=0.7877 | dmg_ce=0.6495
+Epoch 13/80 | Step 120/796 | loss=1.7027 | loc_bce=0.2548 | loc_dice_loss=0.7824 | dmg_ce=0.6654
+Epoch 13/80 | Step 140/796 | loss=1.7099 | loc_bce=0.2503 | loc_dice_loss=0.7854 | dmg_ce=0.6742
+Epoch 13/80 | Step 160/796 | loss=1.7272 | loc_bce=0.2512 | loc_dice_loss=0.7851 | dmg_ce=0.6909
+Epoch 13/80 | Step 180/796 | loss=1.7292 | loc_bce=0.2462 | loc_dice_loss=0.7858 | dmg_ce=0.6973
+Epoch 13/80 | Step 200/796 | loss=1.7182 | loc_bce=0.2429 | loc_dice_loss=0.7844 | dmg_ce=0.6908
+Epoch 13/80 | Step 220/796 | loss=1.7110 | loc_bce=0.2415 | loc_dice_loss=0.7850 | dmg_ce=0.6845
+Epoch 13/80 | Step 240/796 | loss=1.7073 | loc_bce=0.2416 | loc_dice_loss=0.7877 | dmg_ce=0.6780
+Epoch 13/80 | Step 260/796 | loss=1.7076 | loc_bce=0.2408 | loc_dice_loss=0.7903 | dmg_ce=0.6765
+Epoch 13/80 | Step 280/796 | loss=1.6963 | loc_bce=0.2409 | loc_dice_loss=0.7899 | dmg_ce=0.6656
+Epoch 13/80 | Step 300/796 | loss=1.7063 | loc_bce=0.2397 | loc_dice_loss=0.7917 | dmg_ce=0.6748
+Epoch 13/80 | Step 320/796 | loss=1.7025 | loc_bce=0.2391 | loc_dice_loss=0.7917 | dmg_ce=0.6717
+Epoch 13/80 | Step 340/796 | loss=1.6979 | loc_bce=0.2397 | loc_dice_loss=0.7896 | dmg_ce=0.6686
+Epoch 13/80 | Step 360/796 | loss=1.7016 | loc_bce=0.2461 | loc_dice_loss=0.7888 | dmg_ce=0.6667
+Epoch 13/80 | Step 380/796 | loss=1.7016 | loc_bce=0.2414 | loc_dice_loss=0.7906 | dmg_ce=0.6696
+Epoch 13/80 | Step 400/796 | loss=1.7006 | loc_bce=0.2417 | loc_dice_loss=0.7901 | dmg_ce=0.6688
+Epoch 13/80 | Step 420/796 | loss=1.7205 | loc_bce=0.2543 | loc_dice_loss=0.7892 | dmg_ce=0.6770
+Epoch 13/80 | Step 440/796 | loss=1.7206 | loc_bce=0.2550 | loc_dice_loss=0.7893 | dmg_ce=0.6764
+Epoch 13/80 | Step 460/796 | loss=1.7288 | loc_bce=0.2554 | loc_dice_loss=0.7891 | dmg_ce=0.6843
+Epoch 13/80 | Step 480/796 | loss=1.7301 | loc_bce=0.2546 | loc_dice_loss=0.7897 | dmg_ce=0.6858
+Epoch 13/80 | Step 500/796 | loss=1.7320 | loc_bce=0.2538 | loc_dice_loss=0.7890 | dmg_ce=0.6892
+Epoch 13/80 | Step 520/796 | loss=1.7318 | loc_bce=0.2531 | loc_dice_loss=0.7889 | dmg_ce=0.6899
+Epoch 13/80 | Step 540/796 | loss=1.7304 | loc_bce=0.2531 | loc_dice_loss=0.7884 | dmg_ce=0.6889
+Epoch 13/80 | Step 560/796 | loss=1.7323 | loc_bce=0.2527 | loc_dice_loss=0.7878 | dmg_ce=0.6918
+Epoch 13/80 | Step 580/796 | loss=1.7376 | loc_bce=0.2547 | loc_dice_loss=0.7871 | dmg_ce=0.6957
+Epoch 13/80 | Step 600/796 | loss=1.7307 | loc_bce=0.2536 | loc_dice_loss=0.7869 | dmg_ce=0.6902
+Epoch 13/80 | Step 620/796 | loss=1.7300 | loc_bce=0.2510 | loc_dice_loss=0.7876 | dmg_ce=0.6913
+Epoch 13/80 | Step 640/796 | loss=1.7289 | loc_bce=0.2517 | loc_dice_loss=0.7869 | dmg_ce=0.6902
+Epoch 13/80 | Step 660/796 | loss=1.7279 | loc_bce=0.2512 | loc_dice_loss=0.7868 | dmg_ce=0.6898
+Epoch 13/80 | Step 680/796 | loss=1.7275 | loc_bce=0.2503 | loc_dice_loss=0.7866 | dmg_ce=0.6907
+Epoch 13/80 | Step 700/796 | loss=1.7214 | loc_bce=0.2493 | loc_dice_loss=0.7859 | dmg_ce=0.6862
+Epoch 13/80 | Step 720/796 | loss=1.7258 | loc_bce=0.2489 | loc_dice_loss=0.7860 | dmg_ce=0.6909
+Epoch 13/80 | Step 740/796 | loss=1.7239 | loc_bce=0.2507 | loc_dice_loss=0.7862 | dmg_ce=0.6870
+Epoch 13/80 | Step 760/796 | loss=1.7239 | loc_bce=0.2502 | loc_dice_loss=0.7867 | dmg_ce=0.6869
+Epoch 13/80 | Step 780/796 | loss=1.7251 | loc_bce=0.2502 | loc_dice_loss=0.7871 | dmg_ce=0.6878
+Epoch 13/80 | Step 796/796 | loss=1.7266 | loc_bce=0.2538 | loc_dice_loss=0.7870 | dmg_ce=0.6858
+Epoch 013 | train_loss=1.7266 | hold_score=0.242214 | hold_threshold=0.90 | hold_loc_f1=0.605662 | hold_damage_f1=0.086451
+No improvement for 1 epoch(s). Best epoch=12 | best_hold_score=0.286362
+
+Starting epoch 14/80
+Current LR: 0.00008375
+Epoch 14/80 | Step 20/796 | loss=1.5883 | loc_bce=0.2190 | loc_dice_loss=0.7685 | dmg_ce=0.6008
+Epoch 14/80 | Step 40/796 | loss=1.6150 | loc_bce=0.2443 | loc_dice_loss=0.7665 | dmg_ce=0.6042
+Epoch 14/80 | Step 60/796 | loss=1.5995 | loc_bce=0.2417 | loc_dice_loss=0.7695 | dmg_ce=0.5884
+Epoch 14/80 | Step 80/796 | loss=1.5940 | loc_bce=0.2349 | loc_dice_loss=0.7790 | dmg_ce=0.5801
+Epoch 14/80 | Step 100/796 | loss=1.6270 | loc_bce=0.2368 | loc_dice_loss=0.7814 | dmg_ce=0.6088
+Epoch 14/80 | Step 120/796 | loss=1.6569 | loc_bce=0.2379 | loc_dice_loss=0.7766 | dmg_ce=0.6424
+Epoch 14/80 | Step 140/796 | loss=1.6453 | loc_bce=0.2316 | loc_dice_loss=0.7802 | dmg_ce=0.6336
+Epoch 14/80 | Step 160/796 | loss=1.6543 | loc_bce=0.2280 | loc_dice_loss=0.7797 | dmg_ce=0.6465
+Epoch 14/80 | Step 180/796 | loss=1.6578 | loc_bce=0.2281 | loc_dice_loss=0.7820 | dmg_ce=0.6477
+Epoch 14/80 | Step 200/796 | loss=1.6621 | loc_bce=0.2326 | loc_dice_loss=0.7777 | dmg_ce=0.6519
+Epoch 14/80 | Step 220/796 | loss=1.6603 | loc_bce=0.2318 | loc_dice_loss=0.7744 | dmg_ce=0.6542
+Epoch 14/80 | Step 240/796 | loss=1.6697 | loc_bce=0.2345 | loc_dice_loss=0.7773 | dmg_ce=0.6579
+Epoch 14/80 | Step 260/796 | loss=1.6671 | loc_bce=0.2286 | loc_dice_loss=0.7799 | dmg_ce=0.6585
+Epoch 14/80 | Step 280/796 | loss=1.6619 | loc_bce=0.2304 | loc_dice_loss=0.7806 | dmg_ce=0.6509
+Epoch 14/80 | Step 300/796 | loss=1.6698 | loc_bce=0.2320 | loc_dice_loss=0.7817 | dmg_ce=0.6560
+Epoch 14/80 | Step 320/796 | loss=1.6764 | loc_bce=0.2307 | loc_dice_loss=0.7805 | dmg_ce=0.6651
+Epoch 14/80 | Step 340/796 | loss=1.6796 | loc_bce=0.2320 | loc_dice_loss=0.7784 | dmg_ce=0.6691
+Epoch 14/80 | Step 360/796 | loss=1.6832 | loc_bce=0.2302 | loc_dice_loss=0.7801 | dmg_ce=0.6728
+Epoch 14/80 | Step 380/796 | loss=1.6851 | loc_bce=0.2298 | loc_dice_loss=0.7802 | dmg_ce=0.6750
+Epoch 14/80 | Step 400/796 | loss=1.6890 | loc_bce=0.2308 | loc_dice_loss=0.7806 | dmg_ce=0.6777
+Epoch 14/80 | Step 420/796 | loss=1.7001 | loc_bce=0.2310 | loc_dice_loss=0.7806 | dmg_ce=0.6885
+Epoch 14/80 | Step 440/796 | loss=1.7009 | loc_bce=0.2313 | loc_dice_loss=0.7812 | dmg_ce=0.6883
+Epoch 14/80 | Step 460/796 | loss=1.7000 | loc_bce=0.2309 | loc_dice_loss=0.7813 | dmg_ce=0.6878
+Epoch 14/80 | Step 480/796 | loss=1.7139 | loc_bce=0.2409 | loc_dice_loss=0.7805 | dmg_ce=0.6926
+Epoch 14/80 | Step 500/796 | loss=1.7077 | loc_bce=0.2393 | loc_dice_loss=0.7808 | dmg_ce=0.6876
+Epoch 14/80 | Step 520/796 | loss=1.7055 | loc_bce=0.2398 | loc_dice_loss=0.7809 | dmg_ce=0.6848
+Epoch 14/80 | Step 540/796 | loss=1.7013 | loc_bce=0.2396 | loc_dice_loss=0.7805 | dmg_ce=0.6812
+Epoch 14/80 | Step 560/796 | loss=1.7045 | loc_bce=0.2406 | loc_dice_loss=0.7798 | dmg_ce=0.6841
+Epoch 14/80 | Step 580/796 | loss=1.7021 | loc_bce=0.2401 | loc_dice_loss=0.7800 | dmg_ce=0.6819
+Epoch 14/80 | Step 600/796 | loss=1.6991 | loc_bce=0.2400 | loc_dice_loss=0.7799 | dmg_ce=0.6792
+Epoch 14/80 | Step 620/796 | loss=1.7073 | loc_bce=0.2427 | loc_dice_loss=0.7801 | dmg_ce=0.6846
+Epoch 14/80 | Step 640/796 | loss=1.7131 | loc_bce=0.2437 | loc_dice_loss=0.7799 | dmg_ce=0.6895
+Epoch 14/80 | Step 660/796 | loss=1.7140 | loc_bce=0.2430 | loc_dice_loss=0.7805 | dmg_ce=0.6905
+Epoch 14/80 | Step 680/796 | loss=1.7094 | loc_bce=0.2416 | loc_dice_loss=0.7806 | dmg_ce=0.6872
+Epoch 14/80 | Step 700/796 | loss=1.7135 | loc_bce=0.2409 | loc_dice_loss=0.7811 | dmg_ce=0.6915
+Epoch 14/80 | Step 720/796 | loss=1.7122 | loc_bce=0.2428 | loc_dice_loss=0.7802 | dmg_ce=0.6892
+Epoch 14/80 | Step 740/796 | loss=1.7099 | loc_bce=0.2418 | loc_dice_loss=0.7812 | dmg_ce=0.6869
+Epoch 14/80 | Step 760/796 | loss=1.7100 | loc_bce=0.2468 | loc_dice_loss=0.7811 | dmg_ce=0.6821
+Epoch 14/80 | Step 780/796 | loss=1.7057 | loc_bce=0.2467 | loc_dice_loss=0.7808 | dmg_ce=0.6782
+Epoch 14/80 | Step 796/796 | loss=1.7017 | loc_bce=0.2456 | loc_dice_loss=0.7810 | dmg_ce=0.6750

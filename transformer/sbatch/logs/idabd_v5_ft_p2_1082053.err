@@ -1,0 +1,4 @@
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_idabd_hrtbda_v5_phase2_finetune.py", line 2065
+    class_weights = make_damage4_class_weights(train_ds, args=args).to(device)
+                                                                              ^
+IndentationError: unindent does not match any outer indentation level

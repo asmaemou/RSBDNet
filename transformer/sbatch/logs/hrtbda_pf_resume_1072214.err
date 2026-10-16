@@ -1,0 +1,15 @@
+usage: HRTBDA paper-faithful xBD building damage assessment
+       [-h] [--phase {both,phase1,phase2,test}] --xbd-root XBD_ROOT
+       [--train-split TRAIN_SPLIT [TRAIN_SPLIT ...]] [--val-split VAL_SPLIT]
+       [--test-split TEST_SPLIT] --output-dir OUTPUT_DIR
+       [--phase1-epochs PHASE1_EPOCHS] [--phase2-epochs PHASE2_EPOCHS]
+       [--batch-size BATCH_SIZE] [--num-workers NUM_WORKERS]
+       [--img-size IMG_SIZE] [--lr LR] [--weight-decay WEIGHT_DECAY]
+       [--seed SEED] [--device DEVICE] [--amp] [--base-channels BASE_CHANNELS]
+       [--decoder-channels DECODER_CHANNELS] [--window-size WINDOW_SIZE]
+       [--save-every SAVE_EVERY]
+       [--early-stopping-patience EARLY_STOPPING_PATIENCE]
+       [--max-grad-norm MAX_GRAD_NORM] [--focal-gamma FOCAL_GAMMA]
+       [--loc-loss-weight LOC_LOSS_WEIGHT] [--cls-loss-weight CLS_LOSS_WEIGHT]
+       [--thresholds THRESHOLDS [THRESHOLDS ...]]
+HRTBDA paper-faithful xBD building damage assessment: error: unrecognized arguments: --resume-phase1-from /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_paperfaithful/checkpoints/phase1_last.pt

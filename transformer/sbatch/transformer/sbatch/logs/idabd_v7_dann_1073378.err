@@ -1,0 +1,6 @@
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_xbd_to_idabd_v7_msdf_foreground_dann.py:390: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=args.amp and device.type == "cuda")
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_xbd_to_idabd_v7_msdf_foreground_dann.py:436: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=args.amp and device.type == "cuda"):
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_xbd_to_idabd_v7_msdf_foreground_dann.py:436: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=args.amp and device.type == "cuda"):

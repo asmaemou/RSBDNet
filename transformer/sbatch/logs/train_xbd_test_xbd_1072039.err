@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_tier3_hold_test_disasteradaptivenet_f1_thresholds.py", line 47, in <module>
+    from utils import datasets, losses, measurers, metrics
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/utils/datasets.py", line 12, in <module>
+    from sklearn.model_selection import train_test_split
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/sklearn/__init__.py", line 83, in <module>
+    from .base import clone
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/sklearn/base.py", line 19, in <module>
+    from .utils import _IS_32BIT
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/sklearn/utils/__init__.py", line 27, in <module>
+    from .murmurhash import murmurhash3_32
+  File "sklearn/utils/murmurhash.pyx", line 1, in init sklearn.utils.murmurhash
+ValueError: numpy.dtype size changed, may indicate binary incompatibility. Expected 96 from C header, got 88 from PyObject

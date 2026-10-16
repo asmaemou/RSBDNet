@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_xbd_hrtbda_v2_cascaded_phase1mask_vit_ddloss_stable.py", line 2704, in <module>
+    main()
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_xbd_hrtbda_v2_cascaded_phase1mask_vit_ddloss_stable.py", line 2696, in main
+    phase1_ckpt = train_phase1(args, device)
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_xbd_hrtbda_v2_cascaded_phase1mask_vit_ddloss_stable.py", line 1968, in train_phase1
+    raise RuntimeError(f"Non-finite Phase I loss at epoch {epoch}, step {step}: loss={loss.item()}, focal={focal.item()}, dice={dice.item()}")
+RuntimeError: Non-finite Phase I loss at epoch 35, step 7882: loss=nan, focal=nan, dice=nan

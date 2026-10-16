@@ -1,0 +1,277 @@
+===== HRTBDA v7-MSDF FOREGROUND DANN JOB INFO =====
+Tue May  5 08:15:15 PM CDT 2026
+compute202516
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+Tue May  5 20:15:15 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.51.03              Driver Version: 575.51.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:71:00.0 Off |                    0 |
+| N/A   23C    P8             29W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+XBD_ROOT: /homes/j244s673/documents/wsu/phd/xview2
+IDABD_ROOT: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+PHASE1_CKPT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v7_msdf_full_two_stage/checkpoints/phase1_best.pt
+PHASE2_CKPT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v7_msdf_full_two_stage/checkpoints/phase2_best.pt
+OUTPUT_DIR: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann
+===================================================
+Device: cuda
+Loading xBD source loaders...
+Loading IDA-BD target loaders...
+===== IDA-BD SPLIT SUMMARY =====
+Train target unlabeled: 70
+Val: 9
+Test: 8
+=================================
+Loading frozen Phase-I model...
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v7_msdf_full_two_stage/checkpoints/phase1_best.pt
+Phase I stored epoch: 45
+Phase I stored best_metric: 0.833740
+Phase I threshold used for mask: 0.55
+Phase-I threshold: 0.55
+Phase-I meta: {'epoch': 45, 'best_metric': 0.8337403139095104, 'best_threshold': 0.55}
+Loading Phase-II v7-MSDF model from xBD checkpoint...
+Loaded Phase-II source checkpoint epoch: 53
+DANN target layer: change_fusion.0
+===== START FOREGROUND-AWARE DANN ADAPTATION =====
+Source: xBD train+tier3 with labels: /homes/j244s673/documents/wsu/phd/xview2
+Target: IDA-BD train without labels: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Epochs: 15 | steps/epoch: 500
+Domain loss weight: 0.05
+==================================================
+Created domain discriminator with input dim=48
+Epoch 001/15 Step 0050/500 loss=1.6118 sup=1.5776 domain=0.6839 dom_acc=0.653 focal=0.5972 dice=0.9740 aux=0.0323
+Epoch 001/15 Step 0100/500 loss=1.4902 sup=1.4567 domain=0.6704 dom_acc=0.740 focal=0.4821 dice=0.9684 aux=0.0311
+Epoch 001/15 Step 0150/500 loss=1.3983 sup=1.3656 domain=0.6537 dom_acc=0.758 focal=0.3924 dice=0.9667 aux=0.0323
+Epoch 001/15 Step 0200/500 loss=1.3285 sup=1.2967 domain=0.6358 dom_acc=0.773 focal=0.3255 dice=0.9653 aux=0.0298
+Epoch 001/15 Step 0250/500 loss=1.2784 sup=1.2475 domain=0.6171 dom_acc=0.781 focal=0.2775 dice=0.9641 aux=0.0294
+Epoch 001/15 Step 0300/500 loss=1.2416 sup=1.2120 domain=0.5930 dom_acc=0.799 focal=0.2418 dice=0.9646 aux=0.0279
+Epoch 001/15 Step 0350/500 loss=1.2128 sup=1.1840 domain=0.5748 dom_acc=0.807 focal=0.2142 dice=0.9641 aux=0.0285
+Epoch 001/15 Step 0400/500 loss=1.1889 sup=1.1611 domain=0.5557 dom_acc=0.814 focal=0.1926 dice=0.9628 aux=0.0284
+Epoch 001/15 Step 0450/500 loss=1.1698 sup=1.1429 domain=0.5385 dom_acc=0.821 focal=0.1751 dice=0.9619 aux=0.0297
+Epoch 001/15 Step 0500/500 loss=1.1527 sup=1.1263 domain=0.5286 dom_acc=0.824 focal=0.1604 dice=0.9602 aux=0.0286
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_001.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 001 | loc=0.832697 no=0.537945 minor=0.196043 major=0.292779 destroyed=0.001999 damage_h=0.007833 overall=0.255292
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_best_idabd_test_debug.pt
+Epoch 002/15 Step 0050/500 loss=0.9978 sup=0.9734 domain=0.4879 dom_acc=0.853 focal=0.0245 dice=0.9446 aux=0.0219
+Epoch 002/15 Step 0100/500 loss=1.0053 sup=0.9791 domain=0.5240 dom_acc=0.860 focal=0.0227 dice=0.9520 aux=0.0219
+Epoch 002/15 Step 0150/500 loss=1.0056 sup=0.9747 domain=0.6188 dom_acc=0.727 focal=0.0222 dice=0.9479 aux=0.0232
+Epoch 002/15 Step 0200/500 loss=1.0089 sup=0.9758 domain=0.6616 dom_acc=0.635 focal=0.0207 dice=0.9511 aux=0.0202
+Epoch 002/15 Step 0250/500 loss=1.0086 sup=0.9754 domain=0.6649 dom_acc=0.637 focal=0.0203 dice=0.9509 aux=0.0210
+Epoch 002/15 Step 0300/500 loss=1.0063 sup=0.9742 domain=0.6429 dom_acc=0.671 focal=0.0200 dice=0.9494 aux=0.0238
+Epoch 002/15 Step 0350/500 loss=1.0035 sup=0.9724 domain=0.6222 dom_acc=0.695 focal=0.0191 dice=0.9487 aux=0.0226
+Epoch 002/15 Step 0400/500 loss=0.9993 sup=0.9692 domain=0.6018 dom_acc=0.718 focal=0.0182 dice=0.9465 aux=0.0224
+Epoch 002/15 Step 0450/500 loss=0.9954 sup=0.9661 domain=0.5854 dom_acc=0.732 focal=0.0175 dice=0.9441 aux=0.0220
+Epoch 002/15 Step 0500/500 loss=0.9924 sup=0.9639 domain=0.5694 dom_acc=0.746 focal=0.0169 dice=0.9426 aux=0.0221
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_002.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 002 | loc=0.832697 no=0.532423 minor=0.163586 major=0.264941 destroyed=0.001583 damage_h=0.006218 overall=0.254162
+Epoch 003/15 Step 0050/500 loss=0.9671 sup=0.9435 domain=0.4723 dom_acc=0.860 focal=0.0099 dice=0.9293 aux=0.0215
+Epoch 003/15 Step 0100/500 loss=0.9688 sup=0.9441 domain=0.4941 dom_acc=0.837 focal=0.0096 dice=0.9308 aux=0.0186
+Epoch 003/15 Step 0150/500 loss=0.9685 sup=0.9429 domain=0.5125 dom_acc=0.829 focal=0.0094 dice=0.9294 aux=0.0200
+Epoch 003/15 Step 0200/500 loss=0.9682 sup=0.9428 domain=0.5074 dom_acc=0.833 focal=0.0093 dice=0.9297 aux=0.0191
+Epoch 003/15 Step 0250/500 loss=0.9637 sup=0.9386 domain=0.5024 dom_acc=0.831 focal=0.0095 dice=0.9250 aux=0.0203
+Epoch 003/15 Step 0300/500 loss=0.9608 sup=0.9361 domain=0.4952 dom_acc=0.830 focal=0.0093 dice=0.9222 aux=0.0226
+Epoch 003/15 Step 0350/500 loss=0.9609 sup=0.9370 domain=0.4788 dom_acc=0.838 focal=0.0089 dice=0.9237 aux=0.0218
+Epoch 003/15 Step 0400/500 loss=0.9585 sup=0.9348 domain=0.4740 dom_acc=0.838 focal=0.0087 dice=0.9217 aux=0.0218
+Epoch 003/15 Step 0450/500 loss=0.9579 sup=0.9343 domain=0.4720 dom_acc=0.836 focal=0.0084 dice=0.9216 aux=0.0214
+Epoch 003/15 Step 0500/500 loss=0.9567 sup=0.9331 domain=0.4711 dom_acc=0.835 focal=0.0085 dice=0.9203 aux=0.0220
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_003.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 003 | loc=0.832697 no=0.536862 minor=0.248353 major=0.124918 destroyed=0.000445 damage_h=0.001769 overall=0.251047
+Epoch 004/15 Step 0050/500 loss=0.9648 sup=0.9433 domain=0.4282 dom_acc=0.840 focal=0.0059 dice=0.9353 aux=0.0109
+Epoch 004/15 Step 0100/500 loss=0.9457 sup=0.9234 domain=0.4464 dom_acc=0.830 focal=0.0060 dice=0.9140 aux=0.0166
+Epoch 004/15 Step 0150/500 loss=0.9491 sup=0.9273 domain=0.4360 dom_acc=0.838 focal=0.0057 dice=0.9185 aux=0.0154
+Epoch 004/15 Step 0200/500 loss=0.9465 sup=0.9246 domain=0.4380 dom_acc=0.837 focal=0.0060 dice=0.9152 aux=0.0168
+Epoch 004/15 Step 0250/500 loss=0.9487 sup=0.9269 domain=0.4359 dom_acc=0.839 focal=0.0058 dice=0.9171 aux=0.0197
+Epoch 004/15 Step 0300/500 loss=0.9481 sup=0.9262 domain=0.4386 dom_acc=0.834 focal=0.0062 dice=0.9159 aux=0.0205
+Epoch 004/15 Step 0350/500 loss=0.9440 sup=0.9211 domain=0.4591 dom_acc=0.813 focal=0.0062 dice=0.9108 aux=0.0203
+Epoch 004/15 Step 0400/500 loss=0.9408 sup=0.9167 domain=0.4836 dom_acc=0.790 focal=0.0063 dice=0.9062 aux=0.0208
+Epoch 004/15 Step 0450/500 loss=0.9390 sup=0.9141 domain=0.4985 dom_acc=0.776 focal=0.0065 dice=0.9034 aux=0.0210
+Epoch 004/15 Step 0500/500 loss=0.9384 sup=0.9134 domain=0.4989 dom_acc=0.779 focal=0.0063 dice=0.9031 aux=0.0203
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_004.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 004 | loc=0.832697 no=0.516756 minor=0.196669 major=0.111847 destroyed=0.001698 damage_h=0.006613 overall=0.254438
+Epoch 005/15 Step 0050/500 loss=0.9445 sup=0.9190 domain=0.5101 dom_acc=0.793 focal=0.0047 dice=0.9088 aux=0.0272
+Epoch 005/15 Step 0100/500 loss=0.9412 sup=0.9124 domain=0.5748 dom_acc=0.733 focal=0.0051 dice=0.9016 aux=0.0284
+Epoch 005/15 Step 0150/500 loss=0.9476 sup=0.9155 domain=0.6424 dom_acc=0.676 focal=0.0048 dice=0.9062 aux=0.0227
+Epoch 005/15 Step 0200/500 loss=0.9417 sup=0.9081 domain=0.6724 dom_acc=0.630 focal=0.0048 dice=0.8987 aux=0.0224
+Epoch 005/15 Step 0250/500 loss=0.9402 sup=0.9063 domain=0.6796 dom_acc=0.628 focal=0.0056 dice=0.8959 aux=0.0240
+Epoch 005/15 Step 0300/500 loss=0.9384 sup=0.9045 domain=0.6771 dom_acc=0.637 focal=0.0054 dice=0.8946 aux=0.0227
+Epoch 005/15 Step 0350/500 loss=0.9391 sup=0.9056 domain=0.6704 dom_acc=0.642 focal=0.0052 dice=0.8960 aux=0.0223
+Epoch 005/15 Step 0400/500 loss=0.9383 sup=0.9052 domain=0.6625 dom_acc=0.646 focal=0.0051 dice=0.8955 aux=0.0230
+Epoch 005/15 Step 0450/500 loss=0.9374 sup=0.9045 domain=0.6584 dom_acc=0.647 focal=0.0052 dice=0.8948 aux=0.0226
+Epoch 005/15 Step 0500/500 loss=0.9349 sup=0.9021 domain=0.6567 dom_acc=0.647 focal=0.0053 dice=0.8920 aux=0.0236
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_005.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 005 | loc=0.832697 no=0.521193 minor=0.393251 major=0.201330 destroyed=0.001896 damage_h=0.007451 overall=0.255025
+Epoch 006/15 Step 0050/500 loss=0.9135 sup=0.8813 domain=0.6449 dom_acc=0.613 focal=0.0048 dice=0.8713 aux=0.0262
+Epoch 006/15 Step 0100/500 loss=0.9267 sup=0.8955 domain=0.6238 dom_acc=0.640 focal=0.0045 dice=0.8867 aux=0.0217
+Epoch 006/15 Step 0150/500 loss=0.9311 sup=0.8990 domain=0.6415 dom_acc=0.629 focal=0.0049 dice=0.8897 aux=0.0221
+Epoch 006/15 Step 0200/500 loss=0.9334 sup=0.9003 domain=0.6634 dom_acc=0.620 focal=0.0047 dice=0.8907 aux=0.0242
+Epoch 006/15 Step 0250/500 loss=0.9316 sup=0.8970 domain=0.6918 dom_acc=0.593 focal=0.0043 dice=0.8882 aux=0.0223
+Epoch 006/15 Step 0300/500 loss=0.9253 sup=0.8912 domain=0.6818 dom_acc=0.604 focal=0.0045 dice=0.8814 aux=0.0270
+Epoch 006/15 Step 0350/500 loss=0.9251 sup=0.8917 domain=0.6674 dom_acc=0.613 focal=0.0048 dice=0.8816 aux=0.0265
+Epoch 006/15 Step 0400/500 loss=0.9273 sup=0.8944 domain=0.6576 dom_acc=0.620 focal=0.0046 dice=0.8846 aux=0.0259
+Epoch 006/15 Step 0450/500 loss=0.9288 sup=0.8962 domain=0.6514 dom_acc=0.625 focal=0.0045 dice=0.8869 aux=0.0244
+Epoch 006/15 Step 0500/500 loss=0.9285 sup=0.8963 domain=0.6447 dom_acc=0.630 focal=0.0043 dice=0.8874 aux=0.0231
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_006.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 006 | loc=0.832697 no=0.529076 minor=0.240800 major=0.161078 destroyed=0.001816 damage_h=0.007107 overall=0.254784
+Epoch 007/15 Step 0050/500 loss=0.8894 sup=0.8587 domain=0.6128 dom_acc=0.667 focal=0.0051 dice=0.8480 aux=0.0280
+Epoch 007/15 Step 0100/500 loss=0.8857 sup=0.8556 domain=0.6035 dom_acc=0.667 focal=0.0062 dice=0.8432 aux=0.0310
+Epoch 007/15 Step 0150/500 loss=0.9029 sup=0.8731 domain=0.5962 dom_acc=0.667 focal=0.0055 dice=0.8618 aux=0.0292
+Epoch 007/15 Step 0200/500 loss=0.9028 sup=0.8734 domain=0.5896 dom_acc=0.675 focal=0.0055 dice=0.8624 aux=0.0273
+Epoch 007/15 Step 0250/500 loss=0.9018 sup=0.8723 domain=0.5893 dom_acc=0.676 focal=0.0054 dice=0.8613 aux=0.0279
+Epoch 007/15 Step 0300/500 loss=0.8993 sup=0.8695 domain=0.5974 dom_acc=0.676 focal=0.0053 dice=0.8590 aux=0.0260
+Epoch 007/15 Step 0350/500 loss=0.9017 sup=0.8714 domain=0.6057 dom_acc=0.675 focal=0.0049 dice=0.8614 aux=0.0253
+Epoch 007/15 Step 0400/500 loss=0.9057 sup=0.8750 domain=0.6144 dom_acc=0.674 focal=0.0048 dice=0.8649 aux=0.0260
+Epoch 007/15 Step 0450/500 loss=0.9035 sup=0.8725 domain=0.6191 dom_acc=0.673 focal=0.0047 dice=0.8628 aux=0.0248
+Epoch 007/15 Step 0500/500 loss=0.9053 sup=0.8745 domain=0.6167 dom_acc=0.674 focal=0.0048 dice=0.8647 aux=0.0249
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_007.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 007 | loc=0.832697 no=0.535990 minor=0.351616 major=0.144979 destroyed=0.001919 damage_h=0.007510 overall=0.255066
+Epoch 008/15 Step 0050/500 loss=0.8724 sup=0.8417 domain=0.6141 dom_acc=0.680 focal=0.0053 dice=0.8307 aux=0.0282
+Epoch 008/15 Step 0100/500 loss=0.8878 sup=0.8573 domain=0.6105 dom_acc=0.673 focal=0.0054 dice=0.8474 aux=0.0224
+Epoch 008/15 Step 0150/500 loss=0.8972 sup=0.8666 domain=0.6129 dom_acc=0.676 focal=0.0045 dice=0.8581 aux=0.0199
+Epoch 008/15 Step 0200/500 loss=0.8927 sup=0.8615 domain=0.6224 dom_acc=0.673 focal=0.0043 dice=0.8529 aux=0.0218
+Epoch 008/15 Step 0250/500 loss=0.8962 sup=0.8646 domain=0.6311 dom_acc=0.671 focal=0.0040 dice=0.8565 aux=0.0205
+Epoch 008/15 Step 0300/500 loss=0.9008 sup=0.8689 domain=0.6376 dom_acc=0.670 focal=0.0039 dice=0.8609 aux=0.0204
+Epoch 008/15 Step 0350/500 loss=0.8993 sup=0.8673 domain=0.6402 dom_acc=0.670 focal=0.0045 dice=0.8586 aux=0.0209
+Epoch 008/15 Step 0400/500 loss=0.8993 sup=0.8673 domain=0.6405 dom_acc=0.669 focal=0.0044 dice=0.8585 aux=0.0219
+Epoch 008/15 Step 0450/500 loss=0.9008 sup=0.8689 domain=0.6390 dom_acc=0.669 focal=0.0041 dice=0.8606 aux=0.0209
+Epoch 008/15 Step 0500/500 loss=0.8983 sup=0.8664 domain=0.6377 dom_acc=0.669 focal=0.0041 dice=0.8581 aux=0.0209
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_008.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 008 | loc=0.832697 no=0.537215 minor=0.283858 major=0.108904 destroyed=0.001819 damage_h=0.007086 overall=0.254769
+Epoch 009/15 Step 0050/500 loss=0.9072 sup=0.8763 domain=0.6172 dom_acc=0.667 focal=0.0045 dice=0.8685 aux=0.0163
+Epoch 009/15 Step 0100/500 loss=0.9063 sup=0.8751 domain=0.6228 dom_acc=0.667 focal=0.0036 dice=0.8681 aux=0.0166
+Epoch 009/15 Step 0150/500 loss=0.9035 sup=0.8725 domain=0.6183 dom_acc=0.667 focal=0.0035 dice=0.8659 aux=0.0162
+Epoch 009/15 Step 0200/500 loss=0.9063 sup=0.8755 domain=0.6159 dom_acc=0.667 focal=0.0033 dice=0.8692 aux=0.0151
+Epoch 009/15 Step 0250/500 loss=0.8939 sup=0.8630 domain=0.6181 dom_acc=0.667 focal=0.0039 dice=0.8557 aux=0.0170
+Epoch 009/15 Step 0300/500 loss=0.8899 sup=0.8589 domain=0.6189 dom_acc=0.667 focal=0.0040 dice=0.8513 aux=0.0183
+Epoch 009/15 Step 0350/500 loss=0.8874 sup=0.8563 domain=0.6211 dom_acc=0.667 focal=0.0041 dice=0.8483 aux=0.0197
+Epoch 009/15 Step 0400/500 loss=0.8886 sup=0.8575 domain=0.6227 dom_acc=0.667 focal=0.0041 dice=0.8493 aux=0.0204
+Epoch 009/15 Step 0450/500 loss=0.8921 sup=0.8608 domain=0.6257 dom_acc=0.667 focal=0.0040 dice=0.8530 aux=0.0194
+Epoch 009/15 Step 0500/500 loss=0.8952 sup=0.8637 domain=0.6288 dom_acc=0.667 focal=0.0038 dice=0.8562 aux=0.0187
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_009.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 009 | loc=0.832697 no=0.516874 minor=0.143780 major=0.096173 destroyed=0.001779 damage_h=0.006879 overall=0.254624
+Epoch 010/15 Step 0050/500 loss=0.8880 sup=0.8550 domain=0.6598 dom_acc=0.667 focal=0.0045 dice=0.8470 aux=0.0179
+Epoch 010/15 Step 0100/500 loss=0.8887 sup=0.8565 domain=0.6424 dom_acc=0.667 focal=0.0036 dice=0.8495 aux=0.0173
+Epoch 010/15 Step 0150/500 loss=0.8903 sup=0.8584 domain=0.6370 dom_acc=0.667 focal=0.0040 dice=0.8498 aux=0.0231
+Epoch 010/15 Step 0200/500 loss=0.8869 sup=0.8550 domain=0.6369 dom_acc=0.668 focal=0.0037 dice=0.8468 aux=0.0226
+Epoch 010/15 Step 0250/500 loss=0.8911 sup=0.8593 domain=0.6366 dom_acc=0.668 focal=0.0033 dice=0.8519 aux=0.0201
+Epoch 010/15 Step 0300/500 loss=0.8885 sup=0.8566 domain=0.6387 dom_acc=0.668 focal=0.0033 dice=0.8489 aux=0.0220
+Epoch 010/15 Step 0350/500 loss=0.8893 sup=0.8573 domain=0.6385 dom_acc=0.668 focal=0.0034 dice=0.8496 aux=0.0217
+Epoch 010/15 Step 0400/500 loss=0.8878 sup=0.8559 domain=0.6376 dom_acc=0.668 focal=0.0033 dice=0.8484 aux=0.0214
+Epoch 010/15 Step 0450/500 loss=0.8878 sup=0.8559 domain=0.6378 dom_acc=0.667 focal=0.0034 dice=0.8479 aux=0.0229
+Epoch 010/15 Step 0500/500 loss=0.8897 sup=0.8578 domain=0.6374 dom_acc=0.667 focal=0.0034 dice=0.8500 aux=0.0224
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_010.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 010 | loc=0.832697 no=0.536889 minor=0.300454 major=0.160156 destroyed=0.032338 damage_h=0.094433 overall=0.315912
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_best_idabd_test_debug.pt
+Epoch 011/15 Step 0050/500 loss=0.8497 sup=0.8177 domain=0.6404 dom_acc=0.667 focal=0.0068 dice=0.8054 aux=0.0277
+Epoch 011/15 Step 0100/500 loss=0.8691 sup=0.8371 domain=0.6404 dom_acc=0.667 focal=0.0050 dice=0.8265 aux=0.0282
+Epoch 011/15 Step 0150/500 loss=0.8852 sup=0.8537 domain=0.6288 dom_acc=0.667 focal=0.0041 dice=0.8438 aux=0.0292
+Epoch 011/15 Step 0200/500 loss=0.8831 sup=0.8520 domain=0.6220 dom_acc=0.668 focal=0.0044 dice=0.8422 aux=0.0270
+Epoch 011/15 Step 0250/500 loss=0.8808 sup=0.8497 domain=0.6221 dom_acc=0.668 focal=0.0041 dice=0.8407 aux=0.0250
+Epoch 011/15 Step 0300/500 loss=0.8803 sup=0.8491 domain=0.6235 dom_acc=0.670 focal=0.0039 dice=0.8404 aux=0.0235
+Epoch 011/15 Step 0350/500 loss=0.8823 sup=0.8511 domain=0.6248 dom_acc=0.670 focal=0.0039 dice=0.8427 aux=0.0228
+Epoch 011/15 Step 0400/500 loss=0.8854 sup=0.8543 domain=0.6220 dom_acc=0.671 focal=0.0037 dice=0.8462 aux=0.0217
+Epoch 011/15 Step 0450/500 loss=0.8810 sup=0.8500 domain=0.6202 dom_acc=0.670 focal=0.0040 dice=0.8413 aux=0.0232
+Epoch 011/15 Step 0500/500 loss=0.8800 sup=0.8491 domain=0.6179 dom_acc=0.671 focal=0.0041 dice=0.8402 aux=0.0235
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_011.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 011 | loc=0.832697 no=0.538297 minor=0.296254 major=0.182605 destroyed=0.065066 damage_h=0.153383 overall=0.357177
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_best_idabd_test_debug.pt
+Epoch 012/15 Step 0050/500 loss=0.8691 sup=0.8395 domain=0.5904 dom_acc=0.680 focal=0.0060 dice=0.8289 aux=0.0232
+Epoch 012/15 Step 0100/500 loss=0.8772 sup=0.8475 domain=0.5943 dom_acc=0.677 focal=0.0053 dice=0.8382 aux=0.0201
+Epoch 012/15 Step 0150/500 loss=0.8832 sup=0.8533 domain=0.5989 dom_acc=0.673 focal=0.0071 dice=0.8419 aux=0.0209
+Epoch 012/15 Step 0200/500 loss=0.8834 sup=0.8531 domain=0.6058 dom_acc=0.672 focal=0.0063 dice=0.8425 aux=0.0217
+Epoch 012/15 Step 0250/500 loss=0.8805 sup=0.8501 domain=0.6097 dom_acc=0.671 focal=0.0054 dice=0.8406 aux=0.0203
+Epoch 012/15 Step 0300/500 loss=0.8791 sup=0.8485 domain=0.6108 dom_acc=0.671 focal=0.0051 dice=0.8390 aux=0.0222
+Epoch 012/15 Step 0350/500 loss=0.8793 sup=0.8486 domain=0.6135 dom_acc=0.671 focal=0.0046 dice=0.8400 aux=0.0206
+Epoch 012/15 Step 0400/500 loss=0.8802 sup=0.8494 domain=0.6167 dom_acc=0.671 focal=0.0043 dice=0.8407 aux=0.0219
+Epoch 012/15 Step 0450/500 loss=0.8812 sup=0.8501 domain=0.6233 dom_acc=0.662 focal=0.0044 dice=0.8412 aux=0.0226
+Epoch 012/15 Step 0500/500 loss=0.8793 sup=0.8483 domain=0.6196 dom_acc=0.661 focal=0.0043 dice=0.8395 aux=0.0227
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_012.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 012 | loc=0.832697 no=0.530567 minor=0.230486 major=0.114932 destroyed=0.096410 damage_h=0.158124 overall=0.360496
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_best_idabd_test_debug.pt
+Epoch 013/15 Step 0050/500 loss=0.8485 sup=0.8204 domain=0.5610 dom_acc=0.667 focal=0.0037 dice=0.8121 aux=0.0233
+Epoch 013/15 Step 0100/500 loss=0.8685 sup=0.8396 domain=0.5787 dom_acc=0.693 focal=0.0035 dice=0.8325 aux=0.0181
+Epoch 013/15 Step 0150/500 loss=0.8681 sup=0.8375 domain=0.6116 dom_acc=0.682 focal=0.0038 dice=0.8298 aux=0.0198
+Epoch 013/15 Step 0200/500 loss=0.8771 sup=0.8462 domain=0.6176 dom_acc=0.678 focal=0.0042 dice=0.8376 aux=0.0222
+Epoch 013/15 Step 0250/500 loss=0.8696 sup=0.8387 domain=0.6191 dom_acc=0.677 focal=0.0046 dice=0.8295 aux=0.0229
+Epoch 013/15 Step 0300/500 loss=0.8686 sup=0.8377 domain=0.6164 dom_acc=0.676 focal=0.0047 dice=0.8283 aux=0.0239
+Epoch 013/15 Step 0350/500 loss=0.8637 sup=0.8331 domain=0.6120 dom_acc=0.675 focal=0.0045 dice=0.8238 aux=0.0239
+Epoch 013/15 Step 0400/500 loss=0.8619 sup=0.8316 domain=0.6051 dom_acc=0.677 focal=0.0042 dice=0.8229 aux=0.0223
+Epoch 013/15 Step 0450/500 loss=0.8640 sup=0.8342 domain=0.5973 dom_acc=0.689 focal=0.0040 dice=0.8258 aux=0.0218
+Epoch 013/15 Step 0500/500 loss=0.8656 sup=0.8359 domain=0.5945 dom_acc=0.695 focal=0.0039 dice=0.8276 aux=0.0218
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_013.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 013 | loc=0.832697 no=0.530861 minor=0.241188 major=0.172475 destroyed=0.035268 damage_h=0.099548 overall=0.319492
+Epoch 014/15 Step 0050/500 loss=0.8987 sup=0.8692 domain=0.5899 dom_acc=0.740 focal=0.0043 dice=0.8611 aux=0.0188
+Epoch 014/15 Step 0100/500 loss=0.8837 sup=0.8521 domain=0.6308 dom_acc=0.703 focal=0.0047 dice=0.8392 aux=0.0409
+Epoch 014/15 Step 0150/500 loss=0.8831 sup=0.8512 domain=0.6395 dom_acc=0.691 focal=0.0042 dice=0.8396 aux=0.0367
+Epoch 014/15 Step 0200/500 loss=0.8889 sup=0.8568 domain=0.6432 dom_acc=0.682 focal=0.0041 dice=0.8460 aux=0.0338
+Epoch 014/15 Step 0250/500 loss=0.8931 sup=0.8616 domain=0.6299 dom_acc=0.679 focal=0.0037 dice=0.8519 aux=0.0299
+Epoch 014/15 Step 0300/500 loss=0.8925 sup=0.8621 domain=0.6086 dom_acc=0.678 focal=0.0036 dice=0.8531 aux=0.0270
+Epoch 014/15 Step 0350/500 loss=0.8894 sup=0.8598 domain=0.5917 dom_acc=0.687 focal=0.0037 dice=0.8507 aux=0.0268
+Epoch 014/15 Step 0400/500 loss=0.8848 sup=0.8556 domain=0.5836 dom_acc=0.697 focal=0.0035 dice=0.8471 aux=0.0251
+Epoch 014/15 Step 0450/500 loss=0.8851 sup=0.8559 domain=0.5836 dom_acc=0.698 focal=0.0035 dice=0.8474 aux=0.0251
+Epoch 014/15 Step 0500/500 loss=0.8808 sup=0.8516 domain=0.5848 dom_acc=0.696 focal=0.0036 dice=0.8429 aux=0.0256
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_014.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 014 | loc=0.832697 no=0.526455 minor=0.257437 major=0.247187 destroyed=0.015588 damage_h=0.054068 overall=0.287657
+Epoch 015/15 Step 0050/500 loss=0.8368 sup=0.8050 domain=0.6348 dom_acc=0.680 focal=0.0044 dice=0.7963 aux=0.0219
+Epoch 015/15 Step 0100/500 loss=0.8612 sup=0.8294 domain=0.6370 dom_acc=0.677 focal=0.0038 dice=0.8212 aux=0.0219
+Epoch 015/15 Step 0150/500 loss=0.8697 sup=0.8376 domain=0.6431 dom_acc=0.673 focal=0.0033 dice=0.8308 aux=0.0176
+Epoch 015/15 Step 0200/500 loss=0.8776 sup=0.8455 domain=0.6425 dom_acc=0.672 focal=0.0031 dice=0.8387 aux=0.0185
+Epoch 015/15 Step 0250/500 loss=0.8763 sup=0.8439 domain=0.6476 dom_acc=0.671 focal=0.0031 dice=0.8373 aux=0.0175
+Epoch 015/15 Step 0300/500 loss=0.8740 sup=0.8415 domain=0.6510 dom_acc=0.670 focal=0.0032 dice=0.8347 aux=0.0177
+Epoch 015/15 Step 0350/500 loss=0.8686 sup=0.8363 domain=0.6459 dom_acc=0.671 focal=0.0038 dice=0.8281 aux=0.0224
+Epoch 015/15 Step 0400/500 loss=0.8641 sup=0.8320 domain=0.6416 dom_acc=0.677 focal=0.0041 dice=0.8235 aux=0.0222
+Epoch 015/15 Step 0450/500 loss=0.8631 sup=0.8309 domain=0.6439 dom_acc=0.676 focal=0.0038 dice=0.8229 aux=0.0208
+Epoch 015/15 Step 0500/500 loss=0.8668 sup=0.8346 domain=0.6431 dom_acc=0.676 focal=0.0036 dice=0.8272 aux=0.0193
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_epoch_015.pt
+Saved: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+IDA-BD TEST after epoch 015 | loc=0.832697 no=0.531655 minor=0.234220 major=0.220807 destroyed=0.067619 damage_h=0.157060 overall=0.359751
+===== FINAL IDA-BD TEST EVALUATION =====
+Experiment: HRTBDA v7-MSDF foreground-aware DANN xBD -> IDA-BD
+Source xBD root: /homes/j244s673/documents/wsu/phd/xview2
+Target IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v7_msdf_full_two_stage/checkpoints/phase1_best.pt
+Source Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v7_msdf_full_two_stage/checkpoints/phase2_best.pt
+Adapted Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/checkpoints/phase2_dann_latest.pt
+Phase I threshold used for mask: 0.55
+DANN target layer: change_fusion.0
+Domain loss weight: 0.05
+Localization F1: 0.832697
+No Damage F1:    0.531655
+Minor Damage F1: 0.234220
+Major Damage F1: 0.220807
+Destroyed F1:    0.067619
+Damage F1 harmonic: 0.157060
+Damage F1 macro:    0.263575
+Overall Score:      0.359751
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/scores/idabd_v7_msdf_dann_final_scores.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_foreground_dann/scores/summary_idabd_v7_msdf_dann_final.txt

@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_tier3_hold_test_disasteradaptivenet_f1_thresholds.py", line 15, in <module>
+    import wandb
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/wandb/__init__.py", line 26, in <module>
+    from wandb import sdk as wandb_sdk
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/wandb/sdk/__init__.py", line 4, in <module>
+    from .artifacts.artifact import Artifact  # noqa: F401
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/wandb/sdk/artifacts/artifact.py", line 36, in <module>
+    from wandb import data_types, env, util
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/wandb/data_types.py", line 33, in <module>
+    from .sdk.data_types import _dtypes
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/wandb/sdk/data_types/_dtypes.py", line 396, in <module>
+    NumberType.types.append(np.float_)
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/numpy/__init__.py", line 400, in __getattr__
+    raise AttributeError(
+AttributeError: `np.float_` was removed in the NumPy 2.0 release. Use `np.float64` instead.

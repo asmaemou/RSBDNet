@@ -1,0 +1,260 @@
+===== ST-UDA THRESHOLD SWEEP =====
+Wed May  6 03:57:18 PM CDT 2026
+compute202516
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+Wed May  6 15:57:18 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.51.03              Driver Version: 575.51.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:01:00.0 Off |                    0 |
+| N/A   24C    P8             28W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+PHASE1_CKPT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v7_msdf_full_two_stage/checkpoints/phase1_best.pt
+PHASE2_CKPT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_studa/checkpoints/phase2_studa_teacher_latest.pt
+IDABD_ROOT: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+SPLIT_JSON: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_studa/idabd_splits_seed42_80_10_10.json
+OUTDIR: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_studa
+===================================
+Device: cuda
+Loading IDA-BD split...
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  8
+=================================
+Loading Phase-I model...
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v7_msdf_full_two_stage/checkpoints/phase1_best.pt
+Phase I stored epoch: 45
+Phase I stored best_metric: 0.833740
+Phase I threshold used for mask: 0.55
+Stored Phase-I threshold in checkpoint: 0.55
+Phase-I meta: {'epoch': 45, 'best_metric': 0.8337403139095104, 'best_threshold': 0.55}
+Loading Phase-II model...
+Using checkpoint key: model_state_dict
+Loaded checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_studa/checkpoints/phase2_studa_teacher_latest.pt
+Missing keys: 0 | Unexpected keys: 0
+Loaded Phase-II checkpoint epoch: 20
+
+================================================================================
+Evaluating threshold=0.30, dilation=none
+================================================================================
+TH=0.30 DIL=none        loc=0.832128 no=0.539065 minor=0.313838 major=0.013509 destroyed=0.042162 damage_h=0.038916 damage_macro=0.227143 overall=0.276879
+
+================================================================================
+Evaluating threshold=0.30, dilation=minor
+================================================================================
+TH=0.30 DIL=minor       loc=0.832128 no=0.539120 minor=0.336935 major=0.013509 destroyed=0.042162 damage_h=0.038999 damage_macro=0.232931 overall=0.276937
+
+================================================================================
+Evaluating threshold=0.30, dilation=minor_major
+================================================================================
+TH=0.30 DIL=minor_major loc=0.832128 no=0.539825 minor=0.336935 major=0.013667 destroyed=0.042162 damage_h=0.039329 damage_macro=0.233147 overall=0.277169
+
+================================================================================
+Evaluating threshold=0.35, dilation=none
+================================================================================
+TH=0.35 DIL=none        loc=0.833880 no=0.539455 minor=0.313478 major=0.013496 destroyed=0.043018 damage_h=0.039068 damage_macro=0.227362 overall=0.277512
+
+================================================================================
+Evaluating threshold=0.35, dilation=minor
+================================================================================
+TH=0.35 DIL=minor       loc=0.833880 no=0.539272 minor=0.336934 major=0.013496 destroyed=0.043018 damage_h=0.039153 damage_macro=0.233180 overall=0.277571
+
+================================================================================
+Evaluating threshold=0.35, dilation=minor_major
+================================================================================
+TH=0.35 DIL=minor_major loc=0.833880 no=0.539838 minor=0.336934 major=0.013672 destroyed=0.043018 damage_h=0.039523 damage_macro=0.233366 overall=0.277830
+
+================================================================================
+Evaluating threshold=0.40, dilation=none
+================================================================================
+TH=0.40 DIL=none        loc=0.834742 no=0.539552 minor=0.312569 major=0.013446 destroyed=0.045077 damage_h=0.039367 damage_macro=0.227661 overall=0.277979
+
+================================================================================
+Evaluating threshold=0.40, dilation=minor
+================================================================================
+TH=0.40 DIL=minor       loc=0.834742 no=0.539139 minor=0.336303 major=0.013446 destroyed=0.045077 damage_h=0.039454 damage_macro=0.233491 overall=0.278040
+
+================================================================================
+Evaluating threshold=0.40, dilation=minor_major
+================================================================================
+TH=0.40 DIL=minor_major loc=0.834742 no=0.539590 minor=0.336303 major=0.013655 destroyed=0.045077 damage_h=0.039903 damage_macro=0.233656 overall=0.278354
+
+================================================================================
+Evaluating threshold=0.45, dilation=none
+================================================================================
+TH=0.45 DIL=none        loc=0.834737 no=0.539582 minor=0.311153 major=0.013336 destroyed=0.046770 damage_h=0.039434 damage_macro=0.227710 overall=0.278025
+
+================================================================================
+Evaluating threshold=0.45, dilation=minor
+================================================================================
+TH=0.45 DIL=minor       loc=0.834737 no=0.538968 minor=0.335099 major=0.013336 destroyed=0.046770 damage_h=0.039523 damage_macro=0.233543 overall=0.278087
+
+================================================================================
+Evaluating threshold=0.45, dilation=minor_major
+================================================================================
+TH=0.45 DIL=minor_major loc=0.834737 no=0.539310 minor=0.335099 major=0.013528 destroyed=0.046770 damage_h=0.039943 damage_macro=0.233677 overall=0.278381
+
+================================================================================
+Evaluating threshold=0.50, dilation=none
+================================================================================
+TH=0.50 DIL=none        loc=0.834007 no=0.539452 minor=0.309164 major=0.013217 destroyed=0.047082 damage_h=0.039220 damage_macro=0.227229 overall=0.277656
+
+================================================================================
+Evaluating threshold=0.50, dilation=minor
+================================================================================
+TH=0.50 DIL=minor       loc=0.834007 no=0.538637 minor=0.333235 major=0.013217 destroyed=0.047082 damage_h=0.039309 damage_macro=0.233043 overall=0.277719
+
+================================================================================
+Evaluating threshold=0.50, dilation=minor_major
+================================================================================
+TH=0.50 DIL=minor_major loc=0.834007 no=0.538885 minor=0.333235 major=0.013383 destroyed=0.047082 damage_h=0.039675 damage_macro=0.233146 overall=0.277974
+
+================================================================================
+Evaluating threshold=0.55, dilation=none
+================================================================================
+TH=0.55 DIL=none        loc=0.832697 no=0.539001 minor=0.307034 major=0.013058 destroyed=0.049182 damage_h=0.039205 damage_macro=0.227069 overall=0.277252
+
+================================================================================
+Evaluating threshold=0.55, dilation=minor
+================================================================================
+TH=0.55 DIL=minor       loc=0.832697 no=0.538042 minor=0.331233 major=0.013058 destroyed=0.049182 damage_h=0.039295 damage_macro=0.232879 overall=0.277316
+
+================================================================================
+Evaluating threshold=0.55, dilation=minor_major
+================================================================================
+TH=0.55 DIL=minor_major loc=0.832697 no=0.538232 minor=0.331233 major=0.013233 destroyed=0.049182 damage_h=0.039692 damage_macro=0.232970 overall=0.277593
+
+================================================================================
+Evaluating threshold=0.60, dilation=none
+================================================================================
+TH=0.60 DIL=none        loc=0.831023 no=0.538446 minor=0.304580 major=0.012970 destroyed=0.049048 damage_h=0.038975 damage_macro=0.226261 overall=0.276590
+
+================================================================================
+Evaluating threshold=0.60, dilation=minor
+================================================================================
+TH=0.60 DIL=minor       loc=0.831023 no=0.537379 minor=0.328922 major=0.012970 destroyed=0.049048 damage_h=0.039067 damage_macro=0.232080 overall=0.276653
+
+================================================================================
+Evaluating threshold=0.60, dilation=minor_major
+================================================================================
+TH=0.60 DIL=minor_major loc=0.831023 no=0.537527 minor=0.328922 major=0.013108 destroyed=0.049048 damage_h=0.039379 damage_macro=0.232151 overall=0.276872
+
+================================================================================
+Evaluating threshold=0.65, dilation=none
+================================================================================
+TH=0.65 DIL=none        loc=0.828484 no=0.537568 minor=0.301797 major=0.012750 destroyed=0.048265 damage_h=0.038342 damage_macro=0.225095 overall=0.275385
+
+================================================================================
+Evaluating threshold=0.65, dilation=minor
+================================================================================
+TH=0.65 DIL=minor       loc=0.828484 no=0.536383 minor=0.326157 major=0.012750 destroyed=0.048265 damage_h=0.038432 damage_macro=0.230889 overall=0.275447
+
+================================================================================
+Evaluating threshold=0.65, dilation=minor_major
+================================================================================
+TH=0.65 DIL=minor_major loc=0.828484 no=0.536512 minor=0.326157 major=0.012903 destroyed=0.048265 damage_h=0.038778 damage_macro=0.230959 overall=0.275690
+
+================================================================================
+Evaluating threshold=0.70, dilation=none
+================================================================================
+TH=0.70 DIL=none        loc=0.825217 no=0.536366 minor=0.298411 major=0.012601 destroyed=0.046279 damage_h=0.037671 damage_macro=0.223414 overall=0.273935
+
+================================================================================
+Evaluating threshold=0.70, dilation=minor
+================================================================================
+TH=0.70 DIL=minor       loc=0.825217 no=0.535090 minor=0.322772 major=0.012601 destroyed=0.046279 damage_h=0.037759 damage_macro=0.229185 overall=0.273997
+
+================================================================================
+Evaluating threshold=0.70, dilation=minor_major
+================================================================================
+TH=0.70 DIL=minor_major loc=0.825217 no=0.535183 minor=0.322772 major=0.012706 destroyed=0.046279 damage_h=0.037996 damage_macro=0.229235 overall=0.274162
+
+================================================================================
+Evaluating threshold=0.75, dilation=none
+================================================================================
+TH=0.75 DIL=none        loc=0.820801 no=0.534604 minor=0.294436 major=0.012443 destroyed=0.040965 damage_h=0.036349 damage_macro=0.220612 overall=0.271685
+
+================================================================================
+Evaluating threshold=0.75, dilation=minor
+================================================================================
+TH=0.75 DIL=minor       loc=0.820801 no=0.533232 minor=0.318767 major=0.012443 destroyed=0.040965 damage_h=0.036433 damage_macro=0.226352 overall=0.271744
+
+================================================================================
+Evaluating threshold=0.75, dilation=minor_major
+================================================================================
+TH=0.75 DIL=minor_major loc=0.820801 no=0.533295 minor=0.318767 major=0.012558 destroyed=0.040965 damage_h=0.036679 damage_macro=0.226396 overall=0.271916
+
+================================================================================
+Evaluating threshold=0.80, dilation=none
+================================================================================
+TH=0.80 DIL=none        loc=0.815158 no=0.532491 minor=0.289709 major=0.012297 destroyed=0.037190 damage_h=0.035231 damage_macro=0.217922 overall=0.269209
+
+================================================================================
+Evaluating threshold=0.80, dilation=minor
+================================================================================
+TH=0.80 DIL=minor       loc=0.815158 no=0.531021 minor=0.313953 major=0.012297 destroyed=0.037190 damage_h=0.035312 damage_macro=0.223615 overall=0.269266
+
+================================================================================
+Evaluating threshold=0.80, dilation=minor_major
+================================================================================
+TH=0.80 DIL=minor_major loc=0.815158 no=0.531075 minor=0.313953 major=0.012361 destroyed=0.037190 damage_h=0.035442 damage_macro=0.223645 overall=0.269357
+
+===== IDA-BD V7-MSDF THRESHOLD / DILATION SWEEP =====
+Phase-I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v7_msdf_full_two_stage/checkpoints/phase1_best.pt
+Phase-II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_studa/checkpoints/phase2_studa_teacher_latest.pt
+Eval split: test
+
+Rank | Threshold | Dilation | Loc F1 | No F1 | Minor F1 | Major F1 | Destroyed F1 | Damage H | Damage Macro | Overall
+   1 | 0.45 | minor_major | 0.834737 | 0.539310 | 0.335099 | 0.013528 | 0.046770 | 0.039943 | 0.233677 | 0.278381
+   2 | 0.40 | minor_major | 0.834742 | 0.539590 | 0.336303 | 0.013655 | 0.045077 | 0.039903 | 0.233656 | 0.278354
+   3 | 0.45 | minor       | 0.834737 | 0.538968 | 0.335099 | 0.013336 | 0.046770 | 0.039523 | 0.233543 | 0.278087
+   4 | 0.40 | minor       | 0.834742 | 0.539139 | 0.336303 | 0.013446 | 0.045077 | 0.039454 | 0.233491 | 0.278040
+   5 | 0.45 | none        | 0.834737 | 0.539582 | 0.311153 | 0.013336 | 0.046770 | 0.039434 | 0.227710 | 0.278025
+   6 | 0.40 | none        | 0.834742 | 0.539552 | 0.312569 | 0.013446 | 0.045077 | 0.039367 | 0.227661 | 0.277979
+   7 | 0.50 | minor_major | 0.834007 | 0.538885 | 0.333235 | 0.013383 | 0.047082 | 0.039675 | 0.233146 | 0.277974
+   8 | 0.35 | minor_major | 0.833880 | 0.539838 | 0.336934 | 0.013672 | 0.043018 | 0.039523 | 0.233366 | 0.277830
+   9 | 0.50 | minor       | 0.834007 | 0.538637 | 0.333235 | 0.013217 | 0.047082 | 0.039309 | 0.233043 | 0.277719
+  10 | 0.50 | none        | 0.834007 | 0.539452 | 0.309164 | 0.013217 | 0.047082 | 0.039220 | 0.227229 | 0.277656
+  11 | 0.55 | minor_major | 0.832697 | 0.538232 | 0.331233 | 0.013233 | 0.049182 | 0.039692 | 0.232970 | 0.277593
+  12 | 0.35 | minor       | 0.833880 | 0.539272 | 0.336934 | 0.013496 | 0.043018 | 0.039153 | 0.233180 | 0.277571
+  13 | 0.35 | none        | 0.833880 | 0.539455 | 0.313478 | 0.013496 | 0.043018 | 0.039068 | 0.227362 | 0.277512
+  14 | 0.55 | minor       | 0.832697 | 0.538042 | 0.331233 | 0.013058 | 0.049182 | 0.039295 | 0.232879 | 0.277316
+  15 | 0.55 | none        | 0.832697 | 0.539001 | 0.307034 | 0.013058 | 0.049182 | 0.039205 | 0.227069 | 0.277252
+  16 | 0.30 | minor_major | 0.832128 | 0.539825 | 0.336935 | 0.013667 | 0.042162 | 0.039329 | 0.233147 | 0.277169
+  17 | 0.30 | minor       | 0.832128 | 0.539120 | 0.336935 | 0.013509 | 0.042162 | 0.038999 | 0.232931 | 0.276937
+  18 | 0.30 | none        | 0.832128 | 0.539065 | 0.313838 | 0.013509 | 0.042162 | 0.038916 | 0.227143 | 0.276879
+  19 | 0.60 | minor_major | 0.831023 | 0.537527 | 0.328922 | 0.013108 | 0.049048 | 0.039379 | 0.232151 | 0.276872
+  20 | 0.60 | minor       | 0.831023 | 0.537379 | 0.328922 | 0.012970 | 0.049048 | 0.039067 | 0.232080 | 0.276653
+  21 | 0.60 | none        | 0.831023 | 0.538446 | 0.304580 | 0.012970 | 0.049048 | 0.038975 | 0.226261 | 0.276590
+  22 | 0.65 | minor_major | 0.828484 | 0.536512 | 0.326157 | 0.012903 | 0.048265 | 0.038778 | 0.230959 | 0.275690
+  23 | 0.65 | minor       | 0.828484 | 0.536383 | 0.326157 | 0.012750 | 0.048265 | 0.038432 | 0.230889 | 0.275447
+  24 | 0.65 | none        | 0.828484 | 0.537568 | 0.301797 | 0.012750 | 0.048265 | 0.038342 | 0.225095 | 0.275385
+  25 | 0.70 | minor_major | 0.825217 | 0.535183 | 0.322772 | 0.012706 | 0.046279 | 0.037996 | 0.229235 | 0.274162
+  26 | 0.70 | minor       | 0.825217 | 0.535090 | 0.322772 | 0.012601 | 0.046279 | 0.037759 | 0.229185 | 0.273997
+  27 | 0.70 | none        | 0.825217 | 0.536366 | 0.298411 | 0.012601 | 0.046279 | 0.037671 | 0.223414 | 0.273935
+  28 | 0.75 | minor_major | 0.820801 | 0.533295 | 0.318767 | 0.012558 | 0.040965 | 0.036679 | 0.226396 | 0.271916
+  29 | 0.75 | minor       | 0.820801 | 0.533232 | 0.318767 | 0.012443 | 0.040965 | 0.036433 | 0.226352 | 0.271744
+  30 | 0.75 | none        | 0.820801 | 0.534604 | 0.294436 | 0.012443 | 0.040965 | 0.036349 | 0.220612 | 0.271685
+  31 | 0.80 | minor_major | 0.815158 | 0.531075 | 0.313953 | 0.012361 | 0.037190 | 0.035442 | 0.223645 | 0.269357
+  32 | 0.80 | minor       | 0.815158 | 0.531021 | 0.313953 | 0.012297 | 0.037190 | 0.035312 | 0.223615 | 0.269266
+  33 | 0.80 | none        | 0.815158 | 0.532491 | 0.289709 | 0.012297 | 0.037190 | 0.035231 | 0.217922 | 0.269209
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_studa/threshold_sweep/idabd_test_threshold_sweep_results.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_v7_msdf_studa/threshold_sweep/summary_idabd_test_threshold_sweep.txt
+Done.

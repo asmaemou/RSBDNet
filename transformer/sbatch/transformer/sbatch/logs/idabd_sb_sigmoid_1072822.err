@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_idabd_hrtbda_strongbaseline_sigmoid_cascade.py", line 1288, in <module>
+    main()
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_idabd_hrtbda_strongbaseline_sigmoid_cascade.py", line 1261, in main
+    phase2_ckpt = train_phase2_strong(args, device, phase1_ckpt)
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_idabd_hrtbda_strongbaseline_sigmoid_cascade.py", line 788, in train_phase2_strong
+    phase1_model, phase1_threshold, phase1_meta = load_phase1_model(args, device, phase1_ckpt)
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_idabd_hrtbda_strongbaseline_sigmoid_cascade.py", line 747, in load_phase1_model
+    return v2.load_phase1_model_for_cascade(args=args, device=device, phase1_ckpt=phase1_ckpt)
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_xbd_hrtbda_v2_cascaded_phase1mask.py", line 1293, in load_phase1_model_for_cascade
+    threshold = float(ckpt.get("best_threshold", args.phase1_threshold))
+AttributeError: 'Namespace' object has no attribute 'phase1_threshold'

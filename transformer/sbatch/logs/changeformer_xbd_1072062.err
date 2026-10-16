@@ -1,0 +1,10 @@
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/timm/models/layers/__init__.py:49: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+slurmstepd: error: *** JOB 1072062 ON compute202516 CANCELLED AT 2026-04-28T16:30:53 ***
+Exception in thread Thread-183 (_pin_memory_loop):
+Traceback (most recent call last):
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/torch/utils/data/_utils/pin_memory.py", line 52, in _pin_memory_loop

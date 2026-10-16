@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/gradcam_xbd_hrtbda_v7_msdf_full.py", line 582, in <module>
+    PY
+NameError: name 'PY' is not defined

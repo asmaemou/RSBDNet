@@ -1,0 +1,538 @@
+===== JOB INFO =====
+Sat May  2 09:36:40 AM CDT 2026
+compute202516
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+Sat May  2 09:36:40 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.51.03              Driver Version: 575.51.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:01:00.0 Off |                    0 |
+| N/A   25C    P8             29W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+IDABD_ROOT: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+SPLIT_FILE: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+XBD_PHASE1_INIT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt
+XBD_PHASE2_INIT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+OUTPUT_DIR: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_xbdv5_supervised_finetune_80_10_10
+PHASE1_LR: 1e-5
+PHASE2_LR: 2e-5
+PHASE1_EPOCHS: 40
+PHASE2_EPOCHS: 50
+EARLY_STOPPING_PATIENCE: 10
+ABLATION_THRESHOLDS: 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90
+ABLATION_DILATIONS: none minor
+====================
+-rw-r--r-- 1 j244s673 j244s673_users 133M Apr 29 11:13 /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt
+-rw-r--r-- 1 j244s673 j244s673_users 159M May  1 11:28 /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+-rw-r--r-- 1 j244s673 j244s673_users 1.9K May  1 20:00 /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+===== COMMAND =====
+python -u transformer/scripts/train_idabd_xbdv5_supervised_finetune.py --phase both --idabd-root /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd --split-file /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json --output-dir /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_xbdv5_supervised_finetune_80_10_10 --init-phase1-from /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt --init-phase2-from /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt --phase1-epochs 40 --phase2-epochs 50 --phase1-lr 1e-5 --phase2-lr 2e-5 --warmup-epochs 5 --phase1-early-stopping-patience 10 --early-stopping-patience 10 --phase1-batch-size 1 --phase2-batch-size 2 --eval-batch-size 1 --grad-accum-steps 4 --num-workers 8 --img-size 1024 --phase2-crop-size 608 --crop-candidate-count 8 --crop-weight-no-damage 1.0 --crop-weight-minor 8.0 --crop-weight-major 8.0 --crop-weight-destroyed 6.0 --base-channels 48 --decoder-channels 128 --window-size 8 --weight-decay 1e-4 --seed 42 --save-every 1 --focal-gamma 2.0 --loc-loss-weight 1.0 --cls-loss-weight 1.0 --aux-loc-weight 0.2 --minor-damage-boost 1.5 --major-damage-boost 1.5 --max-damage-class-weight 10.0 --max-grad-norm 0.5 --postprocess-dilation none --dilation-kernel 3 --ablation-thresholds 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90 --ablation-dilations none minor --extra-photometric-aug --amp 
+===================
+===== xBD -> IDA-BD HRTBDA V5 SUPERVISED FINE-TUNING =====
+Phase: both
+Device: cuda
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_xbdv5_supervised_finetune_80_10_10
+Split ratios: train=0.8, val=0.1, test=0.1
+xBD Phase-I init: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt
+xBD Phase-II init: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Phase I fine-tune epochs: 40 | LR=1e-05
+Phase II fine-tune epochs: 50 | LR=2e-05
+Phase I batch size: 1
+Phase II batch size: 2
+Effective Phase II batch size: 8
+Phase II crop size: 608
+Ablation thresholds: [0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9]
+Ablation dilations: ['none', 'minor']
+Architecture: HRTBDA v5 4-branch HRNet-style + DCSwin + CSF fusion
+Inference: Phase I mask gates Phase II multi-label damage prediction.
+======================================================================
+Loaded existing split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  8
+=================================
+
+================ IDA-BD PHASE I: xBD -> IDA-BD LOCALIZATION FINE-TUNING ================
+Loaded existing split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  8
+=================================
+Train samples: 70
+Val samples:   9
+Initializing Phase I from xBD checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt
+Loaded xBD Phase I init: epoch=56 best_metric=0.8274945113296932 best_threshold=0.5
+Phase I loc pos_weight: [4.427809238433838]
+
+Phase I epoch 1/40 | LR=0.00000200
+Phase I Epoch 1/40 | Step 20/70 | loss=0.7327 | focal=0.4365 | dice=0.2962
+Phase I Epoch 1/40 | Step 40/70 | loss=0.6944 | focal=0.3995 | dice=0.2949
+Phase I Epoch 1/40 | Step 60/70 | loss=0.7202 | focal=0.4229 | dice=0.2973
+Phase I Epoch 1/40 | Step 70/70 | loss=0.7050 | focal=0.4134 | dice=0.2916
+Phase I Epoch 001 | val_loc_f1=0.736645 | threshold=0.80
+Saved Phase I best | epoch=1 | loc_f1=0.736645 | threshold=0.80
+
+Phase I epoch 2/40 | LR=0.00000400
+Phase I Epoch 2/40 | Step 20/70 | loss=0.6815 | focal=0.3998 | dice=0.2816
+Phase I Epoch 2/40 | Step 40/70 | loss=0.6098 | focal=0.3477 | dice=0.2621
+Phase I Epoch 2/40 | Step 60/70 | loss=0.6558 | focal=0.3743 | dice=0.2815
+Phase I Epoch 2/40 | Step 70/70 | loss=0.6790 | focal=0.3885 | dice=0.2905
+Phase I Epoch 002 | val_loc_f1=0.734746 | threshold=0.80
+Phase I no improvement for 1 epoch(s). Best epoch=1
+
+Phase I epoch 3/40 | LR=0.00000600
+Phase I Epoch 3/40 | Step 20/70 | loss=0.7177 | focal=0.4222 | dice=0.2955
+Phase I Epoch 3/40 | Step 40/70 | loss=0.6694 | focal=0.3768 | dice=0.2925
+Phase I Epoch 3/40 | Step 60/70 | loss=0.6578 | focal=0.3707 | dice=0.2871
+Phase I Epoch 3/40 | Step 70/70 | loss=0.6558 | focal=0.3682 | dice=0.2876
+Phase I Epoch 003 | val_loc_f1=0.739604 | threshold=0.75
+Saved Phase I best | epoch=3 | loc_f1=0.739604 | threshold=0.75
+
+Phase I epoch 4/40 | LR=0.00000800
+Phase I Epoch 4/40 | Step 20/70 | loss=0.5150 | focal=0.2423 | dice=0.2727
+Phase I Epoch 4/40 | Step 40/70 | loss=0.5906 | focal=0.3047 | dice=0.2860
+Phase I Epoch 4/40 | Step 60/70 | loss=0.6458 | focal=0.3442 | dice=0.3016
+Phase I Epoch 4/40 | Step 70/70 | loss=0.6234 | focal=0.3316 | dice=0.2918
+Phase I Epoch 004 | val_loc_f1=0.741361 | threshold=0.75
+Saved Phase I best | epoch=4 | loc_f1=0.741361 | threshold=0.75
+
+Phase I epoch 5/40 | LR=0.00001000
+Phase I Epoch 5/40 | Step 20/70 | loss=0.6640 | focal=0.3369 | dice=0.3270
+Phase I Epoch 5/40 | Step 40/70 | loss=0.5999 | focal=0.3026 | dice=0.2972
+Phase I Epoch 5/40 | Step 60/70 | loss=0.5635 | focal=0.2753 | dice=0.2881
+Phase I Epoch 5/40 | Step 70/70 | loss=0.5792 | focal=0.2836 | dice=0.2956
+Phase I Epoch 005 | val_loc_f1=0.739438 | threshold=0.70
+Phase I no improvement for 1 epoch(s). Best epoch=4
+
+Phase I epoch 6/40 | LR=0.00001000
+Phase I Epoch 6/40 | Step 20/70 | loss=0.6331 | focal=0.3116 | dice=0.3215
+Phase I Epoch 6/40 | Step 40/70 | loss=0.5888 | focal=0.2750 | dice=0.3138
+Phase I Epoch 6/40 | Step 60/70 | loss=0.5507 | focal=0.2515 | dice=0.2992
+Phase I Epoch 6/40 | Step 70/70 | loss=0.5539 | focal=0.2530 | dice=0.3009
+Phase I Epoch 006 | val_loc_f1=0.742146 | threshold=0.65
+Saved Phase I best | epoch=6 | loc_f1=0.742146 | threshold=0.65
+
+Phase I epoch 7/40 | LR=0.00000998
+Phase I Epoch 7/40 | Step 20/70 | loss=0.5476 | focal=0.2286 | dice=0.3190
+Phase I Epoch 7/40 | Step 40/70 | loss=0.5523 | focal=0.2401 | dice=0.3122
+Phase I Epoch 7/40 | Step 60/70 | loss=0.5479 | focal=0.2337 | dice=0.3143
+Phase I Epoch 7/40 | Step 70/70 | loss=0.5345 | focal=0.2263 | dice=0.3082
+Phase I Epoch 007 | val_loc_f1=0.747018 | threshold=0.70
+Saved Phase I best | epoch=7 | loc_f1=0.747018 | threshold=0.70
+
+Phase I epoch 8/40 | LR=0.00000992
+Phase I Epoch 8/40 | Step 20/70 | loss=0.5524 | focal=0.2331 | dice=0.3193
+Phase I Epoch 8/40 | Step 40/70 | loss=0.5198 | focal=0.2065 | dice=0.3132
+Phase I Epoch 8/40 | Step 60/70 | loss=0.5454 | focal=0.2272 | dice=0.3182
+Phase I Epoch 8/40 | Step 70/70 | loss=0.5267 | focal=0.2183 | dice=0.3084
+Phase I Epoch 008 | val_loc_f1=0.745443 | threshold=0.65
+Phase I no improvement for 1 epoch(s). Best epoch=7
+
+Phase I epoch 9/40 | LR=0.00000982
+Phase I Epoch 9/40 | Step 20/70 | loss=0.5437 | focal=0.2224 | dice=0.3212
+Phase I Epoch 9/40 | Step 40/70 | loss=0.4877 | focal=0.1919 | dice=0.2958
+Phase I Epoch 9/40 | Step 60/70 | loss=0.4945 | focal=0.1979 | dice=0.2966
+Phase I Epoch 9/40 | Step 70/70 | loss=0.5202 | focal=0.2114 | dice=0.3088
+Phase I Epoch 009 | val_loc_f1=0.745950 | threshold=0.70
+Phase I no improvement for 2 epoch(s). Best epoch=7
+
+Phase I epoch 10/40 | LR=0.00000968
+Phase I Epoch 10/40 | Step 20/70 | loss=0.5737 | focal=0.2343 | dice=0.3393
+Phase I Epoch 10/40 | Step 40/70 | loss=0.5480 | focal=0.2219 | dice=0.3262
+Phase I Epoch 10/40 | Step 60/70 | loss=0.5036 | focal=0.1961 | dice=0.3076
+Phase I Epoch 10/40 | Step 70/70 | loss=0.5057 | focal=0.1963 | dice=0.3094
+Phase I Epoch 010 | val_loc_f1=0.749554 | threshold=0.70
+Saved Phase I best | epoch=10 | loc_f1=0.749554 | threshold=0.70
+
+Phase I epoch 11/40 | LR=0.00000950
+Phase I Epoch 11/40 | Step 20/70 | loss=0.5789 | focal=0.2450 | dice=0.3339
+Phase I Epoch 11/40 | Step 40/70 | loss=0.5223 | focal=0.2045 | dice=0.3177
+Phase I Epoch 11/40 | Step 60/70 | loss=0.4792 | focal=0.1788 | dice=0.3003
+Phase I Epoch 11/40 | Step 70/70 | loss=0.4913 | focal=0.1868 | dice=0.3046
+Phase I Epoch 011 | val_loc_f1=0.739978 | threshold=0.65
+Phase I no improvement for 1 epoch(s). Best epoch=10
+
+Phase I epoch 12/40 | LR=0.00000929
+Phase I Epoch 12/40 | Step 20/70 | loss=0.4946 | focal=0.1958 | dice=0.2988
+Phase I Epoch 12/40 | Step 40/70 | loss=0.4630 | focal=0.1750 | dice=0.2879
+Phase I Epoch 12/40 | Step 60/70 | loss=0.4751 | focal=0.1789 | dice=0.2963
+Phase I Epoch 12/40 | Step 70/70 | loss=0.4868 | focal=0.1819 | dice=0.3049
+Phase I Epoch 012 | val_loc_f1=0.747072 | threshold=0.65
+Phase I no improvement for 2 epoch(s). Best epoch=10
+
+Phase I epoch 13/40 | LR=0.00000905
+Phase I Epoch 13/40 | Step 20/70 | loss=0.4414 | focal=0.1530 | dice=0.2884
+Phase I Epoch 13/40 | Step 40/70 | loss=0.4652 | focal=0.1672 | dice=0.2980
+Phase I Epoch 13/40 | Step 60/70 | loss=0.4736 | focal=0.1740 | dice=0.2997
+Phase I Epoch 13/40 | Step 70/70 | loss=0.4895 | focal=0.1835 | dice=0.3060
+Phase I Epoch 013 | val_loc_f1=0.744338 | threshold=0.70
+Phase I no improvement for 3 epoch(s). Best epoch=10
+
+Phase I epoch 14/40 | LR=0.00000877
+Phase I Epoch 14/40 | Step 20/70 | loss=0.4303 | focal=0.1460 | dice=0.2843
+Phase I Epoch 14/40 | Step 40/70 | loss=0.4840 | focal=0.1774 | dice=0.3066
+Phase I Epoch 14/40 | Step 60/70 | loss=0.4673 | focal=0.1670 | dice=0.3003
+Phase I Epoch 14/40 | Step 70/70 | loss=0.4768 | focal=0.1706 | dice=0.3062
+Phase I Epoch 014 | val_loc_f1=0.739517 | threshold=0.65
+Phase I no improvement for 4 epoch(s). Best epoch=10
+
+Phase I epoch 15/40 | LR=0.00000846
+Phase I Epoch 15/40 | Step 20/70 | loss=0.4418 | focal=0.1579 | dice=0.2839
+Phase I Epoch 15/40 | Step 40/70 | loss=0.4826 | focal=0.1764 | dice=0.3062
+Phase I Epoch 15/40 | Step 60/70 | loss=0.4728 | focal=0.1687 | dice=0.3041
+Phase I Epoch 15/40 | Step 70/70 | loss=0.4769 | focal=0.1722 | dice=0.3047
+Phase I Epoch 015 | val_loc_f1=0.743923 | threshold=0.65
+Phase I no improvement for 5 epoch(s). Best epoch=10
+
+Phase I epoch 16/40 | LR=0.00000812
+Phase I Epoch 16/40 | Step 20/70 | loss=0.5142 | focal=0.1794 | dice=0.3349
+Phase I Epoch 16/40 | Step 40/70 | loss=0.4890 | focal=0.1714 | dice=0.3175
+Phase I Epoch 16/40 | Step 60/70 | loss=0.4893 | focal=0.1757 | dice=0.3137
+Phase I Epoch 16/40 | Step 70/70 | loss=0.4747 | focal=0.1685 | dice=0.3063
+Phase I Epoch 016 | val_loc_f1=0.748883 | threshold=0.65
+Phase I no improvement for 6 epoch(s). Best epoch=10
+
+Phase I epoch 17/40 | LR=0.00000775
+Phase I Epoch 17/40 | Step 20/70 | loss=0.5064 | focal=0.1761 | dice=0.3303
+Phase I Epoch 17/40 | Step 40/70 | loss=0.4833 | focal=0.1674 | dice=0.3160
+Phase I Epoch 17/40 | Step 60/70 | loss=0.4584 | focal=0.1606 | dice=0.2977
+Phase I Epoch 17/40 | Step 70/70 | loss=0.4637 | focal=0.1628 | dice=0.3009
+Phase I Epoch 017 | val_loc_f1=0.750938 | threshold=0.65
+Saved Phase I best | epoch=17 | loc_f1=0.750938 | threshold=0.65
+
+Phase I epoch 18/40 | LR=0.00000737
+Phase I Epoch 18/40 | Step 20/70 | loss=0.4430 | focal=0.1635 | dice=0.2795
+Phase I Epoch 18/40 | Step 40/70 | loss=0.5034 | focal=0.1772 | dice=0.3262
+Phase I Epoch 18/40 | Step 60/70 | loss=0.4924 | focal=0.1745 | dice=0.3179
+Phase I Epoch 18/40 | Step 70/70 | loss=0.4715 | focal=0.1666 | dice=0.3049
+Phase I Epoch 018 | val_loc_f1=0.750818 | threshold=0.65
+Phase I no improvement for 1 epoch(s). Best epoch=17
+
+Phase I epoch 19/40 | LR=0.00000697
+Phase I Epoch 19/40 | Step 20/70 | loss=0.4151 | focal=0.1527 | dice=0.2624
+Phase I Epoch 19/40 | Step 40/70 | loss=0.4484 | focal=0.1550 | dice=0.2934
+Phase I Epoch 19/40 | Step 60/70 | loss=0.4352 | focal=0.1502 | dice=0.2849
+Phase I Epoch 19/40 | Step 70/70 | loss=0.4619 | focal=0.1608 | dice=0.3011
+Phase I Epoch 019 | val_loc_f1=0.740900 | threshold=0.70
+Phase I no improvement for 2 epoch(s). Best epoch=17
+
+Phase I epoch 20/40 | LR=0.00000655
+Phase I Epoch 20/40 | Step 20/70 | loss=0.4293 | focal=0.1411 | dice=0.2882
+Phase I Epoch 20/40 | Step 40/70 | loss=0.4486 | focal=0.1530 | dice=0.2956
+Phase I Epoch 20/40 | Step 60/70 | loss=0.4687 | focal=0.1640 | dice=0.3046
+Phase I Epoch 20/40 | Step 70/70 | loss=0.4588 | focal=0.1567 | dice=0.3022
+Phase I Epoch 020 | val_loc_f1=0.754595 | threshold=0.70
+Saved Phase I best | epoch=20 | loc_f1=0.754595 | threshold=0.70
+
+Phase I epoch 21/40 | LR=0.00000611
+Phase I Epoch 21/40 | Step 20/70 | loss=0.5035 | focal=0.1736 | dice=0.3299
+Phase I Epoch 21/40 | Step 40/70 | loss=0.4466 | focal=0.1495 | dice=0.2971
+Phase I Epoch 21/40 | Step 60/70 | loss=0.4564 | focal=0.1573 | dice=0.2991
+Phase I Epoch 21/40 | Step 70/70 | loss=0.4586 | focal=0.1582 | dice=0.3004
+Phase I Epoch 021 | val_loc_f1=0.756913 | threshold=0.70
+Saved Phase I best | epoch=21 | loc_f1=0.756913 | threshold=0.70
+
+Phase I epoch 22/40 | LR=0.00000567
+Phase I Epoch 22/40 | Step 20/70 | loss=0.4945 | focal=0.1784 | dice=0.3160
+Phase I Epoch 22/40 | Step 40/70 | loss=0.4559 | focal=0.1577 | dice=0.2982
+Phase I Epoch 22/40 | Step 60/70 | loss=0.4717 | focal=0.1632 | dice=0.3085
+Phase I Epoch 22/40 | Step 70/70 | loss=0.4587 | focal=0.1585 | dice=0.3002
+Phase I Epoch 022 | val_loc_f1=0.753336 | threshold=0.65
+Phase I no improvement for 1 epoch(s). Best epoch=21
+
+Phase I epoch 23/40 | LR=0.00000522
+Phase I Epoch 23/40 | Step 20/70 | loss=0.4383 | focal=0.1465 | dice=0.2918
+Phase I Epoch 23/40 | Step 40/70 | loss=0.4262 | focal=0.1469 | dice=0.2793
+Phase I Epoch 23/40 | Step 60/70 | loss=0.4605 | focal=0.1570 | dice=0.3035
+Phase I Epoch 23/40 | Step 70/70 | loss=0.4587 | focal=0.1549 | dice=0.3038
+Phase I Epoch 023 | val_loc_f1=0.751766 | threshold=0.65
+Phase I no improvement for 2 epoch(s). Best epoch=21
+
+Phase I epoch 24/40 | LR=0.00000478
+Phase I Epoch 24/40 | Step 20/70 | loss=0.4117 | focal=0.1419 | dice=0.2699
+Phase I Epoch 24/40 | Step 40/70 | loss=0.4709 | focal=0.1662 | dice=0.3047
+Phase I Epoch 24/40 | Step 60/70 | loss=0.4561 | focal=0.1583 | dice=0.2978
+Phase I Epoch 24/40 | Step 70/70 | loss=0.4530 | focal=0.1560 | dice=0.2970
+Phase I Epoch 024 | val_loc_f1=0.745034 | threshold=0.65
+Phase I no improvement for 3 epoch(s). Best epoch=21
+
+Phase I epoch 25/40 | LR=0.00000433
+Phase I Epoch 25/40 | Step 20/70 | loss=0.4685 | focal=0.1690 | dice=0.2996
+Phase I Epoch 25/40 | Step 40/70 | loss=0.4495 | focal=0.1533 | dice=0.2963
+Phase I Epoch 25/40 | Step 60/70 | loss=0.4614 | focal=0.1574 | dice=0.3040
+Phase I Epoch 25/40 | Step 70/70 | loss=0.4597 | focal=0.1585 | dice=0.3013
+Phase I Epoch 025 | val_loc_f1=0.743733 | threshold=0.70
+Phase I no improvement for 4 epoch(s). Best epoch=21
+
+Phase I epoch 26/40 | LR=0.00000389
+Phase I Epoch 26/40 | Step 20/70 | loss=0.4128 | focal=0.1306 | dice=0.2822
+Phase I Epoch 26/40 | Step 40/70 | loss=0.4696 | focal=0.1562 | dice=0.3134
+Phase I Epoch 26/40 | Step 60/70 | loss=0.4406 | focal=0.1485 | dice=0.2921
+Phase I Epoch 26/40 | Step 70/70 | loss=0.4560 | focal=0.1563 | dice=0.2997
+Phase I Epoch 026 | val_loc_f1=0.747816 | threshold=0.65
+Phase I no improvement for 5 epoch(s). Best epoch=21
+
+Phase I epoch 27/40 | LR=0.00000345
+Phase I Epoch 27/40 | Step 20/70 | loss=0.4812 | focal=0.1636 | dice=0.3176
+Phase I Epoch 27/40 | Step 40/70 | loss=0.4319 | focal=0.1452 | dice=0.2867
+Phase I Epoch 27/40 | Step 60/70 | loss=0.4498 | focal=0.1533 | dice=0.2966
+Phase I Epoch 27/40 | Step 70/70 | loss=0.4541 | focal=0.1567 | dice=0.2974
+Phase I Epoch 027 | val_loc_f1=0.749199 | threshold=0.70
+Phase I no improvement for 6 epoch(s). Best epoch=21
+
+Phase I epoch 28/40 | LR=0.00000303
+Phase I Epoch 28/40 | Step 20/70 | loss=0.5117 | focal=0.1707 | dice=0.3409
+Phase I Epoch 28/40 | Step 40/70 | loss=0.4711 | focal=0.1557 | dice=0.3154
+Phase I Epoch 28/40 | Step 60/70 | loss=0.4718 | focal=0.1580 | dice=0.3138
+Phase I Epoch 28/40 | Step 70/70 | loss=0.4489 | focal=0.1500 | dice=0.2989
+Phase I Epoch 028 | val_loc_f1=0.753480 | threshold=0.65
+Phase I no improvement for 7 epoch(s). Best epoch=21
+
+Phase I epoch 29/40 | LR=0.00000263
+Phase I Epoch 29/40 | Step 20/70 | loss=0.4195 | focal=0.1387 | dice=0.2807
+Phase I Epoch 29/40 | Step 40/70 | loss=0.4223 | focal=0.1414 | dice=0.2809
+Phase I Epoch 29/40 | Step 60/70 | loss=0.4451 | focal=0.1518 | dice=0.2933
+Phase I Epoch 29/40 | Step 70/70 | loss=0.4490 | focal=0.1530 | dice=0.2960
+Phase I Epoch 029 | val_loc_f1=0.750306 | threshold=0.65
+Phase I no improvement for 8 epoch(s). Best epoch=21
+
+Phase I epoch 30/40 | LR=0.00000225
+Phase I Epoch 30/40 | Step 20/70 | loss=0.4470 | focal=0.1493 | dice=0.2977
+Phase I Epoch 30/40 | Step 40/70 | loss=0.4579 | focal=0.1570 | dice=0.3009
+Phase I Epoch 30/40 | Step 60/70 | loss=0.4252 | focal=0.1420 | dice=0.2831
+Phase I Epoch 30/40 | Step 70/70 | loss=0.4500 | focal=0.1522 | dice=0.2978
+Phase I Epoch 030 | val_loc_f1=0.745635 | threshold=0.65
+Phase I no improvement for 9 epoch(s). Best epoch=21
+
+Phase I epoch 31/40 | LR=0.00000188
+Phase I Epoch 31/40 | Step 20/70 | loss=0.4849 | focal=0.1674 | dice=0.3175
+Phase I Epoch 31/40 | Step 40/70 | loss=0.4705 | focal=0.1596 | dice=0.3109
+Phase I Epoch 31/40 | Step 60/70 | loss=0.4539 | focal=0.1525 | dice=0.3014
+Phase I Epoch 31/40 | Step 70/70 | loss=0.4460 | focal=0.1500 | dice=0.2960
+Phase I Epoch 031 | val_loc_f1=0.754955 | threshold=0.65
+Phase I no improvement for 10 epoch(s). Best epoch=21
+Phase I early stopping at epoch 31.
+Phase I done. Best epoch=21, best val loc F1=0.756913, threshold=0.70
+
+================ IDA-BD PHASE II: xBD -> IDA-BD DAMAGE FINE-TUNING ================
+Loaded existing split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  8
+=================================
+Train samples: 70
+Val samples:   9
+Phase II crop size: 608
+Crop candidates: 8
+Loaded Phase I model for IDA-BD cascade.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_xbdv5_supervised_finetune_80_10_10/checkpoints/phase1_best.pt
+Phase I epoch: 21 | best_metric=0.756913 | threshold=0.70
+Initializing Phase II from xBD v5 checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Loaded xBD Phase II init: epoch=15 best_metric=0.6905033911154244
+  damage counts [no,minor,major,destroyed]: [9035558, 3295435, 1155274, 36743]
+  damage weights [no,minor,major,destroyed]: [0.015223200678193185, 0.06260938814136612, 0.17859414217585992, 3.7435732690045813]
+
+Phase II epoch 1/50 | LR=0.00000400
+Phase II Epoch 1/50 | Step 20/35 | loss=1.1231 | focal=0.0222 | dice=0.9417 | aux=0.7957
+Phase II Epoch 1/50 | Step 35/35 | loss=1.1058 | focal=0.0206 | dice=0.9285 | aux=0.7835
+main Epoch 001 | train_loss=1.1058 | val_score=0.268617 | val_loc=0.756913 | val_damage=0.059348 | no=0.760051 | minor=0.405512 | major=0.172001 | destroyed=0.017299
+Saved Phase II best | epoch=1 | val cascade score=0.268617
+
+Phase II epoch 2/50 | LR=0.00000800
+Phase II Epoch 2/50 | Step 20/35 | loss=1.1290 | focal=0.0298 | dice=0.9294 | aux=0.8490
+Phase II Epoch 2/50 | Step 35/35 | loss=1.1357 | focal=0.0301 | dice=0.9457 | aux=0.7997
+main Epoch 002 | train_loss=1.1357 | val_score=0.270159 | val_loc=0.756913 | val_damage=0.061551 | no=0.736096 | minor=0.407216 | major=0.206260 | destroyed=0.017753
+Saved Phase II best | epoch=2 | val cascade score=0.270159
+
+Phase II epoch 3/50 | LR=0.00001200
+Phase II Epoch 3/50 | Step 20/35 | loss=1.1305 | focal=0.0237 | dice=0.9528 | aux=0.7698
+Phase II Epoch 3/50 | Step 35/35 | loss=1.1251 | focal=0.0220 | dice=0.9516 | aux=0.7579
+main Epoch 003 | train_loss=1.1251 | val_score=0.269840 | val_loc=0.756913 | val_damage=0.061094 | no=0.755475 | minor=0.403135 | major=0.175282 | destroyed=0.017868
+Phase II no improvement for 1 epoch(s). Best epoch=2
+
+Phase II epoch 4/50 | LR=0.00001600
+Phase II Epoch 4/50 | Step 20/35 | loss=1.1345 | focal=0.0239 | dice=0.9552 | aux=0.7769
+Phase II Epoch 4/50 | Step 35/35 | loss=1.1065 | focal=0.0205 | dice=0.9402 | aux=0.7289
+main Epoch 004 | train_loss=1.1065 | val_score=0.271204 | val_loc=0.756913 | val_damage=0.063044 | no=0.754840 | minor=0.390625 | major=0.224359 | destroyed=0.018146
+Saved Phase II best | epoch=4 | val cascade score=0.271204
+
+Phase II epoch 5/50 | LR=0.00002000
+Phase II Epoch 5/50 | Step 20/35 | loss=1.1150 | focal=0.0197 | dice=0.9396 | aux=0.7783
+Phase II Epoch 5/50 | Step 35/35 | loss=1.1189 | focal=0.0202 | dice=0.9475 | aux=0.7558
+main Epoch 005 | train_loss=1.1189 | val_score=0.268664 | val_loc=0.756913 | val_damage=0.059415 | no=0.726950 | minor=0.382142 | major=0.228275 | destroyed=0.016962
+Phase II no improvement for 1 epoch(s). Best epoch=4
+
+Phase II epoch 6/50 | LR=0.00002000
+Phase II Epoch 6/50 | Step 20/35 | loss=1.1211 | focal=0.0241 | dice=0.9651 | aux=0.6597
+Phase II Epoch 6/50 | Step 35/35 | loss=1.1168 | focal=0.0201 | dice=0.9602 | aux=0.6821
+main Epoch 006 | train_loss=1.1168 | val_score=0.268576 | val_loc=0.756913 | val_damage=0.059288 | no=0.718361 | minor=0.376934 | major=0.205301 | destroyed=0.017078
+Phase II no improvement for 2 epoch(s). Best epoch=4
+
+Phase II epoch 7/50 | LR=0.00001998
+Phase II Epoch 7/50 | Step 20/35 | loss=1.1121 | focal=0.0278 | dice=0.9558 | aux=0.6424
+Phase II Epoch 7/50 | Step 35/35 | loss=1.0840 | focal=0.0213 | dice=0.9272 | aux=0.6776
+main Epoch 007 | train_loss=1.0840 | val_score=0.268890 | val_loc=0.756913 | val_damage=0.059737 | no=0.696862 | minor=0.357951 | major=0.254043 | destroyed=0.017007
+Phase II no improvement for 3 epoch(s). Best epoch=4
+
+Phase II epoch 8/50 | LR=0.00001990
+Phase II Epoch 8/50 | Step 20/35 | loss=1.0478 | focal=0.0225 | dice=0.8872 | aux=0.6900
+Phase II Epoch 8/50 | Step 35/35 | loss=1.0777 | focal=0.0206 | dice=0.9226 | aux=0.6722
+main Epoch 008 | train_loss=1.0777 | val_score=0.269731 | val_loc=0.756913 | val_damage=0.060939 | no=0.717464 | minor=0.361638 | major=0.266793 | destroyed=0.017320
+Phase II no improvement for 4 epoch(s). Best epoch=4
+
+Phase II epoch 9/50 | LR=0.00001978
+Phase II Epoch 9/50 | Step 20/35 | loss=1.0481 | focal=0.0190 | dice=0.9161 | aux=0.5653
+Phase II Epoch 9/50 | Step 35/35 | loss=1.0725 | focal=0.0230 | dice=0.9171 | aux=0.6620
+main Epoch 009 | train_loss=1.0725 | val_score=0.269938 | val_loc=0.756913 | val_damage=0.061235 | no=0.709065 | minor=0.366844 | major=0.272934 | destroyed=0.017384
+Phase II no improvement for 5 epoch(s). Best epoch=4
+
+Phase II epoch 10/50 | LR=0.00001961
+Phase II Epoch 10/50 | Step 20/35 | loss=1.0678 | focal=0.0223 | dice=0.9228 | aux=0.6136
+Phase II Epoch 10/50 | Step 35/35 | loss=1.0837 | focal=0.0202 | dice=0.9300 | aux=0.6676
+main Epoch 010 | train_loss=1.0837 | val_score=0.267567 | val_loc=0.756913 | val_damage=0.057848 | no=0.696866 | minor=0.348873 | major=0.265871 | destroyed=0.016370
+Phase II no improvement for 6 epoch(s). Best epoch=4
+
+Phase II epoch 11/50 | LR=0.00001940
+Phase II Epoch 11/50 | Step 20/35 | loss=1.0612 | focal=0.0201 | dice=0.9089 | aux=0.6610
+Phase II Epoch 11/50 | Step 35/35 | loss=1.0868 | focal=0.0194 | dice=0.9313 | aux=0.6807
+main Epoch 011 | train_loss=1.0868 | val_score=0.270473 | val_loc=0.756913 | val_damage=0.061999 | no=0.711384 | minor=0.360206 | major=0.258270 | destroyed=0.017710
+Phase II no improvement for 7 epoch(s). Best epoch=4
+
+Phase II epoch 12/50 | LR=0.00001914
+Phase II Epoch 12/50 | Step 20/35 | loss=1.0422 | focal=0.0231 | dice=0.8804 | aux=0.6931
+Phase II Epoch 12/50 | Step 35/35 | loss=1.0593 | focal=0.0225 | dice=0.9076 | aux=0.6460
+main Epoch 012 | train_loss=1.0593 | val_score=0.270627 | val_loc=0.756913 | val_damage=0.062219 | no=0.734009 | minor=0.363786 | major=0.290920 | destroyed=0.017623
+Phase II no improvement for 8 epoch(s). Best epoch=4
+
+Phase II epoch 13/50 | LR=0.00001883
+Phase II Epoch 13/50 | Step 20/35 | loss=1.0658 | focal=0.0337 | dice=0.9009 | aux=0.6559
+Phase II Epoch 13/50 | Step 35/35 | loss=1.0945 | focal=0.0267 | dice=0.9338 | aux=0.6703
+main Epoch 013 | train_loss=1.0945 | val_score=0.268996 | val_loc=0.756913 | val_damage=0.059888 | no=0.696564 | minor=0.346656 | major=0.294584 | destroyed=0.016926
+Phase II no improvement for 9 epoch(s). Best epoch=4
+
+Phase II epoch 14/50 | LR=0.00001848
+Phase II Epoch 14/50 | Step 20/35 | loss=1.0643 | focal=0.0180 | dice=0.9210 | aux=0.6258
+Phase II Epoch 14/50 | Step 35/35 | loss=1.0659 | focal=0.0189 | dice=0.9192 | aux=0.6393
+main Epoch 014 | train_loss=1.0659 | val_score=0.269429 | val_loc=0.756913 | val_damage=0.060507 | no=0.641440 | minor=0.295884 | major=0.289266 | destroyed=0.017326
+Phase II no improvement for 10 epoch(s). Best epoch=4
+Phase II early stopping at epoch 14.
+
+================ IDA-BD PHASE II SHORT FINE-TUNING ================
+
+Fine-tune epoch 1/3 | LR=0.00005000
+Fine-tune Epoch 1/3 | Step 20/35 | loss=1.0700 | focal=0.0247 | dice=0.9213 | aux=0.6199
+Fine-tune Epoch 1/3 | Step 35/35 | loss=1.0466 | focal=0.0212 | dice=0.9020 | aux=0.6168
+finetune Epoch 051 | train_loss=1.0466 | val_score=0.271078 | val_loc=0.756913 | val_damage=0.062862 | no=0.709221 | minor=0.308968 | major=0.325113 | destroyed=0.017885
+Phase II no improvement for 11 epoch(s). Best epoch=4
+
+Fine-tune epoch 2/3 | LR=0.00002500
+Fine-tune Epoch 2/3 | Step 20/35 | loss=1.0675 | focal=0.0147 | dice=0.9247 | aux=0.6409
+Fine-tune Epoch 2/3 | Step 35/35 | loss=1.0568 | focal=0.0167 | dice=0.9082 | aux=0.6594
+finetune Epoch 052 | train_loss=1.0568 | val_score=0.270254 | val_loc=0.756913 | val_damage=0.061686 | no=0.750644 | minor=0.333556 | major=0.355132 | destroyed=0.017331
+Phase II no improvement for 12 epoch(s). Best epoch=4
+
+Fine-tune epoch 3/3 | LR=0.00001250
+Fine-tune Epoch 3/3 | Step 20/35 | loss=1.0723 | focal=0.0198 | dice=0.9314 | aux=0.6058
+Fine-tune Epoch 3/3 | Step 35/35 | loss=1.0634 | focal=0.0176 | dice=0.9245 | aux=0.6063
+finetune Epoch 053 | train_loss=1.0634 | val_score=0.269875 | val_loc=0.756913 | val_damage=0.061145 | no=0.728803 | minor=0.288049 | major=0.351220 | destroyed=0.017322
+Phase II no improvement for 13 epoch(s). Best epoch=4
+Phase II done. Best epoch=4, best val cascade score=0.271204
+
+================ IDA-BD VALIDATION ABLATION + FINAL TEST ================
+Loaded existing split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  8
+=================================
+Loaded Phase I model for IDA-BD cascade.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_xbdv5_supervised_finetune_80_10_10/checkpoints/phase1_best.pt
+Phase I epoch: 21 | best_metric=0.756913 | threshold=0.70
+VAL ABLATION | th=0.30 dil=none | loc=0.683232 | no=0.833573 | minor=0.419989 | major=0.239342 | destroyed=0.048940 | damage=0.141887 | overall=0.304290
+VAL ABLATION | th=0.30 dil=minor | loc=0.683232 | no=0.830037 | minor=0.418965 | major=0.239342 | destroyed=0.048940 | damage=0.141832 | overall=0.304252
+VAL ABLATION | th=0.35 dil=none | loc=0.698570 | no=0.828064 | minor=0.418147 | major=0.238607 | destroyed=0.048048 | damage=0.139850 | overall=0.307466
+VAL ABLATION | th=0.35 dil=minor | loc=0.698570 | no=0.824520 | minor=0.417144 | major=0.238607 | destroyed=0.048048 | damage=0.139796 | overall=0.307428
+VAL ABLATION | th=0.40 dil=none | loc=0.711895 | no=0.821777 | minor=0.416148 | major=0.238172 | destroyed=0.047243 | damage=0.138001 | overall=0.310169
+VAL ABLATION | th=0.40 dil=minor | loc=0.711895 | no=0.818203 | minor=0.415162 | major=0.238172 | destroyed=0.047243 | damage=0.137949 | overall=0.310133
+VAL ABLATION | th=0.45 dil=none | loc=0.723678 | no=0.814569 | minor=0.413795 | major=0.237513 | destroyed=0.045592 | damage=0.134284 | overall=0.311102
+VAL ABLATION | th=0.45 dil=minor | loc=0.723678 | no=0.810980 | minor=0.412861 | major=0.237513 | destroyed=0.045592 | damage=0.134235 | overall=0.311068
+VAL ABLATION | th=0.50 dil=none | loc=0.734176 | no=0.806115 | minor=0.411313 | major=0.236197 | destroyed=0.042087 | damage=0.126321 | overall=0.308678
+VAL ABLATION | th=0.50 dil=minor | loc=0.734176 | no=0.802512 | minor=0.410463 | major=0.236197 | destroyed=0.042087 | damage=0.126279 | overall=0.308648
+VAL ABLATION | th=0.55 dil=none | loc=0.742907 | no=0.796384 | minor=0.407944 | major=0.233983 | destroyed=0.039075 | damage=0.119147 | overall=0.306275
+VAL ABLATION | th=0.55 dil=minor | loc=0.742907 | no=0.792758 | minor=0.407201 | major=0.233983 | destroyed=0.039075 | damage=0.119111 | overall=0.306250
+VAL ABLATION | th=0.60 dil=none | loc=0.750224 | no=0.785538 | minor=0.403315 | major=0.231337 | destroyed=0.033646 | damage=0.105832 | overall=0.299150
+VAL ABLATION | th=0.60 dil=minor | loc=0.750224 | no=0.781876 | minor=0.402642 | major=0.231337 | destroyed=0.033646 | damage=0.105804 | overall=0.299130
+VAL ABLATION | th=0.65 dil=none | loc=0.755324 | no=0.772293 | minor=0.397724 | major=0.228202 | destroyed=0.026609 | damage=0.087391 | overall=0.287771
+VAL ABLATION | th=0.65 dil=minor | loc=0.755324 | no=0.768613 | minor=0.397168 | major=0.228202 | destroyed=0.026609 | damage=0.087373 | overall=0.287758
+VAL ABLATION | th=0.70 dil=none | loc=0.756913 | no=0.754840 | minor=0.390625 | major=0.224359 | destroyed=0.018146 | damage=0.063044 | overall=0.271204
+VAL ABLATION | th=0.70 dil=minor | loc=0.756913 | no=0.751186 | minor=0.390276 | major=0.224359 | destroyed=0.018146 | damage=0.063035 | overall=0.271198
+VAL ABLATION | th=0.75 dil=none | loc=0.751923 | no=0.730896 | minor=0.380876 | major=0.217316 | destroyed=0.011840 | damage=0.042988 | overall=0.255669
+VAL ABLATION | th=0.75 dil=minor | loc=0.751923 | no=0.727321 | minor=0.380833 | major=0.217316 | destroyed=0.011840 | damage=0.042985 | overall=0.255666
+VAL ABLATION | th=0.80 dil=none | loc=0.736465 | no=0.695789 | minor=0.364825 | major=0.205922 | destroyed=0.000483 | damage=0.001927 | overall=0.222288
+VAL ABLATION | th=0.80 dil=minor | loc=0.736465 | no=0.692281 | minor=0.365058 | major=0.205922 | destroyed=0.000483 | damage=0.001927 | overall=0.222288
+VAL ABLATION | th=0.85 dil=none | loc=0.700253 | no=0.639876 | minor=0.337077 | major=0.189848 | destroyed=0.000000 | damage=0.000004 | overall=0.210079
+VAL ABLATION | th=0.85 dil=minor | loc=0.700253 | no=0.636611 | minor=0.337772 | major=0.189848 | destroyed=0.000000 | damage=0.000004 | overall=0.210079
+VAL ABLATION | th=0.90 dil=none | loc=0.616448 | no=0.543429 | minor=0.279692 | major=0.162113 | destroyed=0.000000 | damage=0.000004 | overall=0.184937
+VAL ABLATION | th=0.90 dil=minor | loc=0.616448 | no=0.540657 | minor=0.280875 | major=0.162113 | destroyed=0.000000 | damage=0.000004 | overall=0.184937
+
+===== BEST VALIDATION SETTING =====
+{
+  "threshold": 0.45,
+  "dilation": "none",
+  "localization_f1": 0.7236776597670629,
+  "no_damage_f1": 0.814569114041827,
+  "minor_damage_f1": 0.4137946350671806,
+  "major_damage_f1": 0.23751326240931378,
+  "destroyed_f1": 0.04559226662819217,
+  "damage_f1": 0.13428392926560592,
+  "overall_score": 0.311102048416043
+}
+===================================
+Experiment: xBD-to-IDA-BD supervised fine-tuning HRTBDA v5 multi-label rare-crop cascade
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_xbdv5_supervised_finetune_80_10_10/checkpoints/phase1_best.pt
+Phase I stored epoch: 21
+Phase I stored val Localization F1: 0.756913
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_xbdv5_supervised_finetune_80_10_10/checkpoints/phase2_best.pt
+Best Phase II epoch selected on val: 4
+Selected Phase-I threshold from val ablation: 0.45
+Selected dilation from val ablation: none
+
+Validation-selected setting:
+Val Localization F1: 0.723678
+Val No Damage F1:    0.814569
+Val Minor Damage F1: 0.413795
+Val Major Damage F1: 0.237513
+Val Destroyed F1:    0.045592
+Val Damage F1:       0.134284
+Val Overall Score:   0.311102
+
+Final test result:
+Test Localization F1 from Phase I mask: 0.816349
+No Damage F1:    0.578263
+Minor Damage F1: 0.333992
+Major Damage F1: 0.307351
+Destroyed F1:    0.008522
+Damage F1:       0.031920
+Overall Score:   0.267249
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_xbdv5_supervised_finetune_80_10_10/scores/summary_idabd_hrtbda_v5_selected_test.txt
+Done.

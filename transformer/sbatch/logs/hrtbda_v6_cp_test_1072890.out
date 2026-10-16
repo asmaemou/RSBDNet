@@ -1,0 +1,54 @@
+Wrote threshold checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v6_damage_copypaste_aug_REAL_TEST/threshold_checkpoints/phase1_best_threshold_0.40.pt
+Stored best_threshold: 0.4
+===== JOB INFO =====
+Sat May  2 03:59:32 PM CDT 2026
+compute202516
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+MODEL: HRTBDA v6 = v5 multi-label rare-crop cascade + paired Damage Object Copy-Paste
+MODE: train Phase II and run FINAL REAL xBD TEST
+XBD_ROOT: /homes/j244s673/documents/wsu/phd/xview2
+TRAIN_SPLITS: train tier3
+VAL_SPLIT: hold
+TEST_SPLIT: test
+PHASE1_ORIG: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt
+PHASE1_TEST_CKPT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v6_damage_copypaste_aug_REAL_TEST/threshold_checkpoints/phase1_best_threshold_0.40.pt
+PHASE1_TEST_THRESHOLD: 0.40
+OUTPUT_DIR: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v6_damage_copypaste_aug_REAL_TEST
+PHASE2_EPOCHS: 60
+BATCH_SIZE: 2
+GRAD_ACCUM_STEPS: 4
+EFFECTIVE_BATCH_SIZE: 8
+PHASE2_CROP_SIZE: 608
+CROP_CANDIDATES: 8
+DAMAGE_COPY_PASTE_PROB: 0.25
+DAMAGE_COPY_PASTE_CLASSES: minor,major,destroyed
+DAMAGE_COPY_PASTE_MAX_OBJECTS: 2
+POSTPROCESS_DILATION: minor
+DILATION_KERNEL: 3
+AMP: enabled
+Sat May  2 15:59:32 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.51.03              Driver Version: 575.51.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:01:00.0 Off |                    0 |
+| N/A   25C    P8             29W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+====================
+===== COMMAND =====
+python -u transformer/scripts/train_xbd_hrtbda_v6_damage_copypaste_aug.py --phase phase2_test --phase1-checkpoint /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v6_damage_copypaste_aug_REAL_TEST/threshold_checkpoints/phase1_best_threshold_0.40.pt --xbd-root /homes/j244s673/documents/wsu/phd/xview2 --train-split train tier3 --val-split hold --test-split test --output-dir /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v6_damage_copypaste_aug_REAL_TEST --phase2-epochs 60 --batch-size 2 --eval-batch-size 1 --grad-accum-steps 4 --num-workers 8 --img-size 1024 --phase2-crop-size 608 --crop-candidate-count 8 --crop-weight-no-damage 1.0 --crop-weight-minor 12.0 --crop-weight-major 12.0 --crop-weight-destroyed 4.0 --extra-photometric-aug --damage-copy-paste-prob 0.25 --damage-copy-paste-classes minor\,major\,destroyed --damage-copy-paste-max-objects 2 --damage-copy-paste-min-area 80 --damage-copy-paste-max-area 25000 --lr 8e-5 --weight-decay 1e-4 --seed 42 --base-channels 48 --decoder-channels 128 --window-size 8 --max-grad-norm 1.0 --warmup-epochs 5 --save-every 1 --early-stopping-patience 999 --focal-gamma 2.0 --cls-loss-weight 1.0 --aux-loc-weight 0.2 --minor-damage-boost 1.5 --major-damage-boost 1.5 --max-damage-class-weight 10.0 --finetune-epochs 3 --finetune-lr 5e-5 --postprocess-dilation minor --dilation-kernel 3 --amp 
+===================

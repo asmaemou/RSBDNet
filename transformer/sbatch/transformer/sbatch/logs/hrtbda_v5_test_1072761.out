@@ -1,0 +1,86 @@
+===== TEST JOB INFO =====
+Fri May  1 02:37:38 PM CDT 2026
+compute202513
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+Fri May  1 14:37:38 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.51.03              Driver Version: 575.51.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:81:00.0 Off |                    0 |
+| N/A   21C    P8             32W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+=========================
+===== HRTBDA V5 MULTI-LABEL RARE-CROP CASCADED TRAINING =====
+Phase: test
+Resume Phase I from: none
+Existing Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Device: cuda
+xBD root: /homes/j244s673/documents/wsu/phd/xview2
+Train split(s): ['train', 'tier3']
+Val split: hold
+Test split: test
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade
+Phase I epochs: 150
+Phase II epochs: 30
+Batch size: 2
+Eval batch size: 1
+Gradient accumulation steps: 4
+Effective batch size: 8
+Image size: 1024
+Phase II crop size: 608
+Crop candidate count: 8
+LR: 0.0001
+Weight decay: 0.01
+Base channels: 48
+Decoder channels: 128
+Window size: 8
+Focal gamma: 2.0
+Max grad norm: 1.0
+Warmup epochs: 10
+Architecture: HRTBDA v5 4-branch HRNet-style + DCSwin + CSF fusion
+Damage head: 4 independent sigmoid channels + auxiliary localization head
+Final inference: Phase I mask gives localization; Phase II predicts 4 foreground damage classes.
+Postprocess dilation: none
+Domain adaptation: none
+=======================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt
+Phase I stored epoch: 56
+Phase I stored best_metric: 0.827495
+Phase I threshold used for mask: 0.50
+Experiment: HRTBDA v5 multi-label rare-crop cascade train+tier3 -> hold -> test
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt
+Phase I stored best epoch: 56
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.50
+Damage post-processing dilation: none
+Best Phase II epoch selected on hold cascade score: 15
+Test Localization F1 from Phase I mask: 0.818614
+No Damage F1:    0.838666
+Minor Damage F1: 0.395144
+Major Damage F1: 0.686579
+Destroyed F1:    0.775415
+Damage F1:       0.618313
+Overall Score:   0.678404
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt
+Done.

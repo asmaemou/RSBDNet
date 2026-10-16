@@ -1,0 +1,1034 @@
+===== JOB INFO =====
+Mon May 25 03:53:46 PM CDT 2026
+compute202516
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+MODEL: HRTBDA-CleanViT-S4B3 + DDNet-style losses
+MODE: train Phase I from scratch, train Phase II from compatible Phase I checkpoint, then test cascade
+STRICT_BACKBONE_LOAD: enabled by default
+DOMAIN_ADAPTATION: none
+XBD_ROOT: /homes/j244s673/documents/wsu/phd/xview2
+TRAIN_SPLITS: train tier3
+VAL_SPLIT: hold
+TEST_SPLIT: test
+OUTPUT_DIR: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_cascaded_phase1mask_cleanvit_s4b3_ddloss
+PHASE1_EPOCHS: 150
+PHASE2_EPOCHS: 30
+WARMUP_EPOCHS: 10
+BATCH_SIZE: 1
+NUM_WORKERS: 8
+IMG_SIZE: 1024
+LEARNING_RATE: 1e-4
+WEIGHT_DECAY: 0.01
+BASE_CHANNELS: 48
+DECODER_CHANNELS: 128
+WINDOW_SIZE: 8
+PHASE1_VIT_STAGES: stage4_b3
+PHASE2_VIT_STAGES: stage4_b3
+PHASE1_LOSS: unified_focal
+PHASE2_LOSS: combo_seesaw
+OUFL_LAMBDA: 0.5
+OUFL_BETA: 0.9
+OUFL_GAMMA: 0.3
+COMBO_ALPHA: 2.0
+COMBO_LOSS_WEIGHT: 1.0
+SEESAW_LOSS_WEIGHT: 2.0
+SEESAW_P: 0.8
+SEESAW_Q: 2.0
+COMBO_CLASS_WEIGHTS: 0.1 0.4 0.3 0.1
+MAX_GRAD_NORM: 1.0
+SAVE_EVERY: 1
+EARLY_STOPPING_PATIENCE: 999
+AMP: enabled
+Mon May 25 15:53:46 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.58.03              Driver Version: 595.58.03      CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:01:00.0 Off |                    0 |
+| N/A   25C    P8             30W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+====================
+===== TRAIN CLEANVIT-S4B3 + DDNET-STYLE LOSSES COMMAND =====
+python -u transformer/scripts/train_xbd_hrtbda_v2_cascaded_phase1mask_vit_ddloss.py --phase both --xbd-root /homes/j244s673/documents/wsu/phd/xview2 --train-split train tier3 --val-split hold --test-split test --output-dir /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_cascaded_phase1mask_cleanvit_s4b3_ddloss --phase1-epochs 150 --phase2-epochs 30 --batch-size 1 --num-workers 8 --img-size 1024 --lr 1e-4 --weight-decay 0.01 --seed 42 --base-channels 48 --decoder-channels 128 --window-size 8 --phase1-vit-stages stage4_b3 --phase2-vit-stages stage4_b3 --vit-mlp-ratio 4.0 --vit-dropout 0.0 --max-grad-norm 1.0 --warmup-epochs 10 --save-every 1 --early-stopping-patience 999 --focal-gamma 2.0 --loc-loss-weight 1.0 --cls-loss-weight 1.0 --phase1-loss unified_focal --phase2-loss combo_seesaw --oufl-lambda 0.5 --oufl-beta 0.9 --oufl-gamma 0.3 --combo-alpha 2.0 --combo-loss-weight 1.0 --seesaw-loss-weight 2.0 --seesaw-p 0.8 --seesaw-q 2.0 --combo-class-weights 0.1 0.4 0.3 0.1 --amp 
+=============================================================
+===== HRTBDA V2 CASCADED PHASE I MASK + FOREGROUND DAMAGE TRAINING =====
+Phase: both
+Resume Phase I from: none
+Existing Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_cascaded_phase1mask_cleanvit_s4b3_ddloss/checkpoints/phase1_best.pt
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_cascaded_phase1mask_cleanvit_s4b3_ddloss/checkpoints/phase2_best.pt
+Device: cuda
+xBD root: /homes/j244s673/documents/wsu/phd/xview2
+Train split(s): ['train', 'tier3']
+Val split: hold
+Test split: test
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_cascaded_phase1mask_cleanvit_s4b3_ddloss
+Phase I epochs: 150
+Phase II epochs: 30
+Batch size: 1
+Image size: 1024
+LR: 0.0001
+Weight decay: 0.01
+Base channels: 48
+Decoder channels: 128
+Window size: 8
+Phase I ViT replacement stages: stage4_b3
+Phase II ViT replacement stages: stage4_b3
+ViT MLP ratio: 4.0
+ViT dropout: 0.0
+Allow Phase I/II backbone mismatch: False
+Focal gamma: 2.0
+Phase I loss: unified_focal
+Phase II loss: combo_seesaw
+O-UFL params: lambda=0.5, beta=0.9, gamma=0.3
+Combo+Seesaw params: combo_alpha=2.0, combo_loss_weight=1.0, seesaw_loss_weight=2.0, seesaw_p=0.8, seesaw_q=2.0, combo_class_weights=[0.1, 0.4, 0.3, 0.1]
+Max grad norm: 1.0
+Warmup epochs: 10
+Architecture: HRTBDA v2 4-branch HRNet-style + DCSwin/optional global ViT + CSF fusion
+Final inference: Phase I mask gives localization; Phase II predicts 4 foreground damage classes.
+Domain adaptation: none
+=======================================
+
+================ PHASE I: BUILDING LOCALIZATION ================
+Train samples: 9168
+Val samples:   933
+Phase I localization pos_weight: [10.0]
+Phase I loss: unified_focal
+Phase I O-UFL params: lambda=0.5, beta=0.9, gamma=0.3
+
+Phase I epoch 1/150 | LR=0.00001000
+Phase I Epoch 1/150 | Step 20/9168 | loss=0.4480 | focal=0.0669 | dice=0.8291
+Phase I Epoch 1/150 | Step 40/9168 | loss=0.4418 | focal=0.0647 | dice=0.8189
+Phase I Epoch 1/150 | Step 60/9168 | loss=0.4033 | focal=0.0649 | dice=0.7416
+Phase I Epoch 1/150 | Step 80/9168 | loss=0.4042 | focal=0.0626 | dice=0.7459
+Phase I Epoch 1/150 | Step 100/9168 | loss=0.4036 | focal=0.0613 | dice=0.7459
+Phase I Epoch 1/150 | Step 120/9168 | loss=0.3983 | focal=0.0618 | dice=0.7347
+Phase I Epoch 1/150 | Step 140/9168 | loss=inf | focal=inf | dice=0.7149
+Phase I Epoch 1/150 | Step 160/9168 | loss=inf | focal=inf | dice=0.7224
+Phase I Epoch 1/150 | Step 180/9168 | loss=nan | focal=nan | dice=0.7087
+Phase I Epoch 1/150 | Step 200/9168 | loss=nan | focal=nan | dice=0.7177
+Phase I Epoch 1/150 | Step 220/9168 | loss=nan | focal=nan | dice=0.7151
+Phase I Epoch 1/150 | Step 240/9168 | loss=nan | focal=nan | dice=0.7066
+Phase I Epoch 1/150 | Step 260/9168 | loss=nan | focal=nan | dice=0.7001
+Phase I Epoch 1/150 | Step 280/9168 | loss=nan | focal=nan | dice=0.6917
+Phase I Epoch 1/150 | Step 300/9168 | loss=nan | focal=nan | dice=0.6888
+Phase I Epoch 1/150 | Step 320/9168 | loss=nan | focal=nan | dice=0.6895
+Phase I Epoch 1/150 | Step 340/9168 | loss=nan | focal=nan | dice=0.6901
+Phase I Epoch 1/150 | Step 360/9168 | loss=nan | focal=nan | dice=0.6882
+Phase I Epoch 1/150 | Step 380/9168 | loss=nan | focal=nan | dice=0.6889
+Phase I Epoch 1/150 | Step 400/9168 | loss=nan | focal=nan | dice=0.6903
+Phase I Epoch 1/150 | Step 420/9168 | loss=nan | focal=nan | dice=0.6936
+Phase I Epoch 1/150 | Step 440/9168 | loss=nan | focal=nan | dice=0.6916
+Phase I Epoch 1/150 | Step 460/9168 | loss=nan | focal=nan | dice=0.6929
+Phase I Epoch 1/150 | Step 480/9168 | loss=nan | focal=nan | dice=0.6914
+Phase I Epoch 1/150 | Step 500/9168 | loss=nan | focal=nan | dice=0.6926
+Phase I Epoch 1/150 | Step 520/9168 | loss=nan | focal=nan | dice=0.6897
+Phase I Epoch 1/150 | Step 540/9168 | loss=nan | focal=nan | dice=0.6909
+Phase I Epoch 1/150 | Step 560/9168 | loss=nan | focal=nan | dice=0.6952
+Phase I Epoch 1/150 | Step 580/9168 | loss=nan | focal=nan | dice=0.6933
+Phase I Epoch 1/150 | Step 600/9168 | loss=nan | focal=nan | dice=0.6939
+Phase I Epoch 1/150 | Step 620/9168 | loss=nan | focal=nan | dice=0.6959
+Phase I Epoch 1/150 | Step 640/9168 | loss=nan | focal=nan | dice=0.6950
+Phase I Epoch 1/150 | Step 660/9168 | loss=nan | focal=nan | dice=0.6910
+Phase I Epoch 1/150 | Step 680/9168 | loss=nan | focal=nan | dice=0.6908
+Phase I Epoch 1/150 | Step 700/9168 | loss=nan | focal=nan | dice=0.6903
+Phase I Epoch 1/150 | Step 720/9168 | loss=nan | focal=nan | dice=0.6902
+Phase I Epoch 1/150 | Step 740/9168 | loss=nan | focal=nan | dice=0.6891
+Phase I Epoch 1/150 | Step 760/9168 | loss=nan | focal=nan | dice=0.6876
+Phase I Epoch 1/150 | Step 780/9168 | loss=nan | focal=nan | dice=0.6878
+Phase I Epoch 1/150 | Step 800/9168 | loss=nan | focal=nan | dice=0.6910
+Phase I Epoch 1/150 | Step 820/9168 | loss=nan | focal=nan | dice=0.6914
+Phase I Epoch 1/150 | Step 840/9168 | loss=nan | focal=nan | dice=0.6941
+Phase I Epoch 1/150 | Step 860/9168 | loss=nan | focal=nan | dice=0.6937
+Phase I Epoch 1/150 | Step 880/9168 | loss=nan | focal=nan | dice=0.6941
+Phase I Epoch 1/150 | Step 900/9168 | loss=nan | focal=nan | dice=0.6917
+Phase I Epoch 1/150 | Step 920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 1980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 2980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 3980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 4980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 5980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 6980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 7980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 8980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 9000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 9020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 9040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 9060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 9080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 9100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 9120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 9140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 9160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 1/150 | Step 9168/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 001 | train_loss=nan | val_loc_f1=0.000000 | threshold=0.30
+Saved Phase I best checkpoint | epoch=1 | loc_f1=0.000000
+
+Phase I epoch 2/150 | LR=0.00002000
+Phase I Epoch 2/150 | Step 20/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 40/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 60/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 80/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 1980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 2980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 3980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 4980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 5980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 6980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 7980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8180/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8200/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8220/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8240/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8260/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8280/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8300/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8320/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8340/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8360/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8380/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8400/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8420/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8440/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8460/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8480/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8500/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8520/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8540/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8560/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8580/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8600/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8620/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8640/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8660/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8680/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8700/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8720/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8740/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8760/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8780/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8800/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8820/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8840/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8860/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8880/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8900/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8920/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8940/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8960/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 8980/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 9000/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 9020/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 9040/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 9060/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 9080/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 9100/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 9120/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 9140/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 9160/9168 | loss=nan | focal=nan | dice=nan
+Phase I Epoch 2/150 | Step 9168/9168 | loss=nan | focal=nan | dice=nan

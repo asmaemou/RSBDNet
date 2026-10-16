@@ -1,0 +1,47 @@
+===== JOB INFO =====
+Thu Apr 30 10:58:25 PM CDT 2026
+compute202517
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+MODEL: HRTBDA v2 two-stage transformer pipeline
+MODE: existing Phase-I mask + foreground-only transformer Phase-II damage + calibration + threshold sweep
+XBD_ROOT: /homes/j244s673/documents/wsu/phd/xview2
+TRAIN_SPLITS: train tier3
+VAL_SPLIT: hold
+TEST_SPLIT: test
+PHASE1_BEST: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/hrtbda_2stage/checkpoints/phase1_best.pt
+OUTPUT_DIR: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_two_stage_transformer_pipeline
+PHASE2_EPOCHS: 30
+WARMUP_EPOCHS: 10
+BATCH_SIZE: 1
+IMG_SIZE: 1024
+LEARNING_RATE: 1e-4
+RARE SAMPLER: minor=4.0 major=2.5 destroyed=1.5
+CLASS BOOSTS: minor=2.0 major=1.5 destroyed=1.0
+CALIBRATION: pixels/class=50000 epochs=10 lr=5e-2
+MASK_THRESHOLDS: 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90
+AMP: enabled
+Thu Apr 30 22:58:25 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.51.03              Driver Version: 575.51.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:01:00.0 Off |                    0 |
+| N/A   25C    P8             29W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+====================
+ERROR: Phase I best checkpoint not found:
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/hrtbda_2stage/checkpoints/phase1_best.pt

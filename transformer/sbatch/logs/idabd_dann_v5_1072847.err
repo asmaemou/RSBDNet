@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_xbd_to_idabd_hrtbda_v5_foreground_dann.py", line 955, in <module>
+    main()
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_xbd_to_idabd_hrtbda_v5_foreground_dann.py", line 946, in main
+    phase2_ckpt, phase1_ckpt = train_domain_adaptation(args, device)
+  File "/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/transformer/scripts/train_xbd_to_idabd_hrtbda_v5_foreground_dann.py", line 479, in train_domain_adaptation
+    json.dump({
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/json/encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type Tensor is not JSON serializable

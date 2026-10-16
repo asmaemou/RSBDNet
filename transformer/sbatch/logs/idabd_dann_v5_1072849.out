@@ -1,0 +1,294 @@
+===== JOB INFO =====
+Sat May  2 10:16:03 AM CDT 2026
+compute202516
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+Sat May  2 10:16:03 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.51.03              Driver Version: 575.51.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:01:00.0 Off |                    0 |
+| N/A   25C    P8             29W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Experiment: xBD -> IDA-BD foreground-aware adversarial domain adaptation
+XBD_ROOT: /homes/j244s673/documents/wsu/phd/xview2
+IDABD_ROOT: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+IDABD_SPLIT_FILE: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+XBD_PHASE1: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt
+XBD_PHASE2: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+OUTPUT_DIR: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_hrtbda_v5_foreground_dann
+EPOCHS: 20
+STEPS_PER_EPOCH: 500
+SOURCE_BATCH_SIZE: 1
+TARGET_BATCH_SIZE: 1
+GRAD_ACCUM_STEPS: 4
+LR: 1e-5
+LAMBDA_DOMAIN: 0.03
+LAMBDA_DOMAIN_LOSS: 0.10
+LAMBDA_ENTROPY: 0.0
+====================
+===== COMMAND =====
+python -u transformer/scripts/train_xbd_to_idabd_hrtbda_v5_foreground_dann.py --phase adapt --xbd-root /homes/j244s673/documents/wsu/phd/xview2 --source-train-split train tier3 --idabd-root /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd --split-file /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json --phase1-checkpoint /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt --phase2-checkpoint /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt --output-dir /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_hrtbda_v5_foreground_dann --epochs 20 --steps-per-epoch 500 --warmup-epochs 3 --source-batch-size 1 --target-batch-size 1 --eval-batch-size 1 --grad-accum-steps 4 --num-workers 8 --img-size 1024 --phase2-crop-size 608 --crop-candidate-count 8 --lr 1e-5 --weight-decay 1e-4 --max-grad-norm 0.5 --early-stopping-patience 8 --seed 42 --base-channels 48 --decoder-channels 128 --window-size 8 --focal-gamma 2.0 --cls-loss-weight 1.0 --aux-loc-weight 0.2 --minor-damage-boost 1.5 --major-damage-boost 1.5 --destroyed-damage-boost 1.0 --max-damage-class-weight 10.0 --crop-weight-no-damage 1.0 --crop-weight-minor 12.0 --crop-weight-major 12.0 --crop-weight-destroyed 4.0 --lambda-domain 0.03 --lambda-domain-loss 0.10 --domain-warmup-epochs 5 --lambda-entropy 0.0 --domain-hidden-dim 256 --domain-dropout 0.2 --dilation-kernel 3 --dilation-options none minor --thresholds 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90 --extra-photometric-aug --amp 
+===================
+===== xBD -> IDA-BD FOREGROUND-AWARE ADVERSARIAL DOMAIN ADAPTATION =====
+Phase: adapt
+Device: cuda
+xBD source root: /homes/j244s673/documents/wsu/phd/xview2
+xBD source split: ['train', 'tier3']
+IDA-BD target root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_hrtbda_v5_foreground_dann
+Frozen Phase-I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt
+Phase-II init/checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Training policy: source xBD labels + unlabeled IDA-BD train images; IDA-BD val/test labels only for evaluation.
+Architecture: HRTBDA v5 4-branch HRNet-style + DCSwin + CSF + foreground DANN discriminator
+=======================================================================
+
+================ HRTBDA V5 FOREGROUND-AWARE DANN ADAPTATION ================
+Loaded existing split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  8
+=================================
+Loaded existing split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  8
+=================================
+Source xBD train samples: 9168 | batch=1
+Target IDA-BD train samples: 70 | batch=1
+Steps per epoch: 500
+Phase-II crop size: 608
+Source rare-crop candidates: 8
+Crop weights [no,minor,major,destroyed]: [1.0, 12.0, 12.0, 4.0]
+Loaded frozen Phase-I model for target foreground masks and final cascade.
+Phase-I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt
+Phase-I epoch: 56 | best_metric=0.8274945113296932 | threshold=0.50
+Initialized Phase-II from xBD v5 checkpoint.
+Phase-II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Phase-II source epoch: 15 | best_metric=0.6905033911154244
+  damage counts [no,minor,major,destroyed]: [222143162, 24705299, 25762850, 17271194]
+  damage weights [no,minor,major,destroyed]: [0.09929607155925523, 1.3392638949717544, 1.2842878394741932, 1.2771521939947974]
+
+DA epoch 1/20 | LR=0.00000333 | lambda_domain=0.00600 | lambda_entropy=0.00000
+DA Epoch 1/20 | Step 50/500 | loss=0.6806 sup=0.6116 dom=0.6899 ent=0.0000 focal=0.0296 dice=0.4500 aux=0.6603 dom_acc=0.580
+DA Epoch 1/20 | Step 100/500 | loss=0.7252 sup=0.6561 dom=0.6911 ent=0.0000 focal=0.0464 dice=0.4753 aux=0.6722 dom_acc=0.535
+DA Epoch 1/20 | Step 150/500 | loss=0.7385 sup=0.6694 dom=0.6913 ent=0.0000 focal=0.0437 dice=0.4812 aux=0.7224 dom_acc=0.530
+DA Epoch 1/20 | Step 200/500 | loss=0.7286 sup=0.6595 dom=0.6909 ent=0.0000 focal=0.0443 dice=0.4753 aux=0.6996 dom_acc=0.537
+DA Epoch 1/20 | Step 250/500 | loss=0.7186 sup=0.6497 dom=0.6896 ent=0.0000 focal=0.0410 dice=0.4718 aux=0.6843 dom_acc=0.562
+DA Epoch 1/20 | Step 300/500 | loss=0.7479 sup=0.6790 dom=0.6892 ent=0.0000 focal=0.0408 dice=0.4904 aux=0.7387 dom_acc=0.558
+DA Epoch 1/20 | Step 350/500 | loss=0.7341 sup=0.6652 dom=0.6887 ent=0.0000 focal=0.0392 dice=0.4803 aux=0.7286 dom_acc=0.569
+DA Epoch 1/20 | Step 400/500 | loss=0.7267 sup=0.6578 dom=0.6885 ent=0.0000 focal=0.0392 dice=0.4745 aux=0.7208 dom_acc=0.573
+DA Epoch 1/20 | Step 450/500 | loss=0.7270 sup=0.6582 dom=0.6880 ent=0.0000 focal=0.0388 dice=0.4736 aux=0.7288 dom_acc=0.581
+DA Epoch 1/20 | Step 500/500 | loss=0.7238 sup=0.6550 dom=0.6877 ent=0.0000 focal=0.0372 dice=0.4741 aux=0.7183 dom_acc=0.587
+DA Epoch 001 | train_loss=0.7238 | dom_acc=0.587 | val_score=0.277566 | val_loc=0.730391 | val_damage=0.083498 | no=0.755299 | minor=0.428111 | major=0.078577 | destroyed=0.031725
+Saved DA best checkpoint | epoch=1 | val_score=0.277566
+
+DA epoch 2/20 | LR=0.00000667 | lambda_domain=0.01200 | lambda_entropy=0.00000
+DA Epoch 2/20 | Step 50/500 | loss=0.7485 sup=0.6807 dom=0.6787 ent=0.0000 focal=0.0349 dice=0.5235 aux=0.6113 dom_acc=0.770
+DA Epoch 2/20 | Step 100/500 | loss=0.7220 sup=0.6539 dom=0.6804 ent=0.0000 focal=0.0325 dice=0.4926 aux=0.6440 dom_acc=0.715
+DA Epoch 2/20 | Step 150/500 | loss=0.7115 sup=0.6434 dom=0.6803 ent=0.0000 focal=0.0379 dice=0.4755 aux=0.6501 dom_acc=0.713
+DA Epoch 2/20 | Step 200/500 | loss=0.6999 sup=0.6320 dom=0.6787 ent=0.0000 focal=0.0332 dice=0.4673 aux=0.6577 dom_acc=0.738
+DA Epoch 2/20 | Step 250/500 | loss=0.6912 sup=0.6236 dom=0.6764 ent=0.0000 focal=0.0316 dice=0.4614 aux=0.6529 dom_acc=0.766
+DA Epoch 2/20 | Step 300/500 | loss=0.6687 sup=0.6012 dom=0.6744 ent=0.0000 focal=0.0309 dice=0.4371 aux=0.6663 dom_acc=0.780
+DA Epoch 2/20 | Step 350/500 | loss=0.6717 sup=0.6044 dom=0.6732 ent=0.0000 focal=0.0322 dice=0.4401 aux=0.6603 dom_acc=0.787
+DA Epoch 2/20 | Step 400/500 | loss=0.6734 sup=0.6062 dom=0.6722 ent=0.0000 focal=0.0314 dice=0.4429 aux=0.6598 dom_acc=0.795
+DA Epoch 2/20 | Step 450/500 | loss=0.6789 sup=0.6118 dom=0.6710 ent=0.0000 focal=0.0334 dice=0.4457 aux=0.6636 dom_acc=0.806
+DA Epoch 2/20 | Step 500/500 | loss=0.6769 sup=0.6099 dom=0.6703 ent=0.0000 focal=0.0335 dice=0.4439 aux=0.6622 dom_acc=0.804
+DA Epoch 002 | train_loss=0.6769 | dom_acc=0.804 | val_score=0.269181 | val_loc=0.730391 | val_damage=0.071520 | no=0.780120 | minor=0.414662 | major=0.100514 | destroyed=0.023647
+DA no improvement for 1 epoch(s). Best epoch=1
+
+DA epoch 3/20 | LR=0.00001000 | lambda_domain=0.01800 | lambda_entropy=0.00000
+DA Epoch 3/20 | Step 50/500 | loss=0.5991 sup=0.5344 dom=0.6471 ent=0.0000 focal=0.0296 dice=0.3632 aux=0.7082 dom_acc=0.910
+DA Epoch 3/20 | Step 100/500 | loss=0.6253 sup=0.5605 dom=0.6479 ent=0.0000 focal=0.0359 dice=0.3876 aux=0.6852 dom_acc=0.885
+DA Epoch 3/20 | Step 150/500 | loss=0.6949 sup=0.6296 dom=0.6531 ent=0.0000 focal=0.0322 dice=0.4673 aux=0.6508 dom_acc=0.840
+DA Epoch 3/20 | Step 200/500 | loss=0.6951 sup=0.6299 dom=0.6516 ent=0.0000 focal=0.0318 dice=0.4701 aux=0.6402 dom_acc=0.828
+DA Epoch 3/20 | Step 250/500 | loss=0.7022 sup=0.6372 dom=0.6502 ent=0.0000 focal=0.0335 dice=0.4784 aux=0.6266 dom_acc=0.828
+DA Epoch 3/20 | Step 300/500 | loss=0.6984 sup=0.6337 dom=0.6473 ent=0.0000 focal=0.0329 dice=0.4740 aux=0.6338 dom_acc=0.832
+DA Epoch 3/20 | Step 350/500 | loss=0.7063 sup=0.6416 dom=0.6471 ent=0.0000 focal=0.0336 dice=0.4825 aux=0.6276 dom_acc=0.824
+DA Epoch 3/20 | Step 400/500 | loss=0.7079 sup=0.6434 dom=0.6449 ent=0.0000 focal=0.0319 dice=0.4852 aux=0.6315 dom_acc=0.820
+DA Epoch 3/20 | Step 450/500 | loss=0.7138 sup=0.6495 dom=0.6433 ent=0.0000 focal=0.0318 dice=0.4906 aux=0.6357 dom_acc=0.818
+DA Epoch 3/20 | Step 500/500 | loss=0.7010 sup=0.6370 dom=0.6398 ent=0.0000 focal=0.0308 dice=0.4772 aux=0.6446 dom_acc=0.817
+DA Epoch 003 | train_loss=0.7010 | dom_acc=0.817 | val_score=0.241334 | val_loc=0.730391 | val_damage=0.031738 | no=0.768505 | minor=0.446153 | major=0.154922 | destroyed=0.008617
+DA no improvement for 2 epoch(s). Best epoch=1
+
+DA epoch 4/20 | LR=0.00001000 | lambda_domain=0.02400 | lambda_entropy=0.00000
+DA Epoch 4/20 | Step 50/500 | loss=0.7348 sup=0.6735 dom=0.6124 ent=0.0000 focal=0.0488 dice=0.4900 aux=0.6738 dom_acc=0.830
+DA Epoch 4/20 | Step 100/500 | loss=0.6946 sup=0.6337 dom=0.6083 ent=0.0000 focal=0.0385 dice=0.4539 aux=0.7071 dom_acc=0.810
+DA Epoch 4/20 | Step 150/500 | loss=0.6911 sup=0.6303 dom=0.6078 ent=0.0000 focal=0.0302 dice=0.4621 aux=0.6900 dom_acc=0.803
+DA Epoch 4/20 | Step 200/500 | loss=0.6949 sup=0.6342 dom=0.6068 ent=0.0000 focal=0.0290 dice=0.4698 aux=0.6772 dom_acc=0.802
+DA Epoch 4/20 | Step 250/500 | loss=0.6837 sup=0.6234 dom=0.6023 ent=0.0000 focal=0.0284 dice=0.4586 aux=0.6822 dom_acc=0.812
+DA Epoch 4/20 | Step 300/500 | loss=0.6829 sup=0.6230 dom=0.5992 ent=0.0000 focal=0.0288 dice=0.4578 aux=0.6822 dom_acc=0.817
+DA Epoch 4/20 | Step 350/500 | loss=0.6976 sup=0.6380 dom=0.5961 ent=0.0000 focal=0.0302 dice=0.4725 aux=0.6760 dom_acc=0.821
+DA Epoch 4/20 | Step 400/500 | loss=0.6940 sup=0.6350 dom=0.5902 ent=0.0000 focal=0.0331 dice=0.4661 aux=0.6789 dom_acc=0.830
+DA Epoch 4/20 | Step 450/500 | loss=0.7079 sup=0.6488 dom=0.5908 ent=0.0000 focal=0.0333 dice=0.4790 aux=0.6824 dom_acc=0.830
+DA Epoch 4/20 | Step 500/500 | loss=0.6991 sup=0.6404 dom=0.5870 ent=0.0000 focal=0.0333 dice=0.4676 aux=0.6973 dom_acc=0.834
+DA Epoch 004 | train_loss=0.6991 | dom_acc=0.834 | val_score=0.270065 | val_loc=0.730391 | val_damage=0.072782 | no=0.775739 | minor=0.444234 | major=0.089355 | destroyed=0.024858
+DA no improvement for 3 epoch(s). Best epoch=1
+
+DA epoch 5/20 | LR=0.00000991 | lambda_domain=0.03000 | lambda_entropy=0.00000
+DA Epoch 5/20 | Step 50/500 | loss=0.6189 sup=0.5636 dom=0.5523 ent=0.0000 focal=0.0254 dice=0.4089 aux=0.6467 dom_acc=0.840
+DA Epoch 5/20 | Step 100/500 | loss=0.6138 sup=0.5586 dom=0.5518 ent=0.0000 focal=0.0257 dice=0.4066 aux=0.6316 dom_acc=0.845
+DA Epoch 5/20 | Step 150/500 | loss=0.6576 sup=0.6014 dom=0.5618 ent=0.0000 focal=0.0269 dice=0.4522 aux=0.6117 dom_acc=0.820
+DA Epoch 5/20 | Step 200/500 | loss=0.6800 sup=0.6242 dom=0.5581 ent=0.0000 focal=0.0340 dice=0.4691 aux=0.6056 dom_acc=0.828
+DA Epoch 5/20 | Step 250/500 | loss=0.6641 sup=0.6088 dom=0.5528 ent=0.0000 focal=0.0313 dice=0.4531 aux=0.6222 dom_acc=0.836
+DA Epoch 5/20 | Step 300/500 | loss=0.6782 sup=0.6230 dom=0.5522 ent=0.0000 focal=0.0330 dice=0.4669 aux=0.6153 dom_acc=0.833
+DA Epoch 5/20 | Step 350/500 | loss=0.6830 sup=0.6280 dom=0.5504 ent=0.0000 focal=0.0323 dice=0.4707 aux=0.6250 dom_acc=0.834
+DA Epoch 5/20 | Step 400/500 | loss=0.6889 sup=0.6341 dom=0.5472 ent=0.0000 focal=0.0361 dice=0.4726 aux=0.6273 dom_acc=0.836
+DA Epoch 5/20 | Step 450/500 | loss=0.6849 sup=0.6305 dom=0.5435 ent=0.0000 focal=0.0364 dice=0.4684 aux=0.6290 dom_acc=0.836
+DA Epoch 5/20 | Step 500/500 | loss=0.6952 sup=0.6408 dom=0.5441 ent=0.0000 focal=0.0348 dice=0.4773 aux=0.6434 dom_acc=0.832
+DA Epoch 005 | train_loss=0.6952 | dom_acc=0.832 | val_score=0.224583 | val_loc=0.730391 | val_damage=0.007808 | no=0.761534 | minor=0.439903 | major=0.150007 | destroyed=0.001991
+DA no improvement for 4 epoch(s). Best epoch=1
+
+DA epoch 6/20 | LR=0.00000966 | lambda_domain=0.03000 | lambda_entropy=0.00000
+DA Epoch 6/20 | Step 50/500 | loss=0.8915 sup=0.8404 dom=0.5107 ent=0.0000 focal=0.0273 dice=0.4752 aux=1.6893 dom_acc=0.860
+DA Epoch 6/20 | Step 100/500 | loss=0.7852 sup=0.7332 dom=0.5194 ent=0.0000 focal=0.0303 dice=0.4743 aux=1.1432 dom_acc=0.850
+DA Epoch 6/20 | Step 150/500 | loss=0.7600 sup=0.7082 dom=0.5179 ent=0.0000 focal=0.0353 dice=0.4770 aux=0.9795 dom_acc=0.833
+DA Epoch 6/20 | Step 200/500 | loss=0.7516 sup=0.6994 dom=0.5219 ent=0.0000 focal=0.0370 dice=0.4756 aux=0.9344 dom_acc=0.823
+DA Epoch 6/20 | Step 250/500 | loss=0.7351 sup=0.6831 dom=0.5199 ent=0.0000 focal=0.0405 dice=0.4670 aux=0.8781 dom_acc=0.818
+DA Epoch 6/20 | Step 300/500 | loss=0.7136 sup=0.6623 dom=0.5131 ent=0.0000 focal=0.0393 dice=0.4524 aux=0.8526 dom_acc=0.827
+DA Epoch 6/20 | Step 350/500 | loss=0.7096 sup=0.6583 dom=0.5132 ent=0.0000 focal=0.0396 dice=0.4543 aux=0.8224 dom_acc=0.823
+DA Epoch 6/20 | Step 400/500 | loss=0.7165 sup=0.6654 dom=0.5109 ent=0.0000 focal=0.0413 dice=0.4652 aux=0.7947 dom_acc=0.826
+DA Epoch 6/20 | Step 450/500 | loss=0.7137 sup=0.6630 dom=0.5075 ent=0.0000 focal=0.0396 dice=0.4695 aux=0.7693 dom_acc=0.829
+DA Epoch 6/20 | Step 500/500 | loss=0.7127 sup=0.6619 dom=0.5082 ent=0.0000 focal=0.0380 dice=0.4733 aux=0.7533 dom_acc=0.828
+DA Epoch 006 | train_loss=0.7127 | dom_acc=0.828 | val_score=0.219120 | val_loc=0.730391 | val_damage=0.000004 | no=0.766528 | minor=0.439561 | major=0.063983 | destroyed=0.000000
+DA no improvement for 5 epoch(s). Best epoch=1
+
+DA epoch 7/20 | LR=0.00000925 | lambda_domain=0.03000 | lambda_entropy=0.00000
+DA Epoch 7/20 | Step 50/500 | loss=0.6501 sup=0.6010 dom=0.4915 ent=0.0000 focal=0.0328 dice=0.4166 aux=0.7577 dom_acc=0.840
+DA Epoch 7/20 | Step 100/500 | loss=0.6442 sup=0.5960 dom=0.4825 ent=0.0000 focal=0.0328 dice=0.4249 aux=0.6916 dom_acc=0.835
+DA Epoch 7/20 | Step 150/500 | loss=0.6853 sup=0.6379 dom=0.4740 ent=0.0000 focal=0.0404 dice=0.4627 aux=0.6741 dom_acc=0.847
+DA Epoch 7/20 | Step 200/500 | loss=0.6772 sup=0.6294 dom=0.4778 ent=0.0000 focal=0.0388 dice=0.4577 aux=0.6649 dom_acc=0.840
+DA Epoch 7/20 | Step 250/500 | loss=0.7092 sup=0.6616 dom=0.4762 ent=0.0000 focal=0.0454 dice=0.4864 aux=0.6493 dom_acc=0.848
+DA Epoch 7/20 | Step 300/500 | loss=0.6976 sup=0.6505 dom=0.4711 ent=0.0000 focal=0.0448 dice=0.4728 aux=0.6643 dom_acc=0.852
+DA Epoch 7/20 | Step 350/500 | loss=0.6877 sup=0.6413 dom=0.4649 ent=0.0000 focal=0.0418 dice=0.4676 aux=0.6594 dom_acc=0.859
+DA Epoch 7/20 | Step 400/500 | loss=0.6854 sup=0.6394 dom=0.4600 ent=0.0000 focal=0.0430 dice=0.4644 aux=0.6604 dom_acc=0.861
+DA Epoch 7/20 | Step 450/500 | loss=0.6874 sup=0.6412 dom=0.4619 ent=0.0000 focal=0.0435 dice=0.4655 aux=0.6609 dom_acc=0.861
+DA Epoch 7/20 | Step 500/500 | loss=0.6839 sup=0.6383 dom=0.4557 ent=0.0000 focal=0.0438 dice=0.4619 aux=0.6626 dom_acc=0.868
+DA Epoch 007 | train_loss=0.6839 | dom_acc=0.868 | val_score=0.219120 | val_loc=0.730391 | val_damage=0.000004 | no=0.774506 | minor=0.435783 | major=0.161085 | destroyed=0.000000
+DA no improvement for 6 epoch(s). Best epoch=1
+
+DA epoch 8/20 | LR=0.00000870 | lambda_domain=0.03000 | lambda_entropy=0.00000
+DA Epoch 8/20 | Step 50/500 | loss=0.7246 sup=0.6790 dom=0.4566 ent=0.0000 focal=0.0448 dice=0.5083 aux=0.6295 dom_acc=0.850
+DA Epoch 8/20 | Step 100/500 | loss=0.6926 sup=0.6477 dom=0.4492 ent=0.0000 focal=0.0401 dice=0.4807 aux=0.6342 dom_acc=0.840
+DA Epoch 8/20 | Step 150/500 | loss=0.7234 sup=0.6790 dom=0.4437 ent=0.0000 focal=0.0419 dice=0.4777 aux=0.7969 dom_acc=0.850
+DA Epoch 8/20 | Step 200/500 | loss=0.7108 sup=0.6673 dom=0.4359 ent=0.0000 focal=0.0374 dice=0.4797 aux=0.7511 dom_acc=0.860
+DA Epoch 8/20 | Step 250/500 | loss=0.6925 sup=0.6498 dom=0.4274 ent=0.0000 focal=0.0320 dice=0.4685 aux=0.7464 dom_acc=0.868
+DA Epoch 8/20 | Step 300/500 | loss=0.7064 sup=0.6629 dom=0.4354 ent=0.0000 focal=0.0337 dice=0.4858 aux=0.7170 dom_acc=0.863
+DA Epoch 8/20 | Step 350/500 | loss=0.7061 sup=0.6634 dom=0.4275 ent=0.0000 focal=0.0344 dice=0.4894 aux=0.6976 dom_acc=0.871
+DA Epoch 8/20 | Step 400/500 | loss=0.7111 sup=0.6683 dom=0.4281 ent=0.0000 focal=0.0342 dice=0.4964 aux=0.6884 dom_acc=0.866
+DA Epoch 8/20 | Step 450/500 | loss=0.7332 sup=0.6903 dom=0.4288 ent=0.0000 focal=0.0419 dice=0.5097 aux=0.6936 dom_acc=0.864
+DA Epoch 8/20 | Step 500/500 | loss=0.7321 sup=0.6895 dom=0.4260 ent=0.0000 focal=0.0412 dice=0.5109 aux=0.6868 dom_acc=0.866
+DA Epoch 008 | train_loss=0.7321 | dom_acc=0.866 | val_score=0.219120 | val_loc=0.730391 | val_damage=0.000004 | no=0.771132 | minor=0.429380 | major=0.064381 | destroyed=0.000000
+DA no improvement for 7 epoch(s). Best epoch=1
+
+DA epoch 9/20 | LR=0.00000801 | lambda_domain=0.03000 | lambda_entropy=0.00000
+DA Epoch 9/20 | Step 50/500 | loss=0.6630 sup=0.6243 dom=0.3876 ent=0.0000 focal=0.0495 dice=0.4494 aux=0.6269 dom_acc=0.890
+DA Epoch 9/20 | Step 100/500 | loss=0.7646 sup=0.7247 dom=0.3992 ent=0.0000 focal=0.0375 dice=0.4525 aux=1.1733 dom_acc=0.870
+DA Epoch 9/20 | Step 150/500 | loss=0.7179 sup=0.6787 dom=0.3917 ent=0.0000 focal=0.0308 dice=0.4484 aux=0.9977 dom_acc=0.870
+DA Epoch 9/20 | Step 200/500 | loss=0.7030 sup=0.6614 dom=0.4164 ent=0.0000 focal=0.0317 dice=0.4471 aux=0.9131 dom_acc=0.845
+DA Epoch 9/20 | Step 250/500 | loss=0.6926 sup=0.6506 dom=0.4196 ent=0.0000 focal=0.0320 dice=0.4483 aux=0.8516 dom_acc=0.850
+DA Epoch 9/20 | Step 300/500 | loss=0.6806 sup=0.6389 dom=0.4167 ent=0.0000 focal=0.0342 dice=0.4401 aux=0.8230 dom_acc=0.848
+DA Epoch 9/20 | Step 350/500 | loss=0.6621 sup=0.6212 dom=0.4088 ent=0.0000 focal=0.0330 dice=0.4269 aux=0.8062 dom_acc=0.857
+DA Epoch 9/20 | Step 400/500 | loss=0.6556 sup=0.6145 dom=0.4112 ent=0.0000 focal=0.0333 dice=0.4239 aux=0.7867 dom_acc=0.850
+DA Epoch 9/20 | Step 450/500 | loss=0.6583 sup=0.6171 dom=0.4118 ent=0.0000 focal=0.0334 dice=0.4308 aux=0.7644 dom_acc=0.850
+DA Epoch 9/20 | Step 500/500 | loss=0.6607 sup=0.6202 dom=0.4044 ent=0.0000 focal=0.0337 dice=0.4364 aux=0.7506 dom_acc=0.859
+DA Epoch 009 | train_loss=0.6607 | dom_acc=0.859 | val_score=0.277099 | val_loc=0.730391 | val_damage=0.082830 | no=0.772881 | minor=0.438491 | major=0.129457 | destroyed=0.027031
+DA no improvement for 8 epoch(s). Best epoch=1
+DA early stopping at epoch 9.
+DA done. Best epoch=1, best val score=0.277566
+
+================ IDA-BD VALIDATION ABLATION + FINAL TEST ================
+Loaded existing split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  8
+=================================
+Loaded frozen Phase-I model for target foreground masks and final cascade.
+Phase-I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt
+Phase-I epoch: 56 | best_metric=0.8274945113296932 | threshold=0.50
+VAL ABLATION | th=0.30 dil=none       | loc=0.729144 | no=0.772665 minor=0.435063 major=0.081302 destroyed=0.035789 | damage=0.091256 overall=0.282622
+VAL ABLATION | th=0.30 dil=minor      | loc=0.729144 | no=0.768488 minor=0.433812 major=0.081302 destroyed=0.035789 | damage=0.091227 overall=0.282602
+VAL ABLATION | th=0.35 dil=none       | loc=0.730114 | no=0.768168 minor=0.433467 major=0.080699 destroyed=0.034869 | damage=0.089528 overall=0.281704
+VAL ABLATION | th=0.35 dil=minor      | loc=0.730114 | no=0.763994 minor=0.432240 major=0.080699 destroyed=0.034869 | damage=0.089501 overall=0.281685
+VAL ABLATION | th=0.40 dil=none       | loc=0.730582 | no=0.763867 minor=0.431807 major=0.080035 destroyed=0.033130 | damage=0.086389 overall=0.279647
+VAL ABLATION | th=0.40 dil=minor      | loc=0.730582 | no=0.759702 minor=0.430632 major=0.080035 destroyed=0.033130 | damage=0.086364 overall=0.279629
+VAL ABLATION | th=0.45 dil=none       | loc=0.730662 | no=0.759531 minor=0.429974 major=0.079249 destroyed=0.032027 | damage=0.084241 overall=0.278167
+VAL ABLATION | th=0.45 dil=minor      | loc=0.730662 | no=0.755379 minor=0.428849 major=0.079249 destroyed=0.032027 | damage=0.084217 overall=0.278150
+VAL ABLATION | th=0.50 dil=none       | loc=0.730391 | no=0.755299 minor=0.428111 major=0.078577 destroyed=0.031725 | damage=0.083498 overall=0.277566
+VAL ABLATION | th=0.50 dil=minor      | loc=0.730391 | no=0.751173 minor=0.427048 major=0.078577 destroyed=0.031725 | damage=0.083475 overall=0.277550
+VAL ABLATION | th=0.55 dil=none       | loc=0.729733 | no=0.750789 minor=0.426297 major=0.077911 destroyed=0.030616 | damage=0.081344 overall=0.275861
+VAL ABLATION | th=0.55 dil=minor      | loc=0.729733 | no=0.746681 minor=0.425271 major=0.077911 destroyed=0.030616 | damage=0.081323 overall=0.275846
+VAL ABLATION | th=0.60 dil=none       | loc=0.728815 | no=0.746120 minor=0.424364 major=0.077052 destroyed=0.029033 | damage=0.078251 overall=0.273420
+VAL ABLATION | th=0.60 dil=minor      | loc=0.728815 | no=0.742031 minor=0.423387 major=0.077052 destroyed=0.029033 | damage=0.078231 overall=0.273406
+VAL ABLATION | th=0.65 dil=none       | loc=0.727528 | no=0.740951 minor=0.422370 major=0.076275 destroyed=0.026952 | damage=0.074171 overall=0.270178
+VAL ABLATION | th=0.65 dil=minor      | loc=0.727528 | no=0.736878 minor=0.421434 major=0.076275 destroyed=0.026952 | damage=0.074154 overall=0.270166
+VAL ABLATION | th=0.70 dil=none       | loc=0.725664 | no=0.735214 minor=0.420023 major=0.075518 destroyed=0.026165 | damage=0.072464 overall=0.268424
+VAL ABLATION | th=0.70 dil=minor      | loc=0.725664 | no=0.731159 minor=0.419150 major=0.075518 destroyed=0.026165 | damage=0.072447 overall=0.268412
+VAL ABLATION | th=0.75 dil=none       | loc=0.723126 | no=0.728804 minor=0.417284 major=0.074658 destroyed=0.024094 | damage=0.068184 overall=0.264667
+VAL ABLATION | th=0.75 dil=minor      | loc=0.723126 | no=0.724779 minor=0.416480 major=0.074658 destroyed=0.024094 | damage=0.068170 overall=0.264657
+VAL ABLATION | th=0.80 dil=none       | loc=0.719697 | no=0.721321 minor=0.413918 major=0.073792 destroyed=0.020390 | damage=0.060245 overall=0.258080
+VAL ABLATION | th=0.80 dil=minor      | loc=0.719697 | no=0.717321 minor=0.413198 major=0.073792 destroyed=0.020390 | damage=0.060234 overall=0.258073
+VAL ABLATION | th=0.85 dil=none       | loc=0.714693 | no=0.711335 minor=0.409678 major=0.072310 destroyed=0.016678 | damage=0.051525 overall=0.250475
+VAL ABLATION | th=0.85 dil=minor      | loc=0.714693 | no=0.707385 minor=0.409070 major=0.072310 destroyed=0.016678 | damage=0.051517 overall=0.250470
+VAL ABLATION | th=0.90 dil=none       | loc=0.706965 | no=0.697531 minor=0.403932 major=0.068325 destroyed=0.005496 | damage=0.019955 overall=0.226058
+VAL ABLATION | th=0.90 dil=minor      | loc=0.706965 | no=0.693650 minor=0.403437 major=0.068325 destroyed=0.005496 | damage=0.019954 overall=0.226057
+
+===== BEST VALIDATION SETTING =====
+{
+  "threshold": 0.3,
+  "dilation": "none",
+  "localization_f1": 0.7291439352487866,
+  "no_damage_f1": 0.7726648929714003,
+  "minor_damage_f1": 0.4350629356274435,
+  "major_damage_f1": 0.0813020485076895,
+  "destroyed_f1": 0.03578947368421053,
+  "damage_f1": 0.09125588239090195,
+  "overall_score": 0.28262229824826735
+}
+===================================
+Experiment: xBD-to-IDA-BD unsupervised foreground-aware adversarial domain adaptation HRTBDA v5
+Source labeled data: xBD ['train', 'tier3']
+Target unlabeled data: IDA-BD train split
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt
+Phase I stored epoch: 56
+Phase I stored best metric: 0.8274945113296932
+Phase II DA checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_hrtbda_v5_foreground_dann/checkpoints/phase2_best_da.pt
+Selected Phase-I threshold from val ablation: 0.30
+Selected dilation from val ablation: none
+
+Validation-selected setting:
+Val Localization F1: 0.729144
+Val No Damage F1:    0.772665
+Val Minor Damage F1: 0.435063
+Val Major Damage F1: 0.081302
+Val Destroyed F1:    0.035789
+Val Damage F1:       0.091256
+Val Overall Score:   0.282622
+
+Final test result:
+Test Localization F1 from Phase I mask: 0.840386
+No Damage F1:    0.565917
+Minor Damage F1: 0.365223
+Major Damage F1: 0.175692
+Destroyed F1:    0.002345
+Damage F1:       0.009163
+Overall Score:   0.258530
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_to_idabd_hrtbda_v5_foreground_dann/scores/summary_idabd_hrtbda_v5_foreground_dann_selected_test.txt
+Done.

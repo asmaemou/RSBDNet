@@ -1,0 +1,761 @@
+===== JOB INFO =====
+Fri May  1 08:51:01 PM CDT 2026
+compute202516
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+Fri May  1 20:51:01 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.51.03              Driver Version: 575.51.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:01:00.0 Off |                    0 |
+| N/A   24C    P8             29W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+IDABD_ROOT: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+BASE_RUN: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10
+PHASE1_ORIG: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase1_best.pt
+PHASE2_BEST: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+SPLIT_ORIG: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+ABLATION_ROOT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation
+THRESHOLDS: 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90
+RUN_FINAL_TEST: 1
+====================
+Wrote threshold checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.30.pt
+Wrote threshold checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.35.pt
+Wrote threshold checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.40.pt
+Wrote threshold checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.45.pt
+Wrote threshold checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.50.pt
+Wrote threshold checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+Wrote threshold checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.60.pt
+Wrote threshold checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.65.pt
+Wrote threshold checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.70.pt
+Wrote threshold checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.75.pt
+Wrote threshold checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.80.pt
+Wrote threshold checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.85.pt
+Wrote threshold checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.90.pt
+Wrote validation-as-test split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/idabd_splits_seed42_80_10_10_val_as_test.json
+Original split sizes: train=70, val=9, test=8
+Val-as-test sizes: train=70, val=9, test=9
+
+==================================================
+Running IDA-BD VALIDATION threshold ablation: threshold=0.30
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.30.pt
+PHASE2_BEST=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.30
+==================================================
+===== IDA-BD HRTBDA V2 CASCADED PHASE-I MASK PIPELINE =====
+Phase: test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.30
+Split: 80% train / 10% validation / 10% test
+Architecture/training logic: imported from train_xbd_hrtbda_v2_cascaded_phase1mask.py
+Phase I: trained from scratch unless --phase1-checkpoint is provided
+Phase II: foreground-only 4-class softmax damage classification
+Final inference: Phase I mask gives localization; Phase II predicts damage inside mask
+Device: cuda
+===========================================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/idabd_splits_seed42_80_10_10_val_as_test.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  9
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.30.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.30
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> val10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.30.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.30
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.718977
+No Damage F1:    0.832559
+Minor Damage F1: 0.203297
+Major Damage F1: 0.431257
+Destroyed F1:    0.190299
+Damage F1:       0.292106
+Overall Score:   0.420167
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.30/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.30/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.30/scores/summary_hrtbda_v2_cascaded_phase1mask.txt
+Done.
+
+==================================================
+Running IDA-BD VALIDATION threshold ablation: threshold=0.35
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.35.pt
+PHASE2_BEST=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.35
+==================================================
+===== IDA-BD HRTBDA V2 CASCADED PHASE-I MASK PIPELINE =====
+Phase: test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.35
+Split: 80% train / 10% validation / 10% test
+Architecture/training logic: imported from train_xbd_hrtbda_v2_cascaded_phase1mask.py
+Phase I: trained from scratch unless --phase1-checkpoint is provided
+Phase II: foreground-only 4-class softmax damage classification
+Final inference: Phase I mask gives localization; Phase II predicts damage inside mask
+Device: cuda
+===========================================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/idabd_splits_seed42_80_10_10_val_as_test.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  9
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.35.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.35
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> val10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.35.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.35
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.725040
+No Damage F1:    0.826672
+Minor Damage F1: 0.201458
+Major Damage F1: 0.429767
+Destroyed F1:    0.192171
+Damage F1:       0.291886
+Overall Score:   0.421832
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.35/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.35/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.35/scores/summary_hrtbda_v2_cascaded_phase1mask.txt
+Done.
+
+==================================================
+Running IDA-BD VALIDATION threshold ablation: threshold=0.40
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.40.pt
+PHASE2_BEST=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.40
+==================================================
+===== IDA-BD HRTBDA V2 CASCADED PHASE-I MASK PIPELINE =====
+Phase: test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.40
+Split: 80% train / 10% validation / 10% test
+Architecture/training logic: imported from train_xbd_hrtbda_v2_cascaded_phase1mask.py
+Phase I: trained from scratch unless --phase1-checkpoint is provided
+Phase II: foreground-only 4-class softmax damage classification
+Final inference: Phase I mask gives localization; Phase II predicts damage inside mask
+Device: cuda
+===========================================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/idabd_splits_seed42_80_10_10_val_as_test.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  9
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.40.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.40
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> val10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.40.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.40
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.730136
+No Damage F1:    0.820401
+Minor Damage F1: 0.199340
+Major Damage F1: 0.427732
+Destroyed F1:    0.195106
+Damage F1:       0.291998
+Overall Score:   0.423439
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.40/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.40/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.40/scores/summary_hrtbda_v2_cascaded_phase1mask.txt
+Done.
+
+==================================================
+Running IDA-BD VALIDATION threshold ablation: threshold=0.45
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.45.pt
+PHASE2_BEST=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.45
+==================================================
+===== IDA-BD HRTBDA V2 CASCADED PHASE-I MASK PIPELINE =====
+Phase: test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.45
+Split: 80% train / 10% validation / 10% test
+Architecture/training logic: imported from train_xbd_hrtbda_v2_cascaded_phase1mask.py
+Phase I: trained from scratch unless --phase1-checkpoint is provided
+Phase II: foreground-only 4-class softmax damage classification
+Final inference: Phase I mask gives localization; Phase II predicts damage inside mask
+Device: cuda
+===========================================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/idabd_splits_seed42_80_10_10_val_as_test.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  9
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.45.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.45
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> val10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.45.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.45
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.734519
+No Damage F1:    0.813857
+Minor Damage F1: 0.197011
+Major Damage F1: 0.425644
+Destroyed F1:    0.197804
+Damage F1:       0.291770
+Overall Score:   0.424595
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.45/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.45/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.45/scores/summary_hrtbda_v2_cascaded_phase1mask.txt
+Done.
+
+==================================================
+Running IDA-BD VALIDATION threshold ablation: threshold=0.50
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.50.pt
+PHASE2_BEST=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.50
+==================================================
+===== IDA-BD HRTBDA V2 CASCADED PHASE-I MASK PIPELINE =====
+Phase: test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.50
+Split: 80% train / 10% validation / 10% test
+Architecture/training logic: imported from train_xbd_hrtbda_v2_cascaded_phase1mask.py
+Phase I: trained from scratch unless --phase1-checkpoint is provided
+Phase II: foreground-only 4-class softmax damage classification
+Final inference: Phase I mask gives localization; Phase II predicts damage inside mask
+Device: cuda
+===========================================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/idabd_splits_seed42_80_10_10_val_as_test.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  9
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.50.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.50
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> val10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.50.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.50
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.737860
+No Damage F1:    0.806496
+Minor Damage F1: 0.194521
+Major Damage F1: 0.423013
+Destroyed F1:    0.200855
+Damage F1:       0.291473
+Overall Score:   0.425389
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.50/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.50/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.50/scores/summary_hrtbda_v2_cascaded_phase1mask.txt
+Done.
+
+==================================================
+Running IDA-BD VALIDATION threshold ablation: threshold=0.55
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+PHASE2_BEST=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.55
+==================================================
+===== IDA-BD HRTBDA V2 CASCADED PHASE-I MASK PIPELINE =====
+Phase: test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.55
+Split: 80% train / 10% validation / 10% test
+Architecture/training logic: imported from train_xbd_hrtbda_v2_cascaded_phase1mask.py
+Phase I: trained from scratch unless --phase1-checkpoint is provided
+Phase II: foreground-only 4-class softmax damage classification
+Final inference: Phase I mask gives localization; Phase II predicts damage inside mask
+Device: cuda
+===========================================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/idabd_splits_seed42_80_10_10_val_as_test.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  9
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.55
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> val10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.55
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.740243
+No Damage F1:    0.797874
+Minor Damage F1: 0.191905
+Major Damage F1: 0.419770
+Destroyed F1:    0.204592
+Damage F1:       0.291244
+Overall Score:   0.425943
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.55/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.55/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.55/scores/summary_hrtbda_v2_cascaded_phase1mask.txt
+Done.
+
+==================================================
+Running IDA-BD VALIDATION threshold ablation: threshold=0.60
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.60.pt
+PHASE2_BEST=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.60
+==================================================
+===== IDA-BD HRTBDA V2 CASCADED PHASE-I MASK PIPELINE =====
+Phase: test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.60
+Split: 80% train / 10% validation / 10% test
+Architecture/training logic: imported from train_xbd_hrtbda_v2_cascaded_phase1mask.py
+Phase I: trained from scratch unless --phase1-checkpoint is provided
+Phase II: foreground-only 4-class softmax damage classification
+Final inference: Phase I mask gives localization; Phase II predicts damage inside mask
+Device: cuda
+===========================================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/idabd_splits_seed42_80_10_10_val_as_test.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  9
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.60.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.60
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> val10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.60.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.60
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.741269
+No Damage F1:    0.787748
+Minor Damage F1: 0.189006
+Major Damage F1: 0.415781
+Destroyed F1:    0.208130
+Damage F1:       0.290487
+Overall Score:   0.425721
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.60/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.60/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.60/scores/summary_hrtbda_v2_cascaded_phase1mask.txt
+Done.
+
+==================================================
+Running IDA-BD VALIDATION threshold ablation: threshold=0.65
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.65.pt
+PHASE2_BEST=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.65
+==================================================
+===== IDA-BD HRTBDA V2 CASCADED PHASE-I MASK PIPELINE =====
+Phase: test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.65
+Split: 80% train / 10% validation / 10% test
+Architecture/training logic: imported from train_xbd_hrtbda_v2_cascaded_phase1mask.py
+Phase I: trained from scratch unless --phase1-checkpoint is provided
+Phase II: foreground-only 4-class softmax damage classification
+Final inference: Phase I mask gives localization; Phase II predicts damage inside mask
+Device: cuda
+===========================================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/idabd_splits_seed42_80_10_10_val_as_test.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  9
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.65.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.65
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> val10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.65.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.65
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.740756
+No Damage F1:    0.775297
+Minor Damage F1: 0.185621
+Major Damage F1: 0.410155
+Destroyed F1:    0.213110
+Damage F1:       0.289696
+Overall Score:   0.425014
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.65/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.65/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.65/scores/summary_hrtbda_v2_cascaded_phase1mask.txt
+Done.
+
+==================================================
+Running IDA-BD VALIDATION threshold ablation: threshold=0.70
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.70.pt
+PHASE2_BEST=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.70
+==================================================
+===== IDA-BD HRTBDA V2 CASCADED PHASE-I MASK PIPELINE =====
+Phase: test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.70
+Split: 80% train / 10% validation / 10% test
+Architecture/training logic: imported from train_xbd_hrtbda_v2_cascaded_phase1mask.py
+Phase I: trained from scratch unless --phase1-checkpoint is provided
+Phase II: foreground-only 4-class softmax damage classification
+Final inference: Phase I mask gives localization; Phase II predicts damage inside mask
+Device: cuda
+===========================================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/idabd_splits_seed42_80_10_10_val_as_test.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  9
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.70.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.70
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> val10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.70.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.70
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.737427
+No Damage F1:    0.759083
+Minor Damage F1: 0.180986
+Major Damage F1: 0.402152
+Destroyed F1:    0.219734
+Damage F1:       0.288181
+Overall Score:   0.422955
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.70/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.70/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.70/scores/summary_hrtbda_v2_cascaded_phase1mask.txt
+Done.
+
+==================================================
+Running IDA-BD VALIDATION threshold ablation: threshold=0.75
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.75.pt
+PHASE2_BEST=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.75
+==================================================
+===== IDA-BD HRTBDA V2 CASCADED PHASE-I MASK PIPELINE =====
+Phase: test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.75
+Split: 80% train / 10% validation / 10% test
+Architecture/training logic: imported from train_xbd_hrtbda_v2_cascaded_phase1mask.py
+Phase I: trained from scratch unless --phase1-checkpoint is provided
+Phase II: foreground-only 4-class softmax damage classification
+Final inference: Phase I mask gives localization; Phase II predicts damage inside mask
+Device: cuda
+===========================================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/idabd_splits_seed42_80_10_10_val_as_test.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  9
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.75.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.75
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> val10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.75.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.75
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.728989
+No Damage F1:    0.736507
+Minor Damage F1: 0.174219
+Major Damage F1: 0.389741
+Destroyed F1:    0.230736
+Damage F1:       0.285768
+Overall Score:   0.418735
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.75/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.75/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.75/scores/summary_hrtbda_v2_cascaded_phase1mask.txt
+Done.
+
+==================================================
+Running IDA-BD VALIDATION threshold ablation: threshold=0.80
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.80.pt
+PHASE2_BEST=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.80
+==================================================
+===== IDA-BD HRTBDA V2 CASCADED PHASE-I MASK PIPELINE =====
+Phase: test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.80
+Split: 80% train / 10% validation / 10% test
+Architecture/training logic: imported from train_xbd_hrtbda_v2_cascaded_phase1mask.py
+Phase I: trained from scratch unless --phase1-checkpoint is provided
+Phase II: foreground-only 4-class softmax damage classification
+Final inference: Phase I mask gives localization; Phase II predicts damage inside mask
+Device: cuda
+===========================================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/idabd_splits_seed42_80_10_10_val_as_test.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  9
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.80.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.80
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> val10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.80.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.80
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.710455
+No Damage F1:    0.702059
+Minor Damage F1: 0.163821
+Major Damage F1: 0.369731
+Destroyed F1:    0.246883
+Damage F1:       0.280039
+Overall Score:   0.409164
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.80/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.80/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.80/scores/summary_hrtbda_v2_cascaded_phase1mask.txt
+Done.
+
+==================================================
+Running IDA-BD VALIDATION threshold ablation: threshold=0.85
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.85.pt
+PHASE2_BEST=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.85
+==================================================
+===== IDA-BD HRTBDA V2 CASCADED PHASE-I MASK PIPELINE =====
+Phase: test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.85
+Split: 80% train / 10% validation / 10% test
+Architecture/training logic: imported from train_xbd_hrtbda_v2_cascaded_phase1mask.py
+Phase I: trained from scratch unless --phase1-checkpoint is provided
+Phase II: foreground-only 4-class softmax damage classification
+Final inference: Phase I mask gives localization; Phase II predicts damage inside mask
+Device: cuda
+===========================================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/idabd_splits_seed42_80_10_10_val_as_test.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  9
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.85.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.85
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> val10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.85.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.85
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.668744
+No Damage F1:    0.642730
+Minor Damage F1: 0.147516
+Major Damage F1: 0.341213
+Destroyed F1:    0.265783
+Damage F1:       0.266172
+Overall Score:   0.386943
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.85/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.85/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.85/scores/summary_hrtbda_v2_cascaded_phase1mask.txt
+Done.
+
+==================================================
+Running IDA-BD VALIDATION threshold ablation: threshold=0.90
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.90.pt
+PHASE2_BEST=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.90
+==================================================
+===== IDA-BD HRTBDA V2 CASCADED PHASE-I MASK PIPELINE =====
+Phase: test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.90
+Split: 80% train / 10% validation / 10% test
+Architecture/training logic: imported from train_xbd_hrtbda_v2_cascaded_phase1mask.py
+Phase I: trained from scratch unless --phase1-checkpoint is provided
+Phase II: foreground-only 4-class softmax damage classification
+Final inference: Phase I mask gives localization; Phase II predicts damage inside mask
+Device: cuda
+===========================================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/idabd_splits_seed42_80_10_10_val_as_test.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  9
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.90.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.90
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> val10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.90.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.90
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.572256
+No Damage F1:    0.534073
+Minor Damage F1: 0.117848
+Major Damage F1: 0.279681
+Destroyed F1:    0.293914
+Damage F1:       0.230738
+Overall Score:   0.333193
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.90/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.90/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/val_th0.90/scores/summary_hrtbda_v2_cascaded_phase1mask.txt
+Done.
+
+================ IDA-BD V2 VALIDATION THRESHOLD ABLATION ================
+Rank | Threshold | Loc F1 | No F1 | Minor F1 | Major F1 | Destroyed F1 | Damage F1 | Overall
+   1 | 0.55 | 0.740243 | 0.797874 | 0.191905 | 0.419770 | 0.204592 | 0.797874 | 0.425943
+   2 | 0.60 | 0.741269 | 0.787748 | 0.189006 | 0.415781 | 0.208130 | 0.787748 | 0.425721
+   3 | 0.50 | 0.737860 | 0.806496 | 0.194521 | 0.423013 | 0.200855 | 0.806496 | 0.425389
+   4 | 0.65 | 0.740756 | 0.775297 | 0.185621 | 0.410155 | 0.213110 | 0.775297 | 0.425014
+   5 | 0.45 | 0.734519 | 0.813857 | 0.197011 | 0.425644 | 0.197804 | 0.813857 | 0.424595
+   6 | 0.40 | 0.730136 | 0.820401 | 0.199340 | 0.427732 | 0.195106 | 0.820401 | 0.423439
+   7 | 0.70 | 0.737427 | 0.759083 | 0.180986 | 0.402152 | 0.219734 | 0.759083 | 0.422955
+   8 | 0.35 | 0.725040 | 0.826672 | 0.201458 | 0.429767 | 0.192171 | 0.826672 | 0.421832
+   9 | 0.30 | 0.718977 | 0.832559 | 0.203297 | 0.431257 | 0.190299 | 0.832559 | 0.420167
+  10 | 0.75 | 0.728989 | 0.736507 | 0.174219 | 0.389741 | 0.230736 | 0.736507 | 0.418735
+  11 | 0.80 | 0.710455 | 0.702059 | 0.163821 | 0.369731 | 0.246883 | 0.702059 | 0.409164
+  12 | 0.85 | 0.668744 | 0.642730 | 0.147516 | 0.341213 | 0.265783 | 0.642730 | 0.386943
+  13 | 0.90 | 0.572256 | 0.534073 | 0.117848 | 0.279681 | 0.293914 | 0.534073 | 0.333193
+========================================================================
+
+Best validation threshold: 0.55
+Best validation overall:   0.425943
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/best_validation_threshold.json
+
+==================================================
+Running FINAL TEST using validation-selected threshold=0.55
+PHASE1_BEST_TH=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+PHASE2_BEST=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase2_best.pt
+FINAL_OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/final_test_selected_th0.55
+==================================================
+===== IDA-BD HRTBDA V2 CASCADED PHASE-I MASK PIPELINE =====
+Phase: test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/final_test_selected_th0.55
+Split: 80% train / 10% validation / 10% test
+Architecture/training logic: imported from train_xbd_hrtbda_v2_cascaded_phase1mask.py
+Phase I: trained from scratch unless --phase1-checkpoint is provided
+Phase II: foreground-only 4-class softmax damage classification
+Final inference: Phase I mask gives localization; Phase II predicts damage inside mask
+Device: cuda
+===========================================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  8
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.55
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> test10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.55
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.824393
+No Damage F1:    0.600679
+Minor Damage F1: 0.191463
+Major Damage F1: 0.498047
+Destroyed F1:    0.042606
+Damage F1:       0.123586
+Overall Score:   0.333828
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/final_test_selected_th0.55/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/final_test_selected_th0.55/scores/scores_xbd_test_hrtbda_v2_cascaded_phase1mask.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/final_test_selected_th0.55/scores/summary_hrtbda_v2_cascaded_phase1mask.txt
+Done.
+
+================ FINAL TEST SUMMARY ================
+Experiment: HRTBDA v2 cascaded Phase I mask + foreground-only Phase II damage train80 -> val10 -> test10
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_threshold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+Phase I stored best epoch: 102
+Phase I stored hold Localization F1: 0.741269
+Phase I threshold used for mask: 0.55
+Best Phase II epoch selected on hold cascade score: 12
+Test Localization F1 from Phase I mask: 0.824393
+No Damage F1:    0.600679
+Minor Damage F1: 0.191463
+Major Damage F1: 0.498047
+Destroyed F1:    0.042606
+Damage F1:       0.123586
+Overall Score:   0.333828
+====================================================
+Done.

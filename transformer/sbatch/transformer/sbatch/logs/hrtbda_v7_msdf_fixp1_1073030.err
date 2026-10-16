@@ -1,0 +1,14 @@
+slurmstepd: error: *** JOB 1073030 ON compute202516 CANCELLED AT 2026-05-03T17:06:37 ***
+Exception in thread Thread-66 (_pin_memory_loop):
+Traceback (most recent call last):
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/torch/utils/data/_utils/pin_memory.py", line 52, in _pin_memory_loop
+    do_one_step()
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/torch/utils/data/_utils/pin_memory.py", line 28, in do_one_step
+    r = in_queue.get(timeout=MP_STATUS_CHECK_INTERVAL)
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/multiprocessing/queues.py", line 122, in get
+    return _ForkingPickler.loads(res)
+  File "/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/torch/multiprocessing/reductions.py", line 540, in rebuild_storage_fd

@@ -1,0 +1,68 @@
+===== IDA-BD PHASE-II FINE-TUNING JOB =====
+Mon Jun  1 05:26:25 PM CDT 2026
+compute202517
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+Mon Jun  1 17:26:25 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.58.03              Driver Version: 595.58.03      CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:01:00.0 Off |                    0 |
+| N/A   24C    P8             29W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+EXPERIMENT_NAME: HRTBDA-v5-xBDInit-PhaseII-Finetune_IDA
+IDABD_ROOT: /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet
+PHASE1_CKPT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_FINAL_TEST_th040_dilminor/threshold_checkpoints/phase1_best_threshold_0.40.pt
+XBD_PHASE2_CKPT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+OUTPUT_DIR: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-PhaseII-Finetune_IDA
+TRAIN_SPLITS: train
+VAL_SPLIT: val
+TEST_SPLIT: test
+PHASE2_EPOCHS: 30
+LR: 5e-5
+POSTPROCESS_DILATION: minor
+DILATION_KERNEL: 3
+============================================
+===== CHECK IDA-BD FORMAT =====
+Checking IDA-BD xBD-style dataset format
+Root: /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet
+
+===== SPLIT: train =====
+Images dir:  /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet/train/images
+Targets dir: /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet/train/targets
+Paired post images found: 69
+Missing paired files: 0
+Target pixel counts [background,no,minor,major,destroyed]: [59114306, 8794255, 3263579, 1142981, 36623]
+
+===== SPLIT: val =====
+Images dir:  /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet/val/images
+Targets dir: /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet/val/targets
+Paired post images found: 8
+Missing paired files: 0
+Target pixel counts [background,no,minor,major,destroyed]: [6782072, 1205177, 283049, 106223, 12087]
+
+===== SPLIT: test =====
+Images dir:  /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet/test/images
+Targets dir: /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet/test/targets
+Paired post images found: 10
+Missing paired files: 0
+Target pixel counts [background,no,minor,major,destroyed]: [8658125, 879819, 668100, 275542, 4174]
+
+Dataset format looks OK.
+===== START PHASE-II FINE-TUNING FROM xBD CHECKPOINT =====
+Wrote patched script: transformer/scripts/train_idabd_hrtbda_v5_phase2_finetune.py
+Done.

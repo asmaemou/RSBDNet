@@ -1,0 +1,3 @@
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/lib/python3.10/site-packages/timm/models/layers/__init__.py:49: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+slurmstepd: error: *** JOB 1072069 ON compute202516 CANCELLED AT 2026-04-28T17:24:34 ***

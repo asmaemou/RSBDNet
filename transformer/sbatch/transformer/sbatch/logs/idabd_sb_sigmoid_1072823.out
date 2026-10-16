@@ -1,0 +1,345 @@
+===== JOB INFO =====
+Sat May  2 08:38:14 AM CDT 2026
+compute202516
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+Sat May  2 08:38:14 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.51.03              Driver Version: 575.51.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:71:00.0 Off |                    0 |
+| N/A   24C    P8             29W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+PHASE: phase2_test
+IDABD_ROOT: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+SPLIT_FILE: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+PHASE1_CKPT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase1_best.pt
+OUTPUT_DIR: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_strongbaseline_sigmoid_cascade_80_10_10
+MODEL: IDA-BD HRTBDA strong-baseline sigmoid cascade
+PHASE2_CROP_SIZE: 608
+CROP_CANDIDATES: 16
+CROP_CLASS_WEIGHTS: 1.0 10.0 10.0 30.0
+AUX_LOC_WEIGHT: 0.25
+MINOR_BOOST: 2.0
+MAJOR_BOOST: 2.0
+DESTROYED_BOOST: 8.0
+ABLATION_THRESHOLDS: 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90
+ABLATION_DILATIONS: none minor destroyed minor_destroyed
+====================
+===== COMMAND =====
+python -u transformer/scripts/train_idabd_hrtbda_strongbaseline_sigmoid_cascade.py --phase phase2_test --idabd-root /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd --split-file /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json --output-dir /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_strongbaseline_sigmoid_cascade_80_10_10 --phase1-checkpoint /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase1_best.pt --phase1-epochs 150 --phase2-epochs 80 --batch-size 2 --eval-batch-size 1 --grad-accum-steps 4 --num-workers 8 --img-size 1024 --lr 5e-5 --weight-decay 1e-4 --seed 42 --base-channels 48 --decoder-channels 128 --window-size 8 --max-grad-norm 0.5 --warmup-epochs 5 --save-every 1 --early-stopping-patience 20 --focal-gamma 2.0 --phase2-crop-size 608 --crop-candidates 16 --random-crop-min 529 --random-crop-max 715 --crop-class-weights 1.0 10.0 10.0 30.0 --aux-loc-weight 0.25 --minor-boost 2.0 --major-boost 2.0 --destroyed-boost 8.0 --max-class-weight 25.0 --ablation-thresholds 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90 --ablation-dilations none minor destroyed minor_destroyed --dilation-kernel 3 --extra-photometric-aug --run-final-test --amp 
+===================
+===== IDA-BD HRTBDA STRONG-BASELINE SIGMOID CASCADE =====
+Phase: phase2_test
+IDA-BD root: /homes/j244s673/documents/wsu/phd/xview2_1st_place_solution/new_approach/idabd
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_strongbaseline_sigmoid_cascade_80_10_10
+Split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+Device: cuda
+Architecture: HRTBDA v2 4-branch transformer + CSF, Phase-II 5 sigmoid channels
+Phase-II loss: binary focal + dice per channel, inverse-frequency rare-class weighting
+Training: rare-damage crop selection + optional photometric augmentation
+Final inference: Phase-I mask gates background; Phase-II predicts damage inside mask
+========================================================
+
+================ PHASE II: STRONG-BASELINE SIGMOID DAMAGE HEAD ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  8
+=================================
+Train samples: 70 | steps/epoch=35
+Val samples:   9
+Phase-II crop size: 608
+Crop candidates: 16
+Crop class weights [no,minor,major,destroyed]: [1.0, 10.0, 10.0, 30.0]
+Loaded Phase I backbone into Phase II from: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase1_best.pt
+Missing keys: 0 | Unexpected keys: 0
+damage counts [no,minor,major,destroyed]: [9035558, 3295435, 1155274, 36743]
+strong channel weights [loc,no,minor,major,destroyed]: [1.3569523096084595, 0.1892678141593933, 0.6267983913421631, 1.058624029159546, 23.74416732788086]
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase1_best.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.60
+
+Phase II epoch 1/80 | LR=0.00001000
+Phase II Epoch 1/80 | Step 20/35 | loss=1.1256 | focal=0.1458 | dice=0.9797
+Phase II Epoch 1/80 | Step 35/35 | loss=1.1230 | focal=0.1441 | dice=0.9789
+strong Epoch 001 | train_loss=1.1230 | hold_score_cascade=0.229260 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.009828 | no=0.277835 | minor=0.235437 | major=0.108506 | destroyed=0.002563
+Saved Phase II best checkpoint | epoch=1 | cascade_score=0.229260
+
+Phase II epoch 2/80 | LR=0.00002000
+Phase II Epoch 2/80 | Step 20/35 | loss=1.1161 | focal=0.1383 | dice=0.9778
+Phase II Epoch 2/80 | Step 35/35 | loss=1.1134 | focal=0.1364 | dice=0.9771
+strong Epoch 002 | train_loss=1.1134 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.409824 | minor=0.250448 | major=0.104227 | destroyed=0.000000
+Phase II no improvement for 1 epoch(s). Best epoch=1
+
+Phase II epoch 3/80 | LR=0.00003000
+Phase II Epoch 3/80 | Step 20/35 | loss=1.1033 | focal=0.1285 | dice=0.9748
+Phase II Epoch 3/80 | Step 35/35 | loss=1.0991 | focal=0.1256 | dice=0.9735
+strong Epoch 003 | train_loss=1.0991 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.446048 | minor=0.238239 | major=0.098210 | destroyed=0.000000
+Phase II no improvement for 2 epoch(s). Best epoch=1
+
+Phase II epoch 4/80 | LR=0.00004000
+Phase II Epoch 4/80 | Step 20/35 | loss=1.0843 | focal=0.1127 | dice=0.9717
+Phase II Epoch 4/80 | Step 35/35 | loss=1.0797 | focal=0.1086 | dice=0.9711
+strong Epoch 004 | train_loss=1.0797 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.537288 | minor=0.229753 | major=0.098806 | destroyed=0.000000
+Phase II no improvement for 3 epoch(s). Best epoch=1
+
+Phase II epoch 5/80 | LR=0.00005000
+Phase II Epoch 5/80 | Step 20/35 | loss=1.0625 | focal=0.0923 | dice=0.9702
+Phase II Epoch 5/80 | Step 35/35 | loss=1.0578 | focal=0.0881 | dice=0.9697
+strong Epoch 005 | train_loss=1.0578 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.658362 | minor=0.178786 | major=0.111120 | destroyed=0.000000
+Phase II no improvement for 4 epoch(s). Best epoch=1
+
+Phase II epoch 6/80 | LR=0.00005000
+Phase II Epoch 6/80 | Step 20/35 | loss=1.0449 | focal=0.0745 | dice=0.9704
+Phase II Epoch 6/80 | Step 35/35 | loss=1.0417 | focal=0.0721 | dice=0.9696
+strong Epoch 006 | train_loss=1.0417 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.602855 | minor=0.193966 | major=0.122475 | destroyed=0.000000
+Phase II no improvement for 5 epoch(s). Best epoch=1
+
+Phase II epoch 7/80 | LR=0.00004998
+Phase II Epoch 7/80 | Step 20/35 | loss=1.0324 | focal=0.0639 | dice=0.9686
+Phase II Epoch 7/80 | Step 35/35 | loss=1.0306 | focal=0.0620 | dice=0.9685
+strong Epoch 007 | train_loss=1.0306 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.568910 | minor=0.250653 | major=0.127679 | destroyed=0.000000
+Phase II no improvement for 6 epoch(s). Best epoch=1
+
+Phase II epoch 8/80 | LR=0.00004991
+Phase II Epoch 8/80 | Step 20/35 | loss=1.0255 | focal=0.0568 | dice=0.9687
+Phase II Epoch 8/80 | Step 35/35 | loss=1.0241 | focal=0.0556 | dice=0.9684
+strong Epoch 008 | train_loss=1.0241 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.571354 | minor=0.278351 | major=0.151549 | destroyed=0.000000
+Phase II no improvement for 7 epoch(s). Best epoch=1
+
+Phase II epoch 9/80 | LR=0.00004980
+Phase II Epoch 9/80 | Step 20/35 | loss=1.0186 | focal=0.0506 | dice=0.9680
+Phase II Epoch 9/80 | Step 35/35 | loss=1.0178 | focal=0.0500 | dice=0.9679
+strong Epoch 009 | train_loss=1.0178 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.652705 | minor=0.220575 | major=0.113727 | destroyed=0.000000
+Phase II no improvement for 8 epoch(s). Best epoch=1
+
+Phase II epoch 10/80 | LR=0.00004965
+Phase II Epoch 10/80 | Step 20/35 | loss=1.0147 | focal=0.0465 | dice=0.9682
+Phase II Epoch 10/80 | Step 35/35 | loss=1.0143 | focal=0.0463 | dice=0.9680
+strong Epoch 010 | train_loss=1.0143 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.686510 | minor=0.192811 | major=0.047161 | destroyed=0.000000
+Phase II no improvement for 9 epoch(s). Best epoch=1
+
+Phase II epoch 11/80 | LR=0.00004945
+Phase II Epoch 11/80 | Step 20/35 | loss=1.0116 | focal=0.0449 | dice=0.9668
+Phase II Epoch 11/80 | Step 35/35 | loss=1.0116 | focal=0.0444 | dice=0.9672
+strong Epoch 011 | train_loss=1.0116 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.686040 | minor=0.174730 | major=0.054069 | destroyed=0.000000
+Phase II no improvement for 10 epoch(s). Best epoch=1
+
+Phase II epoch 12/80 | LR=0.00004921
+Phase II Epoch 12/80 | Step 20/35 | loss=1.0091 | focal=0.0426 | dice=0.9665
+Phase II Epoch 12/80 | Step 35/35 | loss=1.0087 | focal=0.0424 | dice=0.9664
+strong Epoch 012 | train_loss=1.0087 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.672931 | minor=0.198674 | major=0.046632 | destroyed=0.000000
+Phase II no improvement for 11 epoch(s). Best epoch=1
+
+Phase II epoch 13/80 | LR=0.00004893
+Phase II Epoch 13/80 | Step 20/35 | loss=1.0081 | focal=0.0415 | dice=0.9666
+Phase II Epoch 13/80 | Step 35/35 | loss=1.0071 | focal=0.0409 | dice=0.9661
+strong Epoch 013 | train_loss=1.0071 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.705555 | minor=0.140742 | major=0.012838 | destroyed=0.000000
+Phase II no improvement for 12 epoch(s). Best epoch=1
+
+Phase II epoch 14/80 | LR=0.00004861
+Phase II Epoch 14/80 | Step 20/35 | loss=1.0060 | focal=0.0401 | dice=0.9658
+Phase II Epoch 14/80 | Step 35/35 | loss=1.0061 | focal=0.0397 | dice=0.9664
+strong Epoch 014 | train_loss=1.0061 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.716894 | minor=0.149512 | major=0.029740 | destroyed=0.000000
+Phase II no improvement for 13 epoch(s). Best epoch=1
+
+Phase II epoch 15/80 | LR=0.00004824
+Phase II Epoch 15/80 | Step 20/35 | loss=1.0043 | focal=0.0383 | dice=0.9660
+Phase II Epoch 15/80 | Step 35/35 | loss=1.0039 | focal=0.0382 | dice=0.9657
+strong Epoch 015 | train_loss=1.0039 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.697476 | minor=0.188242 | major=0.005936 | destroyed=0.000000
+Phase II no improvement for 14 epoch(s). Best epoch=1
+
+Phase II epoch 16/80 | LR=0.00004784
+Phase II Epoch 16/80 | Step 20/35 | loss=1.0032 | focal=0.0373 | dice=0.9659
+Phase II Epoch 16/80 | Step 35/35 | loss=1.0028 | focal=0.0374 | dice=0.9654
+strong Epoch 016 | train_loss=1.0028 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.706588 | minor=0.146559 | major=0.045987 | destroyed=0.000000
+Phase II no improvement for 15 epoch(s). Best epoch=1
+
+Phase II epoch 17/80 | LR=0.00004739
+Phase II Epoch 17/80 | Step 20/35 | loss=1.0006 | focal=0.0362 | dice=0.9643
+Phase II Epoch 17/80 | Step 35/35 | loss=1.0014 | focal=0.0361 | dice=0.9653
+strong Epoch 017 | train_loss=1.0014 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.736236 | minor=0.099629 | major=0.016786 | destroyed=0.000000
+Phase II no improvement for 16 epoch(s). Best epoch=1
+
+Phase II epoch 18/80 | LR=0.00004691
+Phase II Epoch 18/80 | Step 20/35 | loss=1.0021 | focal=0.0359 | dice=0.9662
+Phase II Epoch 18/80 | Step 35/35 | loss=1.0009 | focal=0.0354 | dice=0.9655
+strong Epoch 018 | train_loss=1.0009 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.723778 | minor=0.121050 | major=0.014420 | destroyed=0.000000
+Phase II no improvement for 17 epoch(s). Best epoch=1
+
+Phase II epoch 19/80 | LR=0.00004638
+Phase II Epoch 19/80 | Step 20/35 | loss=0.9994 | focal=0.0349 | dice=0.9645
+Phase II Epoch 19/80 | Step 35/35 | loss=0.9994 | focal=0.0344 | dice=0.9650
+strong Epoch 019 | train_loss=0.9994 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.725911 | minor=0.104007 | major=0.007746 | destroyed=0.000000
+Phase II no improvement for 18 epoch(s). Best epoch=1
+
+Phase II epoch 20/80 | LR=0.00004582
+Phase II Epoch 20/80 | Step 20/35 | loss=0.9972 | focal=0.0333 | dice=0.9639
+Phase II Epoch 20/80 | Step 35/35 | loss=0.9978 | focal=0.0333 | dice=0.9645
+strong Epoch 020 | train_loss=0.9978 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.733238 | minor=0.103201 | major=0.019307 | destroyed=0.000000
+Phase II no improvement for 19 epoch(s). Best epoch=1
+
+Phase II epoch 21/80 | LR=0.00004523
+Phase II Epoch 21/80 | Step 20/35 | loss=0.9979 | focal=0.0330 | dice=0.9649
+Phase II Epoch 21/80 | Step 35/35 | loss=0.9974 | focal=0.0328 | dice=0.9646
+strong Epoch 021 | train_loss=0.9974 | hold_score_cascade=0.222383 | hold_loc_f1_from_phase1=0.741269 | hold_damage_f1=0.000004 | no=0.724171 | minor=0.120298 | major=0.011842 | destroyed=0.000000
+Phase II no improvement for 20 epoch(s). Best epoch=1
+Phase II early stopping at epoch 21.
+Phase II done. Best epoch=1, best hold score=0.229260
+
+================ VALIDATION THRESHOLD/DILATION ABLATION ================
+Loaded existing IDA-BD split file: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/idabd_splits_seed42_80_10_10.json
+===== IDA-BD SPLIT SUMMARY =====
+Train: 70
+Val:   9
+Test:  8
+=================================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase1_best.pt
+Phase I stored epoch: 102
+Phase I stored best_metric: 0.741269
+Phase I threshold used for mask: 0.60
+VAL th=0.30 dil=none            | loc=0.718977 | no=0.305104 minor=0.242503 major=0.110820 destroyed=0.003271 | damage=0.012419 overall=0.224386
+VAL th=0.30 dil=minor           | loc=0.718977 | no=0.254183 minor=0.253184 major=0.110820 destroyed=0.003271 | damage=0.012400 overall=0.224373
+VAL th=0.30 dil=destroyed       | loc=0.718977 | no=0.279434 minor=0.236891 major=0.110820 destroyed=0.003566 | damage=0.013462 overall=0.225116
+VAL th=0.30 dil=minor_destroyed | loc=0.718977 | no=0.231742 minor=0.247773 major=0.110820 destroyed=0.003566 | damage=0.013437 overall=0.225099
+VAL th=0.35 dil=none            | loc=0.725040 | no=0.301315 minor=0.241385 major=0.110689 destroyed=0.003191 | damage=0.012129 overall=0.226003
+VAL th=0.35 dil=minor           | loc=0.725040 | no=0.250906 minor=0.252168 major=0.110689 destroyed=0.003191 | damage=0.012111 overall=0.225990
+VAL th=0.35 dil=destroyed       | loc=0.725040 | no=0.275892 minor=0.235711 major=0.110689 destroyed=0.003447 | damage=0.013032 overall=0.226634
+VAL th=0.35 dil=minor_destroyed | loc=0.725040 | no=0.228709 minor=0.246691 major=0.110689 destroyed=0.003447 | damage=0.013008 overall=0.226618
+VAL th=0.40 dil=none            | loc=0.730136 | no=0.297422 minor=0.240475 major=0.110460 destroyed=0.003029 | damage=0.011539 overall=0.227118
+VAL th=0.40 dil=minor           | loc=0.730136 | no=0.247435 minor=0.251257 major=0.110460 destroyed=0.003029 | damage=0.011522 overall=0.227107
+VAL th=0.40 dil=destroyed       | loc=0.730136 | no=0.272245 minor=0.234783 major=0.110460 destroyed=0.003300 | damage=0.012503 overall=0.227793
+VAL th=0.40 dil=minor_destroyed | loc=0.730136 | no=0.225486 minor=0.245753 major=0.110460 destroyed=0.003300 | damage=0.012481 overall=0.227777
+VAL th=0.45 dil=none            | loc=0.734519 | no=0.293348 minor=0.239307 major=0.110228 destroyed=0.002919 | damage=0.011139 overall=0.228153
+VAL th=0.45 dil=minor           | loc=0.734519 | no=0.243924 minor=0.250158 major=0.110228 destroyed=0.002919 | damage=0.011124 overall=0.228142
+VAL th=0.45 dil=destroyed       | loc=0.734519 | no=0.268468 minor=0.233648 major=0.110228 destroyed=0.003233 | damage=0.012259 overall=0.228937
+VAL th=0.45 dil=minor_destroyed | loc=0.734519 | no=0.222260 minor=0.244678 major=0.110228 destroyed=0.003233 | damage=0.012237 overall=0.228922
+VAL th=0.50 dil=none            | loc=0.737860 | no=0.289007 minor=0.238106 major=0.109896 destroyed=0.002753 | damage=0.010530 overall=0.228729
+VAL th=0.50 dil=minor           | loc=0.737860 | no=0.240172 minor=0.248960 major=0.109896 destroyed=0.002753 | damage=0.010516 overall=0.228719
+VAL th=0.50 dil=destroyed       | loc=0.737860 | no=0.264445 minor=0.232460 major=0.109896 destroyed=0.003079 | damage=0.011700 overall=0.229548
+VAL th=0.50 dil=minor_destroyed | loc=0.737860 | no=0.218807 minor=0.243481 major=0.109896 destroyed=0.003079 | damage=0.011679 overall=0.229534
+VAL th=0.55 dil=none            | loc=0.740243 | no=0.283947 minor=0.236833 major=0.109331 destroyed=0.002647 | damage=0.010137 overall=0.229169
+VAL th=0.55 dil=minor           | loc=0.740243 | no=0.235895 minor=0.247735 major=0.109331 destroyed=0.002647 | damage=0.010124 overall=0.229159
+VAL th=0.55 dil=destroyed       | loc=0.740243 | no=0.259817 minor=0.231216 major=0.109331 destroyed=0.002983 | damage=0.011351 overall=0.230018
+VAL th=0.55 dil=minor_destroyed | loc=0.740243 | no=0.214930 minor=0.242276 major=0.109331 destroyed=0.002983 | damage=0.011331 overall=0.230005
+VAL th=0.60 dil=none            | loc=0.741269 | no=0.277835 minor=0.235437 major=0.108506 destroyed=0.002563 | damage=0.009828 overall=0.229260
+VAL th=0.60 dil=minor           | loc=0.741269 | no=0.230677 minor=0.246416 major=0.108506 destroyed=0.002563 | damage=0.009815 overall=0.229251
+VAL th=0.60 dil=destroyed       | loc=0.741269 | no=0.254183 minor=0.229828 major=0.108506 destroyed=0.002914 | damage=0.011094 overall=0.230146
+VAL th=0.60 dil=minor_destroyed | loc=0.741269 | no=0.210186 minor=0.240949 major=0.108506 destroyed=0.002914 | damage=0.011074 overall=0.230133
+VAL th=0.65 dil=none            | loc=0.740756 | no=0.270673 minor=0.233831 major=0.107083 destroyed=0.002450 | damage=0.009403 overall=0.228809
+VAL th=0.65 dil=minor           | loc=0.740756 | no=0.224525 minor=0.244808 major=0.107083 destroyed=0.002450 | damage=0.009391 overall=0.228800
+VAL th=0.65 dil=destroyed       | loc=0.740756 | no=0.247550 minor=0.228211 major=0.107083 destroyed=0.002835 | damage=0.010801 overall=0.229787
+VAL th=0.65 dil=minor_destroyed | loc=0.740756 | no=0.204517 minor=0.239286 major=0.107083 destroyed=0.002835 | damage=0.010782 overall=0.229774
+VAL th=0.70 dil=none            | loc=0.737427 | no=0.261591 minor=0.231359 major=0.105414 destroyed=0.002365 | damage=0.009085 overall=0.227588
+VAL th=0.70 dil=minor           | loc=0.737427 | no=0.216765 minor=0.242287 major=0.105414 destroyed=0.002365 | damage=0.009073 overall=0.227579
+VAL th=0.70 dil=destroyed       | loc=0.737427 | no=0.239186 minor=0.225657 major=0.105414 destroyed=0.002719 | damage=0.010371 overall=0.228488
+VAL th=0.70 dil=minor_destroyed | loc=0.737427 | no=0.197438 minor=0.236673 major=0.105414 destroyed=0.002719 | damage=0.010352 overall=0.228475
+VAL th=0.75 dil=none            | loc=0.728989 | no=0.249132 minor=0.227433 major=0.103451 destroyed=0.002369 | damage=0.009092 overall=0.225061
+VAL th=0.75 dil=minor           | loc=0.728989 | no=0.206354 minor=0.238474 major=0.103451 destroyed=0.002369 | damage=0.009079 overall=0.225052
+VAL th=0.75 dil=destroyed       | loc=0.728989 | no=0.227621 minor=0.221597 major=0.103451 destroyed=0.002781 | damage=0.010582 overall=0.226104
+VAL th=0.75 dil=minor_destroyed | loc=0.728989 | no=0.187849 minor=0.232681 major=0.103451 destroyed=0.002781 | damage=0.010562 overall=0.226090
+VAL th=0.80 dil=none            | loc=0.710455 | no=0.230470 minor=0.220718 major=0.100108 destroyed=0.002400 | damage=0.009190 overall=0.219569
+VAL th=0.80 dil=minor           | loc=0.710455 | no=0.190718 minor=0.232024 major=0.100108 destroyed=0.002400 | damage=0.009175 overall=0.219559
+VAL th=0.80 dil=destroyed       | loc=0.710455 | no=0.210424 minor=0.214821 major=0.100108 destroyed=0.002779 | damage=0.010551 overall=0.220522
+VAL th=0.80 dil=minor_destroyed | loc=0.710455 | no=0.173527 minor=0.226154 major=0.100108 destroyed=0.002779 | damage=0.010529 overall=0.220507
+VAL th=0.85 dil=none            | loc=0.668744 | no=0.201422 minor=0.207882 major=0.095911 destroyed=0.002620 | damage=0.009956 overall=0.207593
+VAL th=0.85 dil=minor           | loc=0.668744 | no=0.166620 minor=0.218993 major=0.095911 destroyed=0.002620 | damage=0.009937 overall=0.207579
+VAL th=0.85 dil=destroyed       | loc=0.668744 | no=0.183708 minor=0.201793 major=0.095911 destroyed=0.002936 | damage=0.011071 overall=0.208373
+VAL th=0.85 dil=minor_destroyed | loc=0.668744 | no=0.151504 minor=0.212893 major=0.095911 destroyed=0.002936 | damage=0.011043 overall=0.208354
+VAL th=0.90 dil=none            | loc=0.572256 | no=0.154331 minor=0.185969 major=0.086011 destroyed=0.002997 | damage=0.011205 overall=0.179520
+VAL th=0.90 dil=minor           | loc=0.572256 | no=0.127865 minor=0.197124 major=0.086011 destroyed=0.002997 | damage=0.011172 overall=0.179497
+VAL th=0.90 dil=destroyed       | loc=0.572256 | no=0.140578 minor=0.179938 major=0.086011 destroyed=0.003365 | damage=0.012445 overall=0.180388
+VAL th=0.90 dil=minor_destroyed | loc=0.572256 | no=0.116142 minor=0.190915 major=0.086011 destroyed=0.003365 | damage=0.012399 overall=0.180356
+
+================ VALIDATION ABLATION RANKING ================
+Rank | Threshold | Dilation | Loc F1 | No F1 | Minor F1 | Major F1 | Destroyed F1 | Damage F1 | Overall
+   1 | 0.60 | destroyed       | 0.741269 | 0.254183 | 0.229828 | 0.108506 | 0.002914 | 0.011094 | 0.230146
+   2 | 0.60 | minor_destroyed | 0.741269 | 0.210186 | 0.240949 | 0.108506 | 0.002914 | 0.011074 | 0.230133
+   3 | 0.55 | destroyed       | 0.740243 | 0.259817 | 0.231216 | 0.109331 | 0.002983 | 0.011351 | 0.230018
+   4 | 0.55 | minor_destroyed | 0.740243 | 0.214930 | 0.242276 | 0.109331 | 0.002983 | 0.011331 | 0.230005
+   5 | 0.65 | destroyed       | 0.740756 | 0.247550 | 0.228211 | 0.107083 | 0.002835 | 0.010801 | 0.229787
+   6 | 0.65 | minor_destroyed | 0.740756 | 0.204517 | 0.239286 | 0.107083 | 0.002835 | 0.010782 | 0.229774
+   7 | 0.50 | destroyed       | 0.737860 | 0.264445 | 0.232460 | 0.109896 | 0.003079 | 0.011700 | 0.229548
+   8 | 0.50 | minor_destroyed | 0.737860 | 0.218807 | 0.243481 | 0.109896 | 0.003079 | 0.011679 | 0.229534
+   9 | 0.60 | none            | 0.741269 | 0.277835 | 0.235437 | 0.108506 | 0.002563 | 0.009828 | 0.229260
+  10 | 0.60 | minor           | 0.741269 | 0.230677 | 0.246416 | 0.108506 | 0.002563 | 0.009815 | 0.229251
+  11 | 0.55 | none            | 0.740243 | 0.283947 | 0.236833 | 0.109331 | 0.002647 | 0.010137 | 0.229169
+  12 | 0.55 | minor           | 0.740243 | 0.235895 | 0.247735 | 0.109331 | 0.002647 | 0.010124 | 0.229159
+  13 | 0.45 | destroyed       | 0.734519 | 0.268468 | 0.233648 | 0.110228 | 0.003233 | 0.012259 | 0.228937
+  14 | 0.45 | minor_destroyed | 0.734519 | 0.222260 | 0.244678 | 0.110228 | 0.003233 | 0.012237 | 0.228922
+  15 | 0.65 | none            | 0.740756 | 0.270673 | 0.233831 | 0.107083 | 0.002450 | 0.009403 | 0.228809
+  16 | 0.65 | minor           | 0.740756 | 0.224525 | 0.244808 | 0.107083 | 0.002450 | 0.009391 | 0.228800
+  17 | 0.50 | none            | 0.737860 | 0.289007 | 0.238106 | 0.109896 | 0.002753 | 0.010530 | 0.228729
+  18 | 0.50 | minor           | 0.737860 | 0.240172 | 0.248960 | 0.109896 | 0.002753 | 0.010516 | 0.228719
+  19 | 0.70 | destroyed       | 0.737427 | 0.239186 | 0.225657 | 0.105414 | 0.002719 | 0.010371 | 0.228488
+  20 | 0.70 | minor_destroyed | 0.737427 | 0.197438 | 0.236673 | 0.105414 | 0.002719 | 0.010352 | 0.228475
+  21 | 0.45 | none            | 0.734519 | 0.293348 | 0.239307 | 0.110228 | 0.002919 | 0.011139 | 0.228153
+  22 | 0.45 | minor           | 0.734519 | 0.243924 | 0.250158 | 0.110228 | 0.002919 | 0.011124 | 0.228142
+  23 | 0.40 | destroyed       | 0.730136 | 0.272245 | 0.234783 | 0.110460 | 0.003300 | 0.012503 | 0.227793
+  24 | 0.40 | minor_destroyed | 0.730136 | 0.225486 | 0.245753 | 0.110460 | 0.003300 | 0.012481 | 0.227777
+  25 | 0.70 | none            | 0.737427 | 0.261591 | 0.231359 | 0.105414 | 0.002365 | 0.009085 | 0.227588
+  26 | 0.70 | minor           | 0.737427 | 0.216765 | 0.242287 | 0.105414 | 0.002365 | 0.009073 | 0.227579
+  27 | 0.40 | none            | 0.730136 | 0.297422 | 0.240475 | 0.110460 | 0.003029 | 0.011539 | 0.227118
+  28 | 0.40 | minor           | 0.730136 | 0.247435 | 0.251257 | 0.110460 | 0.003029 | 0.011522 | 0.227107
+  29 | 0.35 | destroyed       | 0.725040 | 0.275892 | 0.235711 | 0.110689 | 0.003447 | 0.013032 | 0.226634
+  30 | 0.35 | minor_destroyed | 0.725040 | 0.228709 | 0.246691 | 0.110689 | 0.003447 | 0.013008 | 0.226618
+  31 | 0.75 | destroyed       | 0.728989 | 0.227621 | 0.221597 | 0.103451 | 0.002781 | 0.010582 | 0.226104
+  32 | 0.75 | minor_destroyed | 0.728989 | 0.187849 | 0.232681 | 0.103451 | 0.002781 | 0.010562 | 0.226090
+  33 | 0.35 | none            | 0.725040 | 0.301315 | 0.241385 | 0.110689 | 0.003191 | 0.012129 | 0.226003
+  34 | 0.35 | minor           | 0.725040 | 0.250906 | 0.252168 | 0.110689 | 0.003191 | 0.012111 | 0.225990
+  35 | 0.30 | destroyed       | 0.718977 | 0.279434 | 0.236891 | 0.110820 | 0.003566 | 0.013462 | 0.225116
+  36 | 0.30 | minor_destroyed | 0.718977 | 0.231742 | 0.247773 | 0.110820 | 0.003566 | 0.013437 | 0.225099
+  37 | 0.75 | none            | 0.728989 | 0.249132 | 0.227433 | 0.103451 | 0.002369 | 0.009092 | 0.225061
+  38 | 0.75 | minor           | 0.728989 | 0.206354 | 0.238474 | 0.103451 | 0.002369 | 0.009079 | 0.225052
+  39 | 0.30 | none            | 0.718977 | 0.305104 | 0.242503 | 0.110820 | 0.003271 | 0.012419 | 0.224386
+  40 | 0.30 | minor           | 0.718977 | 0.254183 | 0.253184 | 0.110820 | 0.003271 | 0.012400 | 0.224373
+  41 | 0.80 | destroyed       | 0.710455 | 0.210424 | 0.214821 | 0.100108 | 0.002779 | 0.010551 | 0.220522
+  42 | 0.80 | minor_destroyed | 0.710455 | 0.173527 | 0.226154 | 0.100108 | 0.002779 | 0.010529 | 0.220507
+  43 | 0.80 | none            | 0.710455 | 0.230470 | 0.220718 | 0.100108 | 0.002400 | 0.009190 | 0.219569
+  44 | 0.80 | minor           | 0.710455 | 0.190718 | 0.232024 | 0.100108 | 0.002400 | 0.009175 | 0.219559
+  45 | 0.85 | destroyed       | 0.668744 | 0.183708 | 0.201793 | 0.095911 | 0.002936 | 0.011071 | 0.208373
+  46 | 0.85 | minor_destroyed | 0.668744 | 0.151504 | 0.212893 | 0.095911 | 0.002936 | 0.011043 | 0.208354
+  47 | 0.85 | none            | 0.668744 | 0.201422 | 0.207882 | 0.095911 | 0.002620 | 0.009956 | 0.207593
+  48 | 0.85 | minor           | 0.668744 | 0.166620 | 0.218993 | 0.095911 | 0.002620 | 0.009937 | 0.207579
+  49 | 0.90 | destroyed       | 0.572256 | 0.140578 | 0.179938 | 0.086011 | 0.003365 | 0.012445 | 0.180388
+  50 | 0.90 | minor_destroyed | 0.572256 | 0.116142 | 0.190915 | 0.086011 | 0.003365 | 0.012399 | 0.180356
+  51 | 0.90 | none            | 0.572256 | 0.154331 | 0.185969 | 0.086011 | 0.002997 | 0.011205 | 0.179520
+  52 | 0.90 | minor           | 0.572256 | 0.127865 | 0.197124 | 0.086011 | 0.002997 | 0.011172 | 0.179497
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_strongbaseline_sigmoid_cascade_80_10_10/scores/validation_threshold_dilation_ablation.csv
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_strongbaseline_sigmoid_cascade_80_10_10/scores/validation_threshold_dilation_ablation.json
+
+Selected on validation: threshold=0.60, dilation=destroyed. Running real test.
+Experiment: IDA-BD HRTBDA strong-baseline sigmoid damage head cascade
+Selected validation threshold: 0.60
+Selected validation dilation: destroyed
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_v2_cascaded_phase1mask_80_10_10/checkpoints/phase1_best.pt
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_strongbaseline_sigmoid_cascade_80_10_10/checkpoints/phase2_best.pt
+Test Localization F1 from Phase I mask: 0.825680
+No Damage F1:    0.239037
+Minor Damage F1: 0.341660
+Major Damage F1: 0.210628
+Destroyed F1:    0.004725
+Damage F1:       0.017900
+Overall Score:   0.260234
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_strongbaseline_sigmoid_cascade_80_10_10/scores/final_test_selected_by_validation.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_idabd_hrtbda_strongbaseline_sigmoid_cascade_80_10_10/scores/summary_final_test_selected_by_validation.txt
+Done.

@@ -1,0 +1,56 @@
+===== JOB INFO =====
+Wed Apr 29 10:10:19 PM CDT 2026
+compute202517
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+MODEL: HRTBDA paper-faithful experimental implementation
+MODE: resume Phase I to epoch 150, then Phase II, then test
+DOMAIN_ADAPTATION: none
+XBD_ROOT: /homes/j244s673/documents/wsu/phd/xview2
+TRAIN_SPLITS: train tier3
+VAL_SPLIT: hold
+TEST_SPLIT: test
+OUTPUT_DIR: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_paperfaithful
+RESUME_PHASE1_FROM: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_paperfaithful/checkpoints/phase1_last.pt
+PHASE1_EPOCHS: 150
+PHASE2_EPOCHS: 30
+BATCH_SIZE: 1
+NUM_WORKERS: 8
+IMG_SIZE: 1024
+LEARNING_RATE: 1e-4
+WEIGHT_DECAY: 0.01
+BASE_CHANNELS: 48
+DECODER_CHANNELS: 128
+WINDOW_SIZE: 8
+MAX_GRAD_NORM: 1.0
+SAVE_EVERY: 1
+EARLY_STOPPING_PATIENCE: 999
+FOCAL_GAMMA: 2.0
+THRESHOLDS: 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90
+Wed Apr 29 22:10:19 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.51.03              Driver Version: 575.51.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:01:00.0 Off |                    0 |
+| N/A   25C    P8             28W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+====================
+Found resume checkpoint:
+-rw-r--r-- 1 j244s673 j244s673_users 160M Apr 29 21:51 /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_paperfaithful/checkpoints/phase1_last.pt
+===== COMMAND =====
+python -u transformer/scripts/train_xbd_hrtbda_paperfaithful_resume.py --phase both --resume-phase1-from /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_paperfaithful/checkpoints/phase1_last.pt --xbd-root /homes/j244s673/documents/wsu/phd/xview2 --train-split train tier3 --val-split hold --test-split test --output-dir /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_paperfaithful --phase1-epochs 150 --phase2-epochs 30 --batch-size 1 --num-workers 8 --img-size 1024 --lr 1e-4 --weight-decay 0.01 --seed 42 --base-channels 48 --decoder-channels 128 --window-size 8 --max-grad-norm 1.0 --save-every 1 --early-stopping-patience 999 --focal-gamma 2.0 --loc-loss-weight 1.0 --cls-loss-weight 1.0 --thresholds 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90 
+===================

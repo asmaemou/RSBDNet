@@ -1,0 +1,59 @@
+===== JOB INFO =====
+Tue Apr 28 11:57:45 AM CDT 2026
+compute202516
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+EXPERIMENT_NAME: train_xbd_test_xbd
+MODEL: DisasterAdaptiveNet
+MODEL_IMPORT: from utils.models import DisasterAdaptiveNet
+CONDITIONING_INFORMATION: True
+EPOCHS: 40
+BATCH_SIZE: 16
+LEARNING_RATE: 2e-4
+NUM_WORKERS: 8
+LOG_FREQ: 10
+SEED: 42
+THRESHOLDS: 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70
+LOSS_WEIGHTS: 1.0 1.0
+CLASS_WEIGHTS: none
+TRAIN_ROOT: /homes/j244s673/documents/wsu/phd/xview2/tier3
+VAL_ROOT: /homes/j244s673/documents/wsu/phd/xview2/hold
+TEST_ROOT: /homes/j244s673/documents/wsu/phd/xview2/test
+SPLIT_ROOT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_test_xbd/xview2_explicit_splits
+RUN_DIR: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_test_xbd
+===== SPLIT LINKS =====
+total 41K
+drwxr-xr-x 2 j244s673 j244s673_users  7 Apr 28 11:57 .
+drwxr-xr-x 4 j244s673 j244s673_users  4 Apr 28 11:13 ..
+lrwxrwxrwx 1 j244s673 j244s673_users 45 Apr 28 11:57 hold -> /homes/j244s673/documents/wsu/phd/xview2/hold
+lrwxrwxrwx 1 j244s673 j244s673_users 45 Apr 28 11:57 test -> /homes/j244s673/documents/wsu/phd/xview2/test
+lrwxrwxrwx 1 j244s673 j244s673_users 46 Apr 28 11:57 tier3 -> /homes/j244s673/documents/wsu/phd/xview2/tier3
+lrwxrwxrwx 1 j244s673 j244s673_users 46 Apr 28 11:57 train -> /homes/j244s673/documents/wsu/phd/xview2/tier3
+lrwxrwxrwx 1 j244s673 j244s673_users 45 Apr 28 11:57 val -> /homes/j244s673/documents/wsu/phd/xview2/hold
+=======================
+Tue Apr 28 11:57:46 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.51.03              Driver Version: 575.51.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:01:00.0 Off |                    0 |
+| N/A   26C    P8             29W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+====================
+===== COMMAND =====
+python -u transformer/scripts/train_tier3_hold_test_disasteradaptivenet_f1_thresholds.py --experiment-name train_xbd_test_xbd --data-root /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_test_xbd/xview2_explicit_splits --output-dir /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_xbd_test_xbd --epochs 40 --batch-size 16 --lr 2e-4 --num-workers 8 --log-freq 10 --seed 42 --thresholds 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 --loss-weights 1.0 1.0 
+===================
+Warning: wandb import failed, using dummy wandb. Error: `np.float_` was removed in the NumPy 2.0 release. Use `np.float64` instead.

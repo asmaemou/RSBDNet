@@ -1,0 +1,653 @@
+===== JOB INFO =====
+Fri May  1 03:13:48 PM CDT 2026
+compute202518
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+Fri May  1 15:13:48 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.51.03              Driver Version: 575.51.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:71:00.0 Off |                    0 |
+| N/A   27C    P8             30W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+PHASE1_ORIG: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v2_4branch_warmup_amp/checkpoints/phase1_best.pt
+PHASE2_BEST: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+ABLATION_ROOT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation
+====================
+Wrote /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.40.pt
+Wrote /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.45.pt
+Wrote /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.50.pt
+Wrote /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+
+==================================================
+Running HOLD ablation: threshold=0.40 dilation=none
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.40.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.40_dilnone
+==================================================
+===== HRTBDA V5 MULTI-LABEL RARE-CROP CASCADED TRAINING =====
+Phase: test
+Resume Phase I from: none
+Existing Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.40.pt
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Device: cuda
+xBD root: /homes/j244s673/documents/wsu/phd/xview2
+Train split(s): ['train', 'tier3']
+Val split: hold
+Test split: hold
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.40_dilnone
+Phase I epochs: 150
+Phase II epochs: 30
+Batch size: 2
+Eval batch size: 1
+Gradient accumulation steps: 4
+Effective batch size: 8
+Image size: 1024
+Phase II crop size: 608
+Crop candidate count: 8
+LR: 0.0001
+Weight decay: 0.01
+Base channels: 48
+Decoder channels: 128
+Window size: 8
+Focal gamma: 2.0
+Max grad norm: 1.0
+Warmup epochs: 10
+Architecture: HRTBDA v5 4-branch HRNet-style + DCSwin + CSF fusion
+Damage head: 4 independent sigmoid channels + auxiliary localization head
+Final inference: Phase I mask gives localization; Phase II predicts 4 foreground damage classes.
+Postprocess dilation: none
+Domain adaptation: none
+=======================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.40.pt
+Phase I stored epoch: 56
+Phase I stored best_metric: 0.827495
+Phase I threshold used for mask: 0.40
+Experiment: HRTBDA v5 multi-label rare-crop cascade train+tier3 -> hold -> hold
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.40.pt
+Phase I stored best epoch: 56
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.40
+Damage post-processing dilation: none
+Best Phase II epoch selected on hold cascade score: 15
+Test Localization F1 from Phase I mask: 0.826614
+No Damage F1:    0.848879
+Minor Damage F1: 0.437960
+Major Damage F1: 0.686273
+Destroyed F1:    0.749453
+Damage F1:       0.639716
+Overall Score:   0.695785
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.40_dilnone/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.40_dilnone/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.40_dilnone/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt
+Done.
+
+==================================================
+Running HOLD ablation: threshold=0.40 dilation=minor
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.40.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.40_dilminor
+==================================================
+===== HRTBDA V5 MULTI-LABEL RARE-CROP CASCADED TRAINING =====
+Phase: test
+Resume Phase I from: none
+Existing Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.40.pt
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Device: cuda
+xBD root: /homes/j244s673/documents/wsu/phd/xview2
+Train split(s): ['train', 'tier3']
+Val split: hold
+Test split: hold
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.40_dilminor
+Phase I epochs: 150
+Phase II epochs: 30
+Batch size: 2
+Eval batch size: 1
+Gradient accumulation steps: 4
+Effective batch size: 8
+Image size: 1024
+Phase II crop size: 608
+Crop candidate count: 8
+LR: 0.0001
+Weight decay: 0.01
+Base channels: 48
+Decoder channels: 128
+Window size: 8
+Focal gamma: 2.0
+Max grad norm: 1.0
+Warmup epochs: 10
+Architecture: HRTBDA v5 4-branch HRNet-style + DCSwin + CSF fusion
+Damage head: 4 independent sigmoid channels + auxiliary localization head
+Final inference: Phase I mask gives localization; Phase II predicts 4 foreground damage classes.
+Postprocess dilation: minor
+Domain adaptation: none
+=======================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.40.pt
+Phase I stored epoch: 56
+Phase I stored best_metric: 0.827495
+Phase I threshold used for mask: 0.40
+Experiment: HRTBDA v5 multi-label rare-crop cascade train+tier3 -> hold -> hold
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.40.pt
+Phase I stored best epoch: 56
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.40
+Damage post-processing dilation: minor
+Best Phase II epoch selected on hold cascade score: 15
+Test Localization F1 from Phase I mask: 0.826614
+No Damage F1:    0.848675
+Minor Damage F1: 0.441458
+Major Damage F1: 0.686273
+Destroyed F1:    0.749454
+Damage F1:       0.641543
+Overall Score:   0.697064
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.40_dilminor/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.40_dilminor/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.40_dilminor/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt
+Done.
+
+==================================================
+Running HOLD ablation: threshold=0.45 dilation=none
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.45.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.45_dilnone
+==================================================
+===== HRTBDA V5 MULTI-LABEL RARE-CROP CASCADED TRAINING =====
+Phase: test
+Resume Phase I from: none
+Existing Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.45.pt
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Device: cuda
+xBD root: /homes/j244s673/documents/wsu/phd/xview2
+Train split(s): ['train', 'tier3']
+Val split: hold
+Test split: hold
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.45_dilnone
+Phase I epochs: 150
+Phase II epochs: 30
+Batch size: 2
+Eval batch size: 1
+Gradient accumulation steps: 4
+Effective batch size: 8
+Image size: 1024
+Phase II crop size: 608
+Crop candidate count: 8
+LR: 0.0001
+Weight decay: 0.01
+Base channels: 48
+Decoder channels: 128
+Window size: 8
+Focal gamma: 2.0
+Max grad norm: 1.0
+Warmup epochs: 10
+Architecture: HRTBDA v5 4-branch HRNet-style + DCSwin + CSF fusion
+Damage head: 4 independent sigmoid channels + auxiliary localization head
+Final inference: Phase I mask gives localization; Phase II predicts 4 foreground damage classes.
+Postprocess dilation: none
+Domain adaptation: none
+=======================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.45.pt
+Phase I stored epoch: 56
+Phase I stored best_metric: 0.827495
+Phase I threshold used for mask: 0.45
+Experiment: HRTBDA v5 multi-label rare-crop cascade train+tier3 -> hold -> hold
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.45.pt
+Phase I stored best epoch: 56
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.45
+Damage post-processing dilation: none
+Best Phase II epoch selected on hold cascade score: 15
+Test Localization F1 from Phase I mask: 0.827275
+No Damage F1:    0.844718
+Minor Damage F1: 0.433929
+Major Damage F1: 0.683295
+Destroyed F1:    0.746393
+Damage F1:       0.635767
+Overall Score:   0.693219
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.45_dilnone/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.45_dilnone/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.45_dilnone/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt
+Done.
+
+==================================================
+Running HOLD ablation: threshold=0.45 dilation=minor
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.45.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.45_dilminor
+==================================================
+===== HRTBDA V5 MULTI-LABEL RARE-CROP CASCADED TRAINING =====
+Phase: test
+Resume Phase I from: none
+Existing Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.45.pt
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Device: cuda
+xBD root: /homes/j244s673/documents/wsu/phd/xview2
+Train split(s): ['train', 'tier3']
+Val split: hold
+Test split: hold
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.45_dilminor
+Phase I epochs: 150
+Phase II epochs: 30
+Batch size: 2
+Eval batch size: 1
+Gradient accumulation steps: 4
+Effective batch size: 8
+Image size: 1024
+Phase II crop size: 608
+Crop candidate count: 8
+LR: 0.0001
+Weight decay: 0.01
+Base channels: 48
+Decoder channels: 128
+Window size: 8
+Focal gamma: 2.0
+Max grad norm: 1.0
+Warmup epochs: 10
+Architecture: HRTBDA v5 4-branch HRNet-style + DCSwin + CSF fusion
+Damage head: 4 independent sigmoid channels + auxiliary localization head
+Final inference: Phase I mask gives localization; Phase II predicts 4 foreground damage classes.
+Postprocess dilation: minor
+Domain adaptation: none
+=======================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.45.pt
+Phase I stored epoch: 56
+Phase I stored best_metric: 0.827495
+Phase I threshold used for mask: 0.45
+Experiment: HRTBDA v5 multi-label rare-crop cascade train+tier3 -> hold -> hold
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.45.pt
+Phase I stored best epoch: 56
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.45
+Damage post-processing dilation: minor
+Best Phase II epoch selected on hold cascade score: 15
+Test Localization F1 from Phase I mask: 0.827275
+No Damage F1:    0.844509
+Minor Damage F1: 0.437430
+Major Damage F1: 0.683295
+Destroyed F1:    0.746392
+Damage F1:       0.637606
+Overall Score:   0.694507
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.45_dilminor/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.45_dilminor/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.45_dilminor/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt
+Done.
+
+==================================================
+Running HOLD ablation: threshold=0.50 dilation=none
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.50.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.50_dilnone
+==================================================
+===== HRTBDA V5 MULTI-LABEL RARE-CROP CASCADED TRAINING =====
+Phase: test
+Resume Phase I from: none
+Existing Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.50.pt
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Device: cuda
+xBD root: /homes/j244s673/documents/wsu/phd/xview2
+Train split(s): ['train', 'tier3']
+Val split: hold
+Test split: hold
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.50_dilnone
+Phase I epochs: 150
+Phase II epochs: 30
+Batch size: 2
+Eval batch size: 1
+Gradient accumulation steps: 4
+Effective batch size: 8
+Image size: 1024
+Phase II crop size: 608
+Crop candidate count: 8
+LR: 0.0001
+Weight decay: 0.01
+Base channels: 48
+Decoder channels: 128
+Window size: 8
+Focal gamma: 2.0
+Max grad norm: 1.0
+Warmup epochs: 10
+Architecture: HRTBDA v5 4-branch HRNet-style + DCSwin + CSF fusion
+Damage head: 4 independent sigmoid channels + auxiliary localization head
+Final inference: Phase I mask gives localization; Phase II predicts 4 foreground damage classes.
+Postprocess dilation: none
+Domain adaptation: none
+=======================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.50.pt
+Phase I stored epoch: 56
+Phase I stored best_metric: 0.827495
+Phase I threshold used for mask: 0.50
+Experiment: HRTBDA v5 multi-label rare-crop cascade train+tier3 -> hold -> hold
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.50.pt
+Phase I stored best epoch: 56
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.50
+Damage post-processing dilation: none
+Best Phase II epoch selected on hold cascade score: 15
+Test Localization F1 from Phase I mask: 0.827495
+No Damage F1:    0.840458
+Minor Damage F1: 0.429938
+Major Damage F1: 0.680229
+Destroyed F1:    0.743294
+Damage F1:       0.631793
+Overall Score:   0.690503
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.50_dilnone/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.50_dilnone/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.50_dilnone/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt
+Done.
+
+==================================================
+Running HOLD ablation: threshold=0.50 dilation=minor
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.50.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.50_dilminor
+==================================================
+===== HRTBDA V5 MULTI-LABEL RARE-CROP CASCADED TRAINING =====
+Phase: test
+Resume Phase I from: none
+Existing Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.50.pt
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Device: cuda
+xBD root: /homes/j244s673/documents/wsu/phd/xview2
+Train split(s): ['train', 'tier3']
+Val split: hold
+Test split: hold
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.50_dilminor
+Phase I epochs: 150
+Phase II epochs: 30
+Batch size: 2
+Eval batch size: 1
+Gradient accumulation steps: 4
+Effective batch size: 8
+Image size: 1024
+Phase II crop size: 608
+Crop candidate count: 8
+LR: 0.0001
+Weight decay: 0.01
+Base channels: 48
+Decoder channels: 128
+Window size: 8
+Focal gamma: 2.0
+Max grad norm: 1.0
+Warmup epochs: 10
+Architecture: HRTBDA v5 4-branch HRNet-style + DCSwin + CSF fusion
+Damage head: 4 independent sigmoid channels + auxiliary localization head
+Final inference: Phase I mask gives localization; Phase II predicts 4 foreground damage classes.
+Postprocess dilation: minor
+Domain adaptation: none
+=======================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.50.pt
+Phase I stored epoch: 56
+Phase I stored best_metric: 0.827495
+Phase I threshold used for mask: 0.50
+Experiment: HRTBDA v5 multi-label rare-crop cascade train+tier3 -> hold -> hold
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.50.pt
+Phase I stored best epoch: 56
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.50
+Damage post-processing dilation: minor
+Best Phase II epoch selected on hold cascade score: 15
+Test Localization F1 from Phase I mask: 0.827495
+No Damage F1:    0.840242
+Minor Damage F1: 0.433433
+Major Damage F1: 0.680229
+Destroyed F1:    0.743297
+Damage F1:       0.633640
+Overall Score:   0.691796
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.50_dilminor/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.50_dilminor/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.50_dilminor/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt
+Done.
+
+==================================================
+Running HOLD ablation: threshold=0.55 dilation=none
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.55_dilnone
+==================================================
+===== HRTBDA V5 MULTI-LABEL RARE-CROP CASCADED TRAINING =====
+Phase: test
+Resume Phase I from: none
+Existing Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Device: cuda
+xBD root: /homes/j244s673/documents/wsu/phd/xview2
+Train split(s): ['train', 'tier3']
+Val split: hold
+Test split: hold
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.55_dilnone
+Phase I epochs: 150
+Phase II epochs: 30
+Batch size: 2
+Eval batch size: 1
+Gradient accumulation steps: 4
+Effective batch size: 8
+Image size: 1024
+Phase II crop size: 608
+Crop candidate count: 8
+LR: 0.0001
+Weight decay: 0.01
+Base channels: 48
+Decoder channels: 128
+Window size: 8
+Focal gamma: 2.0
+Max grad norm: 1.0
+Warmup epochs: 10
+Architecture: HRTBDA v5 4-branch HRNet-style + DCSwin + CSF fusion
+Damage head: 4 independent sigmoid channels + auxiliary localization head
+Final inference: Phase I mask gives localization; Phase II predicts 4 foreground damage classes.
+Postprocess dilation: none
+Domain adaptation: none
+=======================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+Phase I stored epoch: 56
+Phase I stored best_metric: 0.827495
+Phase I threshold used for mask: 0.55
+Experiment: HRTBDA v5 multi-label rare-crop cascade train+tier3 -> hold -> hold
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+Phase I stored best epoch: 56
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.55
+Damage post-processing dilation: none
+Best Phase II epoch selected on hold cascade score: 15
+Test Localization F1 from Phase I mask: 0.827304
+No Damage F1:    0.836057
+Minor Damage F1: 0.425798
+Major Damage F1: 0.677018
+Destroyed F1:    0.739970
+Damage F1:       0.627640
+Overall Score:   0.687539
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.55_dilnone/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.55_dilnone/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.55_dilnone/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt
+Done.
+
+==================================================
+Running HOLD ablation: threshold=0.55 dilation=minor
+PHASE1_CKPT=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+OUTDIR=/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.55_dilminor
+==================================================
+===== HRTBDA V5 MULTI-LABEL RARE-CROP CASCADED TRAINING =====
+Phase: test
+Resume Phase I from: none
+Existing Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+Device: cuda
+xBD root: /homes/j244s673/documents/wsu/phd/xview2
+Train split(s): ['train', 'tier3']
+Val split: hold
+Test split: hold
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.55_dilminor
+Phase I epochs: 150
+Phase II epochs: 30
+Batch size: 2
+Eval batch size: 1
+Gradient accumulation steps: 4
+Effective batch size: 8
+Image size: 1024
+Phase II crop size: 608
+Crop candidate count: 8
+LR: 0.0001
+Weight decay: 0.01
+Base channels: 48
+Decoder channels: 128
+Window size: 8
+Focal gamma: 2.0
+Max grad norm: 1.0
+Warmup epochs: 10
+Architecture: HRTBDA v5 4-branch HRNet-style + DCSwin + CSF fusion
+Damage head: 4 independent sigmoid channels + auxiliary localization head
+Final inference: Phase I mask gives localization; Phase II predicts 4 foreground damage classes.
+Postprocess dilation: minor
+Domain adaptation: none
+=======================================
+
+================ CASCADED TESTING: PHASE I MASK + PHASE II DAMAGE ================
+Loaded Phase I localization model for cascaded mask.
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+Phase I stored epoch: 56
+Phase I stored best_metric: 0.827495
+Phase I threshold used for mask: 0.55
+Experiment: HRTBDA v5 multi-label rare-crop cascade train+tier3 -> hold -> hold
+Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/threshold_checkpoints/phase1_best_threshold_0.55.pt
+Phase I stored best epoch: 56
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.55
+Damage post-processing dilation: minor
+Best Phase II epoch selected on hold cascade score: 15
+Test Localization F1 from Phase I mask: 0.827304
+No Damage F1:    0.835836
+Minor Damage F1: 0.429297
+Major Damage F1: 0.677018
+Destroyed F1:    0.739969
+Damage F1:       0.629499
+Overall Score:   0.688841
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.55_dilminor/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.json
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.55_dilminor/scores/scores_xbd_test_hrtbda_v5_multilabel_crop_cascade.txt
+Wrote: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.55_dilminor/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt
+Done.
+
+================ HOLD ABLATION SUMMARIES ================
+
+----- /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.40_dilminor/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt -----
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.40
+Damage post-processing dilation: minor
+Test Localization F1 from Phase I mask: 0.826614
+No Damage F1:    0.848675
+Minor Damage F1: 0.441458
+Major Damage F1: 0.686273
+Destroyed F1:    0.749454
+Damage F1:       0.641543
+Overall Score:   0.697064
+
+----- /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.40_dilnone/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt -----
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.40
+Damage post-processing dilation: none
+Test Localization F1 from Phase I mask: 0.826614
+No Damage F1:    0.848879
+Minor Damage F1: 0.437960
+Major Damage F1: 0.686273
+Destroyed F1:    0.749453
+Damage F1:       0.639716
+Overall Score:   0.695785
+
+----- /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.45_dilminor/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt -----
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.45
+Damage post-processing dilation: minor
+Test Localization F1 from Phase I mask: 0.827275
+No Damage F1:    0.844509
+Minor Damage F1: 0.437430
+Major Damage F1: 0.683295
+Destroyed F1:    0.746392
+Damage F1:       0.637606
+Overall Score:   0.694507
+
+----- /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.45_dilnone/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt -----
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.45
+Damage post-processing dilation: none
+Test Localization F1 from Phase I mask: 0.827275
+No Damage F1:    0.844718
+Minor Damage F1: 0.433929
+Major Damage F1: 0.683295
+Destroyed F1:    0.746393
+Damage F1:       0.635767
+Overall Score:   0.693219
+
+----- /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.50_dilminor/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt -----
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.50
+Damage post-processing dilation: minor
+Test Localization F1 from Phase I mask: 0.827495
+No Damage F1:    0.840242
+Minor Damage F1: 0.433433
+Major Damage F1: 0.680229
+Destroyed F1:    0.743297
+Damage F1:       0.633640
+Overall Score:   0.691796
+
+----- /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.50_dilnone/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt -----
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.50
+Damage post-processing dilation: none
+Test Localization F1 from Phase I mask: 0.827495
+No Damage F1:    0.840458
+Minor Damage F1: 0.429938
+Major Damage F1: 0.680229
+Destroyed F1:    0.743294
+Damage F1:       0.631793
+Overall Score:   0.690503
+
+----- /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.55_dilminor/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt -----
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.55
+Damage post-processing dilation: minor
+Test Localization F1 from Phase I mask: 0.827304
+No Damage F1:    0.835836
+Minor Damage F1: 0.429297
+Major Damage F1: 0.677018
+Destroyed F1:    0.739969
+Damage F1:       0.629499
+Overall Score:   0.688841
+
+----- /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_hold_ablation/th0.55_dilnone/scores/summary_hrtbda_v5_multilabel_crop_cascade.txt -----
+Phase I stored hold Localization F1: 0.827495
+Phase I threshold used for mask: 0.55
+Damage post-processing dilation: none
+Test Localization F1 from Phase I mask: 0.827304
+No Damage F1:    0.836057
+Minor Damage F1: 0.425798
+Major Damage F1: 0.677018
+Destroyed F1:    0.739970
+Damage F1:       0.627640
+Overall Score:   0.687539
+==========================================================

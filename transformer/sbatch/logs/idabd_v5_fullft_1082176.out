@@ -1,0 +1,140 @@
+===== IDA-BD FULL xBD-INITIALIZED FINE-TUNING JOB =====
+Tue Jun  2 10:10:41 AM CDT 2026
+compute202517
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet
+/homes/j244s673/miniforge3/envs/disasteradaptivenet_cu128/bin/python
+Python 3.10.20
+Tue Jun  2 10:10:41 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.58.03              Driver Version: 595.58.03      CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:01:00.0 Off |                    0 |
+| N/A   24C    P8             29W /  600W |       0MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+EXPERIMENT_NAME: HRTBDA-v5-xBDInit-FullFineTune_IDA
+IDABD_ROOT: /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet
+XBD_PHASE1_CKPT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_FINAL_TEST_th040_dilminor/threshold_checkpoints/phase1_best_threshold_0.40.pt
+XBD_PHASE2_CKPT: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_multilabel_crop_cascade/checkpoints/phase2_best.pt
+OUTPUT_DIR: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_IDA
+TRAIN_SPLITS: train
+VAL_SPLIT: val
+TEST_SPLIT: test
+PHASE1_EPOCHS: 60
+PHASE2_EPOCHS: 30
+PHASE1_LR: 5e-5
+PHASE2_LR: 5e-5
+POSTPROCESS_DILATION: minor
+DILATION_KERNEL: 3
+=======================================================
+===== CHECK IDA-BD FORMAT =====
+Checking IDA-BD xBD-style dataset format
+Root: /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet
+
+===== SPLIT: train =====
+Images dir:  /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet/train/images
+Targets dir: /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet/train/targets
+Paired post images found: 69
+Missing paired files: 0
+Target pixel counts [background,no,minor,major,destroyed]: [59114306, 8794255, 3263579, 1142981, 36623]
+
+===== SPLIT: val =====
+Images dir:  /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet/val/images
+Targets dir: /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet/val/targets
+Paired post images found: 8
+Missing paired files: 0
+Target pixel counts [background,no,minor,major,destroyed]: [6782072, 1205177, 283049, 106223, 12087]
+
+===== SPLIT: test =====
+Images dir:  /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet/test/images
+Targets dir: /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet/test/targets
+Paired post images found: 10
+Missing paired files: 0
+Target pixel counts [background,no,minor,major,destroyed]: [8658125, 879819, 668100, 275542, 4174]
+
+Dataset format looks OK.
+
+=======================================================
+STEP 1: FINE-TUNE PHASE I ON IDA-BD FROM xBD PHASE-I
+=======================================================
+===== HRTBDA V5 MULTI-LABEL RARE-CROP CASCADED TRAINING =====
+Phase: phase1
+Resume Phase I from: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_FINAL_TEST_th040_dilminor/threshold_checkpoints/phase1_best_threshold_0.40.pt
+Existing Phase I checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_IDA/checkpoints/phase1_best.pt
+Phase II checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_IDA/checkpoints/phase2_best.pt
+Device: cuda
+xBD root: /homes/j244s673/documents/wsu/phd/idabd_real_disasteradaptivenet
+Train split(s): ['train']
+Val split: val
+Test split: test
+Output dir: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_IDA
+Phase I epochs: 60
+Phase II epochs: 30
+Batch size: 2
+Eval batch size: 1
+Gradient accumulation steps: 4
+Effective batch size: 8
+Image size: 1024
+Phase II crop size: 608
+Crop candidate count: 8
+LR: 5e-05
+Weight decay: 0.0001
+Base channels: 48
+Decoder channels: 128
+Window size: 8
+Focal gamma: 2.0
+Max grad norm: 1.0
+Warmup epochs: 3
+Architecture: HRTBDA v5 4-branch HRNet-style + DCSwin + CSF fusion
+Damage head: 4 independent sigmoid channels + auxiliary localization head
+Final inference: Phase I mask gives localization; Phase II predicts 4 foreground damage classes.
+Postprocess dilation: none
+Domain adaptation: none
+=======================================
+
+================ PHASE I: BUILDING LOCALIZATION ================
+Train samples: 69
+Val samples:   8
+Phase I localization pos_weight: [4.465691089630127]
+Resuming Phase I from checkpoint: /homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/train_plus_tier3_test_xbd_hrtbda_v5_FINAL_TEST_th040_dilminor/threshold_checkpoints/phase1_best_threshold_0.40.pt
+Resume summary: checkpoint_epoch=56, start_epoch=57, best_epoch=0, best_f1=0.827495, best_threshold=0.40, no_improve=56
+
+Phase I epoch 57/60 | LR=0.00007564
+Phase I Epoch 57/60 | Step 20/34 | loss=0.6470 | focal=0.3441 | dice=0.3029
+Phase I Epoch 57/60 | Step 34/34 | loss=0.6043 | focal=0.2791 | dice=0.3252
+Phase I Epoch 057 | train_loss=0.6043 | val_loc_f1=0.721532 | threshold=0.65
+Phase I no improvement for 57 epoch(s). Best epoch=0
+
+Phase I epoch 58/60 | LR=0.00000068
+Phase I Epoch 58/60 | Step 20/34 | loss=0.5679 | focal=0.2048 | dice=0.3631
+Phase I Epoch 58/60 | Step 34/34 | loss=0.5298 | focal=0.1839 | dice=0.3459
+Phase I Epoch 058 | train_loss=0.5298 | val_loc_f1=0.724571 | threshold=0.65
+Phase I no improvement for 58 epoch(s). Best epoch=0
+
+Phase I epoch 59/60 | LR=0.00000030
+Phase I Epoch 59/60 | Step 20/34 | loss=0.5289 | focal=0.1897 | dice=0.3392
+Phase I Epoch 59/60 | Step 34/34 | loss=0.5268 | focal=0.1822 | dice=0.3446
+Phase I Epoch 059 | train_loss=0.5268 | val_loc_f1=0.722518 | threshold=0.65
+Phase I no improvement for 59 epoch(s). Best epoch=0
+
+Phase I epoch 60/60 | LR=0.00000008
+Phase I Epoch 60/60 | Step 20/34 | loss=0.4983 | focal=0.1531 | dice=0.3453
+Phase I Epoch 60/60 | Step 34/34 | loss=0.5100 | focal=0.1635 | dice=0.3465
+Phase I Epoch 060 | train_loss=0.5100 | val_loc_f1=0.725314 | threshold=0.65
+Phase I no improvement for 60 epoch(s). Best epoch=0
+Phase I done. Best epoch=0, best loc F1=0.827495, threshold=0.40
+Done.
+ERROR: expected fine-tuned IDA Phase-I checkpoint not found:
+/homes/j244s673/documents/wsu/phd/DisasterAdaptiveNet/output/HRTBDA-v5-xBDInit-FullFineTune_IDA/checkpoints/phase1_best.pt
