@@ -17,23 +17,6 @@ Given a spatially corresponding pre-disaster and post-disaster RGB image, RS-BDN
    - Major damage
    - Destroyed
 
-<!-- ```mermaid -->
-flowchart LR
-    A[Pre-disaster RGB image] --> C[Preprocessing]
-    B[Post-disaster RGB image] --> C
-    C --> D[Siamese ResNet-34 U-Net]
-    C --> E[Siamese Swin-Tiny]
-    D --> F[Bi-temporal cross-attention]
-    E --> F
-    F --> G[CNN-Transformer feature fusion]
-    G --> H[Building-localization head]
-    G --> I[Building-guided damage head]
-    H --> J[Building-localization mask]
-    H --> I
-    I --> K[Four-class damage map]
-    I -. Training only .-> L[Auxiliary ordinal supervision]
-```
-
 ## Main Features
 
 - **Hybrid CNN–Transformer representation:** combines local spatial details from ResNet-34 U-Net with global contextual information from Swin-Tiny.
