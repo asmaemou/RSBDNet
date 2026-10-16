@@ -6,8 +6,6 @@ The network combines local spatial features extracted by a Siamese ResNet-34 U-N
 
 RS-BDNet is independently trained and evaluated on six disaster datasets covering earthquakes, volcanic eruptions, tornadoes, hurricanes, and flooding.
 
-> **Important:** A separate RS-BDNet model is trained for each dataset. The experiments provide a multi-dataset evaluation of the architecture, not zero-shot cross-dataset generalization.
-
 ## Overview
 
 Given a spatially corresponding pre-disaster and post-disaster RGB image, RS-BDNet produces:
